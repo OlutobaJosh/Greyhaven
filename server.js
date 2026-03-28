@@ -11,6 +11,7 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(helmet({ contentSecurityPolicy: false }));
+app.set('trust proxy', 1); // Required for Render/Railway reverse proxy
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' ? process.env.APP_URL : '*',
   methods: ['GET','POST','PUT','DELETE'],
@@ -30,6 +31,12 @@ app.use('/api/applications', submitLimiter, require('./routes/applications'));
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', app: 'GreyHaven Residential', timestamp: new Date().toISOString() });
+});
+
+
+// Serve lease page at /lease?token=xxx (without .html)
+app.get('/lease', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'lease.html'));
 });
 
 app.get('*', (req, res) => {

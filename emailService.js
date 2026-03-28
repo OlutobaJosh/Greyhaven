@@ -1,16 +1,15 @@
-// emailService.js — Nodemailer + HTML email templates
+// emailService.js — Uses Gmail with multiple port fallbacks
 const nodemailer = require('nodemailer');
 
-// ── Transporter ───────────────────────────────────────────────────────────────
+// Try multiple configurations for different hosting environments
 function createTransporter() {
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+
+  // Use Gmail service mode — nodemailer handles all port/TLS config automatically
   return nodemailer.createTransport({
-    host:   process.env.SMTP_HOST   || 'smtp.gmail.com',
-    port:   parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_SECURE === 'true',
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
+    service: 'gmail',
+    auth: { user, pass },
   });
 }
 
@@ -23,7 +22,7 @@ function baseTemplate(content) {
   .wrap{max-width:600px;margin:32px auto;background:#fff;border-radius:4px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08);}
   .header{background:#0f1e32;padding:28px 36px;border-bottom:3px solid #c9a84c;}
   .logo{display:flex;align-items:center;gap:10px;}
-  .logo-mark{width:38px;height:38px;background:#c9a84c;clip-path:polygon(50% 0%,100% 35%,100% 100%,0 100%,0 35%);display:flex;align-items:center;justify-content:center;color:#0f1e32;font-weight:900;font-size:13px;text-align:center;line-height:1;}
+  .logo-mark{width:38px;height:38px;background:#c9a84c;clip-path:polygon(50% 0%,100% 35%,100% 100%,0 100%,0 35%);display:inline-flex;align-items:center;justify-content:center;color:#0f1e32;font-weight:900;font-size:13px;}
   .logo-name{color:#fff;font-size:22px;font-weight:700;letter-spacing:.02em;}
   .logo-tag{color:#c9a84c;font-size:10px;letter-spacing:.18em;text-transform:uppercase;display:block;}
   .body{padding:36px;}
@@ -42,7 +41,6 @@ function baseTemplate(content) {
   .status-badge{display:inline-block;padding:4px 12px;border-radius:2px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
   .badge-approved{background:#d1fae5;color:#065f46;}
   .badge-rejected{background:#fee2e2;color:#7f1d1d;}
-  .badge-pending{background:#fef3c7;color:#78350f;}
 </style>
 </head><body>
 <div class="wrap">
@@ -59,13 +57,11 @@ function baseTemplate(content) {
   <div class="footer-bar">
     GreyHaven Residential LLC &nbsp;·&nbsp; Equal Opportunity Housing Provider<br/>
     This is an automated message. Please do not reply directly to this email.<br/>
-    <a href="${process.env.APP_URL}" style="color:#c9a84c;">greyhaven Residential</a>
+    <a href="${process.env.APP_URL}" style="color:#c9a84c;">GreyHaven Residential</a>
   </div>
 </div>
 </body></html>`;
 }
-
-// ── Email Templates ───────────────────────────────────────────────────────────
 
 function confirmationEmail(app) {
   return {
@@ -78,29 +74,29 @@ function confirmationEmail(app) {
         <div class="ref-label">Your Application Reference Number</div>
         <strong>${app.ref_number}</strong>
       </div>
-      <p>Our team typically reviews applications within <strong>24–48 hours</strong>. You'll receive an email once a decision has been made.</p>
+      <p>Our team typically reviews applications within <strong>24–48 business hours</strong>. You'll receive an email once a decision has been made.</p>
       <hr class="divider"/>
       <p><strong>Application Summary:</strong></p>
       <table class="detail-table">
-        <tr><td>Full Name</td><td>${app.first_name} ${app.middle_name || ''} ${app.last_name}</td></tr>
+        <tr><td>Full Name</td><td>${app.first_name} ${app.middle_name||''} ${app.last_name}</td></tr>
         <tr><td>Email</td><td>${app.email}</td></tr>
         <tr><td>Phone</td><td>${app.phone}</td></tr>
-        <tr><td>Desired Move-In</td><td>${app.move_in_date || 'Not specified'}</td></tr>
+        <tr><td>Desired Move-In</td><td>${app.move_in_date||'Not specified'}</td></tr>
         <tr><td>Submitted</td><td>${new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</td></tr>
       </table>
-      <p style="font-size:12px;color:#6b7280;margin-top:20px;">If you have questions about your application, please contact us at <a href="mailto:greyhaven.residential@gmail.com" style="color:#1a2e4a;">applications@greyhaven.com</a> and include your reference number.</p>
+      <p style="font-size:12px;color:#6b7280;margin-top:20px;">If you have questions about your application, please contact us at <a href="mailto:${process.env.SMTP_USER}" style="color:#1a2e4a;">${process.env.SMTP_USER}</a> and include your reference number.</p>
     `)
   };
 }
 
 function approvalEmail(app, leaseUrl) {
   return {
-    subject: `🎉 Application Approved — Next Steps`,
+    subject: `Congratulations! Application Approved — Next Steps`,
     html: baseTemplate(`
       <h2>Congratulations — You're Approved!</h2>
       <p>Hi <strong>${app.first_name}</strong>,</p>
       <p>We're pleased to inform you that your rental application (Ref: <strong>${app.ref_number}</strong>) has been <span class="status-badge badge-approved">Approved</span>.</p>
-      <p>To secure your unit, please review and acknowledge your lease agreement using the button below. Your unit will be held for <strong>72 hours</strong> from the time of this email.</p>
+      <p>To secure your unit, please review and sign your lease agreement using the button below. Your unit will be held for <strong>72 hours</strong> from the time of this email.</p>
       <div style="text-align:center;margin:28px 0;">
         <a href="${leaseUrl}" class="btn btn-gold">Review & Sign Lease Agreement →</a>
       </div>
@@ -108,12 +104,12 @@ function approvalEmail(app, leaseUrl) {
       <p><strong>Next Steps:</strong></p>
       <table class="detail-table">
         <tr><td>Step 1</td><td>Click the button above to review your lease agreement</td></tr>
-        <tr><td>Step 2</td><td>Acknowledge the lease terms online</td></tr>
-        <tr><td>Step 3</td><td>Our team will contact you to arrange move-in and collect the security deposit + first month's rent via <strong>Wire transfer</strong></td></tr>
-        <tr><td>Step 4</td><td>Keys handed over on your move-in date</td></tr>
+        <tr><td>Step 2</td><td>Sign the lease digitally online</td></tr>
+        <tr><td>Step 3</td><td>Our team will contact you with payment instructions for security deposit and first month's rent</td></tr>
+        <tr><td>Step 4</td><td>Keys handed over on your confirmed move-in date</td></tr>
       </table>
       ${app.admin_notes ? `<div class="ref-box"><div class="ref-label">Note from Our Team</div>${app.admin_notes}</div>` : ''}
-      <p style="font-size:12px;color:#6b7280;margin-top:20px;">If you need assistance, contact us at <a href="mailto:greyhaven.residential@gmail.com" style="color:#1a2e4a;">leasing@greyhaven.com</a>.</p>
+      <p style="font-size:12px;color:#6b7280;margin-top:20px;">If you need assistance, contact us at <a href="mailto:${process.env.SMTP_USER}" style="color:#1a2e4a;">${process.env.SMTP_USER}</a></p>
     `)
   };
 }
@@ -126,23 +122,23 @@ function rejectionEmail(app) {
       <p>Hi <strong>${app.first_name}</strong>,</p>
       <p>Thank you for your interest in GreyHaven Residential. After careful review of your application (Ref: <strong>${app.ref_number}</strong>), we are unable to approve it at this time. <span class="status-badge badge-rejected">Not Approved</span></p>
       ${app.admin_notes ? `<div class="ref-box"><div class="ref-label">Reason</div>${app.admin_notes}</div>` : ''}
-      <p>Common reasons for application decisions include income requirements, credit history, rental history, or unit availability. We encourage you to reapply in the future when circumstances may be different.</p>
+      <p>We encourage you to reapply in the future when circumstances may be different.</p>
       <hr class="divider"/>
-      <p>If you believe this decision was made in error or would like clarification, please contact us at <a href="mailto:greyhaven.residential@gmail.com" style="color:#1a2e4a;">greyhaven.residential@gmail.com</a> with your reference number.</p>
-      <p style="font-size:12px;color:#6b7280;">GreyHaven Residential is an Equal Opportunity Housing Provider. All applicants are considered regardless of race, color, religion, sex, handicap, or national origin.</p>
+      <p>If you believe this decision was made in error, please contact us at <a href="mailto:${process.env.SMTP_USER}" style="color:#1a2e4a;">${process.env.SMTP_USER}</a> with your reference number.</p>
+      <p style="font-size:12px;color:#6b7280;">GreyHaven Residential is an Equal Opportunity Housing Provider.</p>
     `)
   };
 }
 
-// ── Send helpers ──────────────────────────────────────────────────────────────
 async function sendEmail(to, { subject, html }) {
   const transporter = createTransporter();
   const info = await transporter.sendMail({
-    from: process.env.EMAIL_FROM || 'GreyHaven Residential <no-reply@greyhaven.com>',
+    from: process.env.EMAIL_FROM || `GreyHaven Residential <${process.env.SMTP_USER}>`,
     to,
     subject,
     html,
   });
+  console.log('✅ Email sent:', info.messageId);
   return info;
 }
 
