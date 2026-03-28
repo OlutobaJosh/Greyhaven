@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GreyHaven Residential – Redefining Excellence in Apartment Living</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy: #1a2e4a;
+    --navy-dark: #0f1e32;
+    --navy-light: #243d5e;
+    --gold: #c9a84c;
+    --gold-light: #e2c47a;
+    --white: #ffffff;
+    --off-white: #f5f4f0;
+    --gray: #6b7280;
+    --light-gray: #e8e6e1;
+    --success: #2d6a4f;
+    --error: #c0392b;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--off-white);
+    color: var(--navy-dark);
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--navy-dark);
+    position: sticky; top:0; z-index:1000;
+    border-bottom: 3px solid var(--gold);
+  }
+  .header-inner {
+    max-width:1200px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 2rem; height:72px;
+  }
+  .logo {
+    display:flex; align-items:center; gap:.75rem; text-decoration:none;
+  }
+  .logo-icon {
+    width:42px; height:42px;
+    background: var(--gold);
+    clip-path: polygon(50% 0%, 100% 35%, 100% 100%, 0% 100%, 0% 35%);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; color:var(--navy-dark); font-weight:900;
+  }
+  .logo-text { display:flex; flex-direction:column; line-height:1.1; }
+  .logo-text span:first-child {
+    font-family:'Playfair Display', serif;
+    font-size:1.5rem; color:var(--white); font-weight:700; letter-spacing:.02em;
+  }
+  .logo-text span:last-child {
+    font-size:.62rem; color:var(--gold); letter-spacing:.18em; text-transform:uppercase; font-weight:300;
+  }
+  nav { display:flex; align-items:center; gap:2rem; }
+  nav a {
+    color:rgba(255,255,255,.8); text-decoration:none;
+    font-size:.85rem; letter-spacing:.08em; text-transform:uppercase; font-weight:700;
+    transition:color .2s;
+  }
+  nav a:hover, nav a.active { color:var(--gold); }
+  .nav-cta {
+    background:var(--gold); color:var(--navy-dark) !important;
+    padding:.5rem 1.4rem; border-radius:2px; font-weight:900 !important;
+    transition:background .2s !important;
+  }
+  .nav-cta:hover { background:var(--gold-light) !important; color:var(--navy-dark) !important; }
+
+  /* ── PAGES ── */
+  .page { display:none; }
+  .page.active { display:block; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height:92vh;
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 60%, #2a4a6e 100%);
+    display:flex; align-items:center; position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:'';
+    position:absolute; inset:0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(201,168,76,.12) 0%, transparent 65%);
+  }
+  .hero-grid {
+    position:absolute; inset:0; opacity:.04;
+    background-image: linear-gradient(var(--gold) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--gold) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-inner {
+    max-width:1200px; margin:0 auto; padding:4rem 2rem;
+    display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center;
+    position:relative; z-index:1;
+  }
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:.5rem;
+    background:rgba(201,168,76,.15); border:1px solid rgba(201,168,76,.4);
+    color:var(--gold-light); padding:.35rem 1rem; border-radius:2px;
+    font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; font-weight:700;
+    margin-bottom:1.5rem;
+  }
+  .hero h1 {
+    font-family:'Playfair Display', serif;
+    font-size:3.8rem; color:var(--white); line-height:1.1;
+    font-weight:700; margin-bottom:1.5rem;
+  }
+  .hero h1 em { color:var(--gold); font-style:normal; }
+  .hero p {
+    color:rgba(255,255,255,.7); font-size:1.1rem; line-height:1.8;
+    font-weight:300; margin-bottom:2.5rem;
+  }
+  .hero-actions { display:flex; gap:1rem; flex-wrap:wrap; }
+  .btn-primary {
+    background:var(--gold); color:var(--navy-dark);
+    padding:.9rem 2.2rem; border:none; border-radius:2px;
+    font-family:'Lato',sans-serif; font-size:.9rem; font-weight:900;
+    letter-spacing:.08em; text-transform:uppercase; cursor:pointer;
+    transition:all .2s; text-decoration:none; display:inline-block;
+  }
+  .btn-primary:hover { background:var(--gold-light); transform:translateY(-2px); box-shadow:0 8px 24px rgba(201,168,76,.3); }
+  .btn-outline {
+    background:transparent; color:var(--white);
+    padding:.9rem 2.2rem; border:2px solid rgba(255,255,255,.3); border-radius:2px;
+    font-family:'Lato',sans-serif; font-size:.9rem; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase; cursor:pointer;
+    transition:all .2s; text-decoration:none; display:inline-block;
+  }
+  .btn-outline:hover { border-color:var(--gold); color:var(--gold); }
+
+  /* Hero card */
+  .hero-card {
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(12px); border-radius:4px; padding:2.5rem;
+  }
+  .hero-card h3 {
+    font-family:'Playfair Display',serif; color:var(--white);
+    font-size:1.4rem; margin-bottom:1.5rem; padding-bottom:1rem;
+    border-bottom:1px solid rgba(201,168,76,.3);
+  }
+  .stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+  .stat { text-align:center; }
+  .stat-num { font-size:2.2rem; font-weight:900; color:var(--gold); line-height:1; }
+  .stat-label { font-size:.75rem; color:rgba(255,255,255,.6); letter-spacing:.1em; text-transform:uppercase; margin-top:.3rem; }
+  .process-steps { margin-top:1.5rem; display:flex; flex-direction:column; gap:.8rem; }
+  .step {
+    display:flex; align-items:center; gap:1rem;
+    color:rgba(255,255,255,.8); font-size:.88rem;
+  }
+  .step-num {
+    width:28px; height:28px; border-radius:50%;
+    background:var(--gold); color:var(--navy-dark);
+    display:flex; align-items:center; justify-content:center;
+    font-size:.75rem; font-weight:900; flex-shrink:0;
+  }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    background:var(--navy);
+    border-bottom:1px solid rgba(201,168,76,.2);
+    padding:1.2rem 2rem;
+  }
+  .trust-inner {
+    max-width:1200px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-around; flex-wrap:wrap; gap:1rem;
+  }
+  .trust-item {
+    display:flex; align-items:center; gap:.6rem;
+    color:rgba(255,255,255,.7); font-size:.82rem; letter-spacing:.05em;
+  }
+  .trust-item svg { color:var(--gold); }
+
+  /* ── FEATURES ── */
+  .section { padding:5rem 2rem; }
+  .section-inner { max-width:1200px; margin:0 auto; }
+  .section-label {
+    font-size:.72rem; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--gold); font-weight:700; margin-bottom:.8rem;
+  }
+  .section-title {
+    font-family:'Playfair Display',serif;
+    font-size:2.6rem; color:var(--navy-dark); font-weight:700;
+    margin-bottom:1rem; line-height:1.2;
+  }
+  .section-sub {
+    color:var(--gray); font-size:1rem; line-height:1.8;
+    max-width:560px; font-weight:300;
+  }
+  .features-grid {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; margin-top:3.5rem;
+  }
+  .feature-card {
+    background:var(--white); border-radius:4px;
+    padding:2.2rem 2rem; border:1px solid var(--light-gray);
+    transition:all .25s; position:relative; overflow:hidden;
+  }
+  .feature-card::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+    background:var(--gold); transform:scaleX(0); transform-origin:left;
+    transition:transform .3s;
+  }
+  .feature-card:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(26,46,74,.1); }
+  .feature-card:hover::after { transform:scaleX(1); }
+  .feature-icon {
+    width:48px; height:48px; background:var(--off-white);
+    border-radius:4px; display:flex; align-items:center; justify-content:center;
+    margin-bottom:1.4rem; font-size:1.4rem;
+  }
+  .feature-card h4 {
+    font-family:'Playfair Display',serif; font-size:1.15rem;
+    color:var(--navy-dark); margin-bottom:.6rem;
+  }
+  .feature-card p { color:var(--gray); font-size:.88rem; line-height:1.7; font-weight:300; }
+
+  /* ── FORM SECTION ── */
+  .form-hero {
+    background:var(--navy);
+    padding:3.5rem 2rem;
+    border-bottom:3px solid var(--gold);
+  }
+  .form-hero-inner { max-width:900px; margin:0 auto; }
+  .form-hero h2 {
+    font-family:'Playfair Display',serif;
+    font-size:2.4rem; color:var(--white); margin-bottom:.5rem;
+  }
+  .form-hero p { color:rgba(255,255,255,.6); font-size:.95rem; font-weight:300; }
+  .form-steps {
+    display:flex; gap:0; margin-top:2rem;
+  }
+  .form-step-tab {
+    flex:1; padding:.8rem 1rem; text-align:center;
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+    color:rgba(255,255,255,.5); font-size:.78rem; letter-spacing:.1em;
+    text-transform:uppercase; font-weight:700; cursor:pointer;
+    transition:all .2s; border-right:none; position:relative;
+  }
+  .form-step-tab:last-child { border-right:1px solid rgba(255,255,255,.1); }
+  .form-step-tab.active {
+    background:var(--gold); color:var(--navy-dark);
+    border-color:var(--gold);
+  }
+  .form-step-tab.done {
+    background:rgba(201,168,76,.15); color:var(--gold);
+    border-color:rgba(201,168,76,.3);
+  }
+
+  .form-wrapper {
+    max-width:900px; margin:0 auto; padding:2.5rem 2rem;
+  }
+  .form-panel { display:none; }
+  .form-panel.active { display:block; }
+
+  .form-section-title {
+    font-family:'Playfair Display',serif;
+    font-size:1.4rem; color:var(--navy-dark); margin-bottom:1.5rem;
+    padding-bottom:.8rem; border-bottom:2px solid var(--light-gray);
+    display:flex; align-items:center; gap:.7rem;
+  }
+  .form-section-title span {
+    width:32px; height:32px; background:var(--navy); color:var(--gold);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:.85rem; font-weight:900;
+  }
+
+  .field-grid { display:grid; gap:1.2rem; }
+  .field-grid-2 { grid-template-columns:1fr 1fr; }
+  .field-grid-3 { grid-template-columns:1fr 1fr 1fr; }
+
+  .field { display:flex; flex-direction:column; gap:.4rem; }
+  .field label {
+    font-size:.75rem; font-weight:700; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--navy);
+  }
+  .field label .req { color:var(--gold); margin-left:2px; }
+  .field input, .field select, .field textarea {
+    width:100%; padding:.75rem 1rem;
+    border:1.5px solid var(--light-gray); border-radius:2px;
+    font-family:'Lato',sans-serif; font-size:.9rem; color:var(--navy-dark);
+    background:var(--white); transition:border-color .2s;
+    outline:none;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color:var(--navy);
+  }
+  .field textarea { min-height:90px; resize:vertical; }
+
+  .radio-group { display:flex; gap:1.5rem; align-items:center; padding-top:.3rem; }
+  .radio-label { display:flex; align-items:center; gap:.4rem; cursor:pointer; font-size:.9rem; }
+  .radio-label input { width:auto; }
+
+  .conditional-field {
+    margin-top:.8rem; padding:1rem; background:var(--off-white);
+    border-left:3px solid var(--gold); border-radius:0 2px 2px 0;
+    display:none;
+  }
+  .conditional-field.show { display:block; }
+
+  .form-nav {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--light-gray);
+  }
+  .btn-back {
+    background:transparent; color:var(--navy); border:2px solid var(--navy);
+    padding:.75rem 2rem; border-radius:2px; font-family:'Lato',sans-serif;
+    font-size:.85rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    cursor:pointer; transition:all .2s;
+  }
+  .btn-back:hover { background:var(--navy); color:var(--white); }
+  .btn-next {
+    background:var(--navy); color:var(--white);
+    padding:.75rem 2.5rem; border:none; border-radius:2px;
+    font-family:'Lato',sans-serif; font-size:.85rem; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase; cursor:pointer; transition:all .2s;
+  }
+  .btn-next:hover { background:var(--navy-dark); }
+  .btn-submit {
+    background:var(--gold); color:var(--navy-dark);
+    padding:.85rem 3rem; border:none; border-radius:2px;
+    font-family:'Lato',sans-serif; font-size:.9rem; font-weight:900;
+    letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:all .2s;
+  }
+  .btn-submit:hover { background:var(--gold-light); transform:translateY(-2px); }
+
+  /* Review box */
+  .review-box {
+    background:var(--white); border:1px solid var(--light-gray);
+    border-radius:4px; padding:2rem; margin-bottom:1.5rem;
+  }
+  .review-box h4 {
+    font-family:'Playfair Display',serif; font-size:1.1rem;
+    color:var(--navy); margin-bottom:1rem;
+    padding-bottom:.6rem; border-bottom:1px solid var(--light-gray);
+  }
+  .review-grid { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+  .review-item { font-size:.85rem; color:var(--gray); }
+  .review-item strong { color:var(--navy-dark); display:block; font-size:.78rem;
+    text-transform:uppercase; letter-spacing:.06em; margin-bottom:.1rem; }
+
+  .consent-box {
+    background:var(--off-white); border:1px solid var(--light-gray);
+    border-radius:4px; padding:1.5rem; font-size:.85rem; line-height:1.8;
+    color:var(--gray); margin-bottom:1.5rem;
+  }
+  .consent-check {
+    display:flex; align-items:flex-start; gap:.8rem; margin-top:1rem;
+    cursor:pointer; font-size:.88rem; color:var(--navy-dark); font-weight:700;
+  }
+  .consent-check input { width:auto; margin-top:2px; }
+
+  /* ── SUCCESS ── */
+  .success-page {
+    min-height:60vh; display:flex; align-items:center; justify-content:center;
+    padding:4rem 2rem;
+  }
+  .success-card {
+    background:var(--white); border-radius:4px;
+    border:1px solid var(--light-gray); padding:3.5rem;
+    max-width:600px; text-align:center;
+    box-shadow:0 20px 60px rgba(26,46,74,.08);
+  }
+  .success-icon {
+    width:80px; height:80px; border-radius:50%;
+    background:linear-gradient(135deg, var(--navy), var(--navy-light));
+    margin:0 auto 1.5rem; display:flex; align-items:center; justify-content:center;
+    font-size:2rem;
+  }
+  .success-card h2 {
+    font-family:'Playfair Display',serif; font-size:2rem;
+    color:var(--navy); margin-bottom:.8rem;
+  }
+  .success-card p { color:var(--gray); font-size:.95rem; line-height:1.8; font-weight:300; }
+  .success-ref {
+    background:var(--off-white); border-radius:2px; padding:1rem 1.5rem;
+    margin:1.5rem 0; font-size:.85rem; color:var(--navy);
+  }
+  .success-ref strong { font-size:1.2rem; color:var(--navy-dark); display:block; }
+
+  /* ── LEASE AGREEMENT ── */
+  .lease-hero {
+    background:linear-gradient(135deg, var(--navy-dark), var(--navy));
+    padding:3.5rem 2rem; border-bottom:3px solid var(--gold);
+  }
+  .lease-hero-inner { max-width:900px; margin:0 auto; }
+  .lease-hero h2 {
+    font-family:'Playfair Display',serif;
+    font-size:2.4rem; color:var(--white); margin-bottom:.5rem;
+  }
+  .lease-hero p { color:rgba(255,255,255,.6); font-size:.95rem; font-weight:300; }
+
+  .lease-wrapper { max-width:900px; margin:0 auto; padding:2.5rem 2rem; }
+  .lease-doc {
+    background:var(--white); border-radius:4px; padding:3rem;
+    border:1px solid var(--light-gray);
+    box-shadow:0 4px 20px rgba(26,46,74,.06);
+  }
+  .lease-header { text-align:center; border-bottom:2px solid var(--navy); padding-bottom:2rem; margin-bottom:2rem; }
+  .lease-logo { display:flex; align-items:center; justify-content:center; gap:.8rem; margin-bottom:.5rem; }
+  .lease-logo-mark {
+    width:50px; height:50px; background:var(--navy);
+    clip-path: polygon(50% 0%, 100% 35%, 100% 100%, 0% 100%, 0% 35%);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--gold); font-weight:900; font-size:1.2rem;
+  }
+  .lease-logo-text { font-family:'Playfair Display',serif; font-size:2rem; color:var(--navy-dark); font-weight:700; }
+  .lease-tagline { font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); font-weight:700; }
+  .lease-title-block { margin-top:1.5rem; }
+  .lease-title-block h1 { font-size:1.6rem; text-transform:uppercase; letter-spacing:.2em; color:var(--navy-dark); font-weight:900; }
+  .lease-title-block p { font-size:.85rem; color:var(--gray); margin-top:.3rem; }
+
+  .lease-section { margin:1.8rem 0; }
+  .lease-section h3 {
+    font-size:.8rem; font-weight:900; letter-spacing:.15em; text-transform:uppercase;
+    color:var(--navy); margin-bottom:.8rem; padding-bottom:.4rem;
+    border-bottom:1px solid var(--light-gray);
+  }
+  .lease-section p { font-size:.9rem; line-height:1.9; color:#333; }
+  .lease-section p + p { margin-top:.8rem; }
+
+  .lease-field {
+    display:inline-block; border-bottom:1.5px solid var(--navy);
+    min-width:120px; padding:0 .3rem; color:var(--navy-dark); font-weight:700;
+  }
+
+  .lease-table {
+    width:100%; border-collapse:collapse; margin:1rem 0; font-size:.88rem;
+  }
+  .lease-table th {
+    background:var(--navy); color:var(--white);
+    padding:.6rem 1rem; text-align:left; font-size:.75rem;
+    letter-spacing:.08em; text-transform:uppercase;
+  }
+  .lease-table td {
+    padding:.7rem 1rem; border-bottom:1px solid var(--light-gray); color:#333;
+  }
+  .lease-table tr:last-child td { border-bottom:none; }
+  .lease-table tr:nth-child(even) td { background:var(--off-white); }
+
+  .sig-block {
+    display:grid; grid-template-columns:1fr 1fr; gap:3rem; margin-top:3rem;
+    padding-top:2rem; border-top:2px solid var(--navy);
+  }
+  .sig-line { border-bottom:1.5px solid var(--navy-dark); height:40px; margin-bottom:.5rem; }
+  .sig-label { font-size:.75rem; text-transform:uppercase; letter-spacing:.1em; color:var(--gray); }
+
+  .lease-actions {
+    display:flex; gap:1rem; justify-content:center; margin-top:2rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background:var(--navy-dark); color:rgba(255,255,255,.5);
+    padding:3rem 2rem; border-top:3px solid var(--gold);
+  }
+  .footer-inner {
+    max-width:1200px; margin:0 auto;
+    display:grid; grid-template-columns:2fr 1fr 1fr; gap:3rem;
+  }
+  .footer-brand { }
+  .footer-brand .logo-text span:first-child { font-size:1.3rem; }
+  .footer-brand p { font-size:.82rem; line-height:1.8; margin-top:1rem; font-weight:300; }
+  .footer-col h5 {
+    font-size:.72rem; letter-spacing:.15em; text-transform:uppercase;
+    color:var(--gold); font-weight:700; margin-bottom:1rem;
+  }
+  .footer-col a {
+    display:block; color:rgba(255,255,255,.5); text-decoration:none;
+    font-size:.82rem; margin-bottom:.5rem; transition:color .2s;
+  }
+  .footer-col a:hover { color:var(--gold); }
+  .footer-bottom {
+    max-width:1200px; margin:2rem auto 0;
+    padding-top:1.5rem; border-top:1px solid rgba(255,255,255,.1);
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:.75rem;
+  }
+
+
+  @media(max-width:768px){
+    .hero-inner { grid-template-columns:1fr; }
+    .features-grid { grid-template-columns:1fr; }
+    .field-grid-2, .field-grid-3 { grid-template-columns:1fr; }
+    .footer-inner { grid-template-columns:1fr; }
+    .sig-block { grid-template-columns:1fr; gap:2rem; }
+    .review-grid { grid-template-columns:1fr; }
+    nav { display:none; }
+    .hero h1 { font-size:2.4rem; }
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(24px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .hero-inner > * { animation: fadeUp .7s both; }
+  .hero-inner > *:nth-child(2) { animation-delay:.15s; }
+
+  /* Progress bar */
+  .progress-bar {
+    height:3px; background:var(--light-gray);
+    position:relative; margin-bottom:2rem;
+  }
+  .progress-fill {
+    height:100%; background:var(--gold);
+    transition:width .4s ease;
+  }
+  .progress-label {
+    font-size:.75rem; color:var(--gray); margin-bottom:.5rem;
+    text-align:right; font-weight:700; letter-spacing:.06em;
+  }
+</style>
+</head>
+<body>
+
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo" onclick="showPage('home')">
+      <div class="logo-icon">GH</div>
+      <div class="logo-text">
+        <span>GreyHaven</span>
+        <span>Redefining Excellence in Apartment Living</span>
+      </div>
+    </a>
+    <nav>
+      <a href="#" onclick="showPage('home')" id="nav-home" class="active">Home</a>
+      <a href="#" onclick="showPage('home'); scrollToFeatures()">Properties</a>
+      <a href="#" onclick="showPage('home')">About</a>
+      <a href="#" onclick="showPage('apply')" id="nav-apply" class="nav-cta">Apply Now</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══════════════════ HOME PAGE ═══════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Premium Residential Management
+        </div>
+        <h1>Your Next <em>Home</em> Awaits You</h1>
+        <p>GreyHaven Residential delivers unmatched apartment living experiences across premier locations. Apply online, review your lease digitally, and move in with confidence.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="showPage('apply')">Start Application</button>
+          <button class="btn-outline" onclick="showPage('lease')">View Sample Lease</button>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3>Simple 3-Step Process</h3>
+        <div class="process-steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <span>Complete your online rental application with personal, employment &amp; reference details</span>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <span>Our team reviews your application within 24–48 hours and notifies you by email</span>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <span>Upon approval, receive and sign your digital lease agreement to secure your unit</span>
+          </div>
+        </div>
+        <div style="margin-top:1.8rem; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,.1);">
+          <div class="stat-grid">
+            <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Satisfaction Rate</div></div>
+            <div class="stat"><div class="stat-num">24h</div><div class="stat-label">Avg. Review Time</div></div>
+            <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Units Managed</div></div>
+            <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Years Experience</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="trust-inner">
+      <div class="trust-item">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        Equal Opportunity Housing
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        Secure Application Portal
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 000 4h6a2 2 0 000-4M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        Digital Lease Signing
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        24/7 Resident Support
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        Professional Management
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="section" id="features" style="background:var(--white);">
+    <div class="section-inner">
+      <div class="section-label">Why GreyHaven</div>
+      <h2 class="section-title">Everything You Need,<br>All in One Place</h2>
+      <p class="section-sub">From application to move-in, our fully digital platform makes finding and securing your new home effortless.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <h4>Online Application</h4>
+          <p>Complete your full rental application digitally in minutes. No paper forms, no fax machines — just a clean, guided experience.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h4>Fast Review Process</h4>
+          <p>Our dedicated team reviews every application within 24–48 hours. You'll receive a detailed email with your decision and next steps.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📄</div>
+          <h4>Digital Lease Agreement</h4>
+          <p>View, review, and acknowledge your lease agreement entirely online. All terms are transparent and clearly outlined before you commit.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h4>Transparent Fees</h4>
+          <p>Security deposit, cleaning fees, and all associated costs are clearly disclosed upfront. No hidden surprises at move-in.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔧</div>
+          <h4>Professional Maintenance</h4>
+          <p>Submit maintenance requests through our resident portal. Our team responds within 24 hours for all non-emergency requests.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section style="background:var(--navy); padding:4rem 2rem; text-align:center;">
+    <div style="max-width:600px; margin:0 auto;">
+      <div class="section-label" style="color:var(--gold-light);">Ready to Get Started?</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size:2.2rem; color:var(--white); margin-bottom:1rem;">Apply for Your New Home Today</h2>
+      <p style="color:rgba(255,255,255,.6); font-size:.95rem; font-weight:300; margin-bottom:2rem; line-height:1.8;">Join hundreds of satisfied residents in GreyHaven communities. The process takes less than 10 minutes.</p>
+      <button class="btn-primary" onclick="showPage('apply')">Start Your Application</button>
+    </div>
+  </section>
+
+</div><!-- /home -->
+
+<!-- ═══════════════════ APPLICATION PAGE ═══════════════════ -->
+<div id="page-apply" class="page">
+
+  <div class="form-hero">
+    <div class="form-hero-inner">
+      <h2>Rental Application Form</h2>
+      <p>Please complete all sections accurately. False information may result in application rejection. This form is an application only and does not constitute a lease or commitment to rent.</p>
+      <div class="form-steps">
+        <div class="form-step-tab active" id="tab-1" onclick="goToStep(1)">1. Personal Info</div>
+        <div class="form-step-tab" id="tab-2" onclick="goToStep(2)">2. Employment</div>
+        <div class="form-step-tab" id="tab-3" onclick="goToStep(3)">3. Residence</div>
+        <div class="form-step-tab" id="tab-4" onclick="goToStep(4)">4. References</div>
+        <div class="form-step-tab" id="tab-5" onclick="goToStep(5)">5. Review & Submit</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-wrapper">
+
+    <!-- STEP 1: Personal Info -->
+    <div class="form-panel active" id="panel-1">
+      <div class="progress-label">Step 1 of 5</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
+
+      <div class="form-section-title"><span>1</span> Applicant Details</div>
+      <div class="field-grid field-grid-3" style="margin-bottom:1.2rem">
+        <div class="field">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" id="f-fname" placeholder="First name" />
+        </div>
+        <div class="field">
+          <label>Middle Name</label>
+          <input type="text" id="f-mname" placeholder="Middle name (optional)" />
+        </div>
+        <div class="field">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" id="f-lname" placeholder="Last name" />
+        </div>
+      </div>
+      <div class="field-grid field-grid-3" style="margin-bottom:1.2rem">
+        <div class="field">
+          <label>Date of Birth <span class="req">*</span></label>
+          <input type="date" id="f-dob" />
+        </div>
+        <div class="field">
+          <label>Driver's License No.</label>
+          <input type="text" id="f-dl" placeholder="DL number" />
+        </div>
+        <div class="field">
+          <label>Phone Number <span class="req">*</span></label>
+          <input type="tel" id="f-phone" placeholder="(000) 000-0000" />
+        </div>
+      </div>
+      <div class="field-grid" style="margin-bottom:1.5rem;">
+        <div class="field">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" id="f-email" placeholder="your@email.com" />
+        </div>
+      </div>
+
+      <div class="form-section-title" style="margin-top:2rem"><span>→</span> Additional Information</div>
+      <div class="field-grid" style="margin-bottom:1rem;">
+        <div class="field">
+          <label>Other Occupants?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="occupants" value="yes" onchange="toggleCond('cond-occupants','yes')"> Yes</label>
+            <label class="radio-label"><input type="radio" name="occupants" value="no" checked onchange="toggleCond('cond-occupants','no')"> No</label>
+          </div>
+          <div class="conditional-field" id="cond-occupants">
+            <div class="field"><label>List all Occupants</label><input type="text" id="f-occupants" placeholder="Names and ages of all occupants" /></div>
+          </div>
+        </div>
+      </div>
+      <div class="field-grid" style="margin-bottom:1rem;">
+        <div class="field">
+          <label>Pets?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="pets" value="yes" onchange="toggleCond('cond-pets','yes')"> Yes</label>
+            <label class="radio-label"><input type="radio" name="pets" value="no" checked onchange="toggleCond('cond-pets','no')"> No</label>
+          </div>
+          <div class="conditional-field" id="cond-pets">
+            <div class="field"><label>Describe Pets</label><input type="text" id="f-pets" placeholder="Type, breed, weight of each pet" /></div>
+          </div>
+        </div>
+      </div>
+      <div class="field-grid" style="margin-bottom:1rem;">
+        <div class="field">
+          <label>Vehicles?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="vehicles" value="yes" onchange="toggleCond('cond-vehicles','yes')"> Yes</label>
+            <label class="radio-label"><input type="radio" name="vehicles" value="no" checked onchange="toggleCond('cond-vehicles','no')"> No</label>
+          </div>
+          <div class="conditional-field" id="cond-vehicles">
+            <div class="field"><label>Describe Vehicles</label><input type="text" id="f-vehicles" placeholder="Make, model, year, plate number" /></div>
+          </div>
+        </div>
+      </div>
+      <div class="field-grid" style="margin-bottom:1rem;">
+        <div class="field">
+          <label>Ever Been Convicted of a Crime?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="crime" value="yes" onchange="toggleCond('cond-crime','yes')"> Yes</label>
+            <label class="radio-label"><input type="radio" name="crime" value="no" checked onchange="toggleCond('cond-crime','no')"> No</label>
+          </div>
+          <div class="conditional-field" id="cond-crime">
+            <div class="field"><label>Please Describe</label><textarea id="f-crime" placeholder="Provide details..."></textarea></div>
+          </div>
+        </div>
+      </div>
+      <div class="field-grid" style="margin-bottom:1rem;">
+        <div class="field">
+          <label>Ever Filed for Bankruptcy?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="bankruptcy" value="yes" onchange="toggleCond('cond-bankruptcy','yes')"> Yes</label>
+            <label class="radio-label"><input type="radio" name="bankruptcy" value="no" checked onchange="toggleCond('cond-bankruptcy','no')"> No</label>
+          </div>
+          <div class="conditional-field" id="cond-bankruptcy">
+            <div class="field"><label>Please Describe</label><textarea id="f-bankruptcy" placeholder="Provide details..."></textarea></div>
+          </div>
+        </div>
+      </div>
+      <div class="field-grid" style="margin-bottom:1rem;">
+        <div class="field">
+          <label>Ever Been Evicted?</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="evicted" value="yes" onchange="toggleCond('cond-evicted','yes')"> Yes</label>
+            <label class="radio-label"><input type="radio" name="evicted" value="no" checked onchange="toggleCond('cond-evicted','no')"> No</label>
+          </div>
+          <div class="conditional-field" id="cond-evicted">
+            <div class="field"><label>Please Describe</label><textarea id="f-evicted" placeholder="Provide details..."></textarea></div>
+          </div>
+        </div>
+      </div>
+      <div class="field-grid" style="margin-bottom:1rem;">
+        <div class="field">
+          <label>Desired Move-In Date <span class="req">*</span></label>
+          <input type="date" id="f-movein" />
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <span></span>
+        <button class="btn-next" onclick="nextStep(1)">Continue to Employment →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Employment -->
+    <div class="form-panel" id="panel-2">
+      <div class="progress-label">Step 2 of 5</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div>
+
+      <div class="form-section-title"><span>2</span> Current Employment</div>
+      <div class="field-grid field-grid-2" style="margin-bottom:1.2rem">
+        <div class="field">
+          <label>Employer / Company <span class="req">*</span></label>
+          <input type="text" id="f-company" placeholder="Company name" />
+        </div>
+        <div class="field">
+          <label>Occupation / Job Title <span class="req">*</span></label>
+          <input type="text" id="f-jobtitle" placeholder="Your role" />
+        </div>
+      </div>
+      <div class="field-grid field-grid-2" style="margin-bottom:1.2rem">
+        <div class="field">
+          <label>How Long Employed?</label>
+          <input type="text" id="f-howlong" placeholder="e.g. 2 years 3 months" />
+        </div>
+        <div class="field">
+          <label>Gross Annual Income <span class="req">*</span></label>
+          <input type="text" id="f-income" placeholder="$ From prior year tax filing" />
+        </div>
+      </div>
+      <div class="field-grid" style="margin-bottom:1.2rem">
+        <div class="field">
+          <label>Employer Street Address</label>
+          <input type="text" id="f-emp-addr" placeholder="Street address" />
+        </div>
+      </div>
+      <div class="field-grid field-grid-3" style="margin-bottom:1.2rem">
+        <div class="field">
+          <label>City</label>
+          <input type="text" id="f-emp-city" placeholder="City" />
+        </div>
+        <div class="field">
+          <label>State</label>
+          <input type="text" id="f-emp-state" placeholder="State" />
+        </div>
+        <div class="field">
+          <label>Supervisor Name</label>
+          <input type="text" id="f-supervisor" placeholder="Supervisor" />
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-back" onclick="prevStep(2)">← Back</button>
+        <button class="btn-next" onclick="nextStep(2)">Continue to Residence →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Current Residence -->
+    <div class="form-panel" id="panel-3">
+      <div class="progress-label">Step 3 of 5</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+
+      <div class="form-section-title"><span>3</span> Current Residence</div>
+      <div class="field-grid field-grid-2" style="margin-bottom:1.2rem">
+        <div class="field">
+          <label>Residence Type</label>
+          <select id="f-restype">
+            <option value="">Select type...</option>
+            <option>Apartment</option>
+            <option>House</option>
+            <option>Condo</option>
+            <option>Townhouse</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Number of Bedrooms</label>
+          <select id="f-bedrooms">
+            <option value="">Select...</option>
+            <option>Studio</option>
+            <option>1 Bedroom</option>
+            <option>2 Bedrooms</option>
+            <option>3 Bedrooms</option>
+            <option>4+ Bedrooms</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-grid field-grid-2" style="margin-bottom:1.2rem">
+        <div class="field">
+          <label>Current Monthly Rent</label>
+          <input type="text" id="f-current" placeholder="$ per month" />
+        </div>
+        <div class="field">
+          <label>How Long at Current Address?</label>
+          <input type="text" id="f-howlongcur" placeholder="e.g. 1 year 6 months" />
+        </div>
+      </div>
+      <div class="field-grid" style="margin-bottom:1.2rem">
+        <div class="field">
+          <label>Current Street Address <span class="req">*</span></label>
+          <input type="text" id="f-curaddr" placeholder="Street address" />
+        </div>
+      </div>
+      <div class="field-grid field-grid-3" style="margin-bottom:1.2rem">
+        <div class="field">
+          <label>City <span class="req">*</span></label>
+          <input type="text" id="f-curcity" placeholder="City" />
+        </div>
+        <div class="field">
+          <label>State <span class="req">*</span></label>
+          <input type="text" id="f-curstate" placeholder="State" />
+        </div>
+        <div class="field">
+          <label>ZIP Code <span class="req">*</span></label>
+          <input type="text" id="f-curzip" placeholder="ZIP" />
+        </div>
+      </div>
+      <div class="field-grid field-grid-2" style="margin-bottom:1.2rem">
+        <div class="field">
+          <label>Current Lease Expiration Date</label>
+          <input type="date" id="f-leaseexp" />
+        </div>
+        <div class="field">
+          <label>Reason for Moving <span class="req">*</span></label>
+          <input type="text" id="f-whymoving" placeholder="Why are you moving?" />
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-back" onclick="prevStep(3)">← Back</button>
+        <button class="btn-next" onclick="nextStep(3)">Continue to References →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: References -->
+    <div class="form-panel" id="panel-4">
+      <div class="progress-label">Step 4 of 5</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+
+      <div class="form-section-title"><span>4</span> Personal References</div>
+      <p style="font-size:.85rem; color:var(--gray); margin-bottom:1.5rem; font-weight:300;">Please provide two personal references (not family members) who can speak to your character and reliability.</p>
+
+      <div style="background:var(--off-white); border-radius:4px; padding:1.5rem; margin-bottom:1.5rem; border:1px solid var(--light-gray);">
+        <div style="font-size:.72rem; font-weight:900; letter-spacing:.12em; text-transform:uppercase; color:var(--navy); margin-bottom:1rem;">Reference #1</div>
+        <div class="field-grid field-grid-2" style="margin-bottom:1rem">
+          <div class="field">
+            <label>Full Name <span class="req">*</span></label>
+            <input type="text" id="f-ref1name" placeholder="Reference's full name" />
+          </div>
+          <div class="field">
+            <label>Relationship <span class="req">*</span></label>
+            <input type="text" id="f-ref1rel" placeholder="e.g. Former Colleague" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Phone Number <span class="req">*</span></label>
+          <input type="tel" id="f-ref1phone" placeholder="(000) 000-0000" style="max-width:300px;" />
+        </div>
+      </div>
+
+      <div style="background:var(--off-white); border-radius:4px; padding:1.5rem; border:1px solid var(--light-gray);">
+        <div style="font-size:.72rem; font-weight:900; letter-spacing:.12em; text-transform:uppercase; color:var(--navy); margin-bottom:1rem;">Reference #2</div>
+        <div class="field-grid field-grid-2" style="margin-bottom:1rem">
+          <div class="field">
+            <label>Full Name</label>
+            <input type="text" id="f-ref2name" placeholder="Reference's full name" />
+          </div>
+          <div class="field">
+            <label>Relationship</label>
+            <input type="text" id="f-ref2rel" placeholder="e.g. Neighbor, Friend" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Phone Number</label>
+          <input type="tel" id="f-ref2phone" placeholder="(000) 000-0000" style="max-width:300px;" />
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-back" onclick="prevStep(4)">← Back</button>
+        <button class="btn-next" onclick="nextStep(4)">Review Application →</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: Review -->
+    <div class="form-panel" id="panel-5">
+      <div class="progress-label">Step 5 of 5 — Final Review</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+
+      <div class="form-section-title"><span>✓</span> Review Your Application</div>
+      <p style="font-size:.85rem; color:var(--gray); margin-bottom:1.5rem; font-weight:300;">Please review the information below before submitting. You may go back to edit any section.</p>
+
+      <div class="review-box">
+        <h4>Personal Information</h4>
+        <div class="review-grid">
+          <div class="review-item"><strong>Full Name</strong><span id="rv-name">—</span></div>
+          <div class="review-item"><strong>Date of Birth</strong><span id="rv-dob">—</span></div>
+          <div class="review-item"><strong>Phone</strong><span id="rv-phone">—</span></div>
+          <div class="review-item"><strong>Email</strong><span id="rv-email">—</span></div>
+          <div class="review-item"><strong>Desired Move-In</strong><span id="rv-movein">—</span></div>
+          <div class="review-item"><strong>Other Occupants</strong><span id="rv-occupants">No</span></div>
+        </div>
+      </div>
+
+      <div class="review-box">
+        <h4>Employment</h4>
+        <div class="review-grid">
+          <div class="review-item"><strong>Employer</strong><span id="rv-company">—</span></div>
+          <div class="review-item"><strong>Job Title</strong><span id="rv-jobtitle">—</span></div>
+          <div class="review-item"><strong>Duration</strong><span id="rv-howlong">—</span></div>
+          <div class="review-item"><strong>Gross Income</strong><span id="rv-income">—</span></div>
+        </div>
+      </div>
+
+      <div class="review-box">
+        <h4>Current Residence</h4>
+        <div class="review-grid">
+          <div class="review-item"><strong>Address</strong><span id="rv-curaddr">—</span></div>
+          <div class="review-item"><strong>City, State ZIP</strong><span id="rv-curcitystatezip">—</span></div>
+          <div class="review-item"><strong>Monthly Rent</strong><span id="rv-current">—</span></div>
+          <div class="review-item"><strong>Reason for Moving</strong><span id="rv-whymoving">—</span></div>
+        </div>
+      </div>
+
+      <div class="review-box">
+        <h4>References</h4>
+        <div class="review-grid">
+          <div class="review-item"><strong>Reference 1</strong><span id="rv-ref1">—</span></div>
+          <div class="review-item"><strong>Reference 2</strong><span id="rv-ref2">—</span></div>
+        </div>
+      </div>
+
+      <div class="consent-box">
+        <strong style="color:var(--navy); font-size:.9rem;">Consent and Acknowledgment</strong><br/><br/>
+        I have completed this form and the information provided is both true and correct. I authorize the property owner or manager to run a credit check and/or background check. I authorize the property owner or manager to reach out to any and all references listed on this rental application. I understand that any false statements made on this rental application could result in rejection. I understand that this rental application is solely an application and is not a lease or commitment to rent in any way.
+        <label class="consent-check">
+          <input type="checkbox" id="consent-check" />
+          I have read, understood, and agree to the above Consent and Acknowledgment.
+        </label>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-back" onclick="prevStep(5)">← Back</button>
+        <button class="btn-submit" onclick="submitApplication()">Submit Application ✓</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="form-panel" id="panel-success">
+      <div class="success-page">
+        <div class="success-card">
+          <div class="success-icon">✉️</div>
+          <h2>Application Submitted!</h2>
+          <p>Thank you for applying with GreyHaven Residential. Your application has been received and is under review. You'll receive a confirmation email shortly.</p>
+          <div class="success-ref">
+            Application Reference Number<br/>
+            <strong id="app-ref-num">—</strong>
+          </div>
+          <p style="font-size:.82rem;">Our team reviews applications within <strong>24–48 business hours</strong>. If approved, you'll receive a separate email with instructions to access and sign your digital lease agreement.</p>
+          <div style="margin-top:2rem;">
+            <button class="btn-primary" onclick="showPage('home')">Return to Home</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /form-wrapper -->
+</div><!-- /apply page -->
+
+<!-- ═══════════════════ LEASE PAGE ═══════════════════ -->
+<div id="page-lease" class="page">
+  <div class="lease-hero">
+    <div class="lease-hero-inner">
+      <h2>Sample Lease Agreement</h2>
+      <p>This is a representative lease agreement template. Actual lease terms will be provided upon application approval and are specific to the unit and applicant.</p>
+    </div>
+  </div>
+
+  <div class="lease-wrapper">
+    <div class="lease-doc">
+
+      <div class="lease-header">
+        <div class="lease-logo">
+          <div class="lease-logo-mark">GH</div>
+          <div class="lease-logo-text">GreyHaven</div>
+        </div>
+        <div class="lease-tagline">Redefining Excellence in Apartment Living</div>
+        <div class="lease-title-block">
+          <h1>Residential Lease Agreement</h1>
+          <p>Standard Month-to-Month Tenancy</p>
+        </div>
+      </div>
+
+      <div class="lease-section">
+        <h3>Parties</h3>
+        <p>This Lease Agreement is made and entered into between <span class="lease-field">GreyHaven Residential LLC</span> (hereinafter "Landlord") and <span class="lease-field">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> (hereinafter "Tenant"). Each Tenant is jointly and severally liable to Landlord for payment of rent and performance in accordance with all other terms of this Agreement.</p>
+      </div>
+
+      <div class="lease-section">
+        <h3>Premises</h3>
+        <p>Landlord agrees to lease to Tenant the residential premises located at <span class="lease-field">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>, including parking access. The Premises is furnished and intended for residential use only.</p>
+      </div>
+
+      <div class="lease-section">
+        <h3>Term</h3>
+        <p>This Agreement will commence on <span class="lease-field">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> and continue on a month-to-month basis. To terminate this lease, the Tenant must provide the Landlord with written notice of at least <strong>30 days</strong> prior to the desired move-out date.</p>
+      </div>
+
+      <div class="lease-section">
+        <h3>Financial Summary</h3>
+        <table class="lease-table">
+          <thead><tr><th>Item</th><th>Amount</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Monthly Rent</td><td><span class="lease-field">$____</span></td><td>Due on the 1st of each month</td></tr>
+            <tr><td>Security Deposit</td><td><span class="lease-field">$____</span></td><td>Refundable; due at lease signing</td></tr>
+            <tr><td>Non-Refundable Cleaning Fee</td><td><span class="lease-field">$____</span></td><td>One-time; due at lease signing</td></tr>
+            <tr><td>Late Fee</td><td>10% of balance/day</td><td>Applies after 5-day grace period</td></tr>
+          </tbody>
+        </table>
+        <p>Rent shall be paid via <strong>wire transfer</strong> to the account specified by Landlord.</div>
+
+      <div class="lease-section">
+        <h3>Utilities & Inclusions</h3>
+        <p>The following utilities and amenities are <strong>included in the monthly rent</strong>: Water, Gas, Electricity, WiFi/Internet, In-Unit Washer &amp; Dryer, Heating/Cooling, Microwave Oven, and Parking (where applicable). Tenant is responsible for any services beyond those listed.</p>
+      </div>
+
+      <div class="lease-section">
+        <h3>Use of Premises</h3>
+        <p>The Premises shall be occupied solely by the named Tenant and Tenant's immediate family members listed in the application, and used only for residential purposes. No commercial activity of any kind is permitted. Tenant shall not engage in any activities that create dangerous, hazardous, or unsanitary conditions or that interfere with the rights of other residents.</p>
+        <p>Tenant shall be liable for any damage to the Premises beyond normal wear and tear caused by Tenant or Tenant's guests or invitees.</p>
+      </div>
+
+      <div class="lease-section">
+        <h3>Condition of Premises</h3>
+        <p>Tenant acknowledges that an inspection opportunity will be provided upon move-in. Tenant has <strong>14 days</strong> from the move-in date to inspect the Premises and report any pre-existing defects or damages to the property manager in writing. Failure to report within this period constitutes acceptance of the Premises in good condition, subject to normal wear and tear.</p>
+      </div>
+
+      <div class="lease-section">
+        <h3>Security Deposit</h3>
+        <p>The security deposit shall be held by Landlord as security for Tenant's performance of all obligations under this Agreement. The security deposit may not be applied toward any month's rent. Tenant shall be entitled to a full refund of the security deposit within <strong>21 days</strong> of vacating the Premises, provided the Premises is returned in the same condition as received, accounting for normal wear and tear.</p>
+      </div>
+
+      <div class="lease-section">
+        <h3>Entry by Landlord</h3>
+        <p>Landlord shall provide Tenant with at least <strong>24 hours' advance notice</strong> before entering the Premises, except in cases of emergency. Entry shall be conducted at reasonable hours and for legitimate purposes including inspection, maintenance, or showing to prospective tenants.</p>
+      </div>
+
+      <div class="lease-section">
+        <h3>Governing Law</h3>
+        <p>This Agreement shall be governed by and construed in accordance with the laws of the state in which the Premises is located. This Agreement constitutes the entire agreement between the parties and supersedes all prior negotiations, representations, or agreements.</p>
+      </div>
+
+      <div class="sig-block">
+        <div>
+          <div class="sig-line"></div>
+          <div class="sig-label">Landlord Signature</div>
+          <div style="margin-top:.8rem;"><div class="sig-line" style="max-width:200px;"></div></div>
+          <div class="sig-label">Landlord Full Name &amp; Date</div>
+        </div>
+        <div>
+          <div class="sig-line"></div>
+          <div class="sig-label">Tenant Signature</div>
+          <div style="margin-top:.8rem;"><div class="sig-line" style="max-width:200px;"></div></div>
+          <div class="sig-label">Tenant Full Name &amp; Date</div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--light-gray); font-size:.75rem; color:var(--gray); letter-spacing:.06em;">
+        GreyHaven Residential LLC &nbsp;·&nbsp; Equal Opportunity Housing Provider &nbsp;·&nbsp; All Rights Reserved
+      </div>
+
+    </div><!-- /lease-doc -->
+
+    <div class="lease-actions">
+      <button class="btn-outline" onclick="window.print()" style="border-color:var(--navy); color:var(--navy);">🖨 Print / Save PDF</button>
+      <button class="btn-primary" onclick="showPage('apply')">Apply Now →</button>
+    </div>
+  </div>
+</div><!-- /lease page -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="logo" onclick="showPage('home')" style="margin-bottom:.8rem; display:inline-flex;">
+        <div class="logo-icon">GH</div>
+        <div class="logo-text">
+          <span>GreyHaven</span>
+          <span>Redefining Excellence in Apartment Living</span>
+        </div>
+      </a>
+      <p>GreyHaven Residential is a professional property management company committed to providing exceptional apartment living experiences across premier locations. Equal Opportunity Housing Provider.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <a href="#" onclick="showPage('home')">Home</a>
+      <a href="#" onclick="showPage('apply')">Apply Online</a>
+      <a href="#" onclick="showPage('lease')">Sample Lease</a>
+      <a href="#">Current Listings</a>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <a href="#">info@greyhaven.com</a>
+      <a href="#">coming soon...</a>
+      <a href="#">Sun–Sat 9AM–9PM CST</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 GreyHaven Residential LLC. All rights reserved.</span>
+    <span>Equal Housing Opportunity ⊕</span>
+  </div>
+</footer>
+
+<script>
+// ── Page routing ──
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  if (name === 'home') document.getElementById('nav-home')?.classList.add('active');
+  if (name === 'apply') document.getElementById('nav-apply')?.classList.add('active');
+  window.scrollTo(0,0);
+}
+function scrollToFeatures() {
+  setTimeout(() => document.getElementById('features')?.scrollIntoView({behavior:'smooth'}), 100);
+}
+
+// ── Multi-step form ──
+let currentStep = 1;
+
+function goToStep(step) {
+  // Only allow going back
+  if (step >= currentStep) return;
+  setStep(step);
+}
+
+function nextStep(from) {
+  if (from === 5) return;
+  // Populate review on step 5
+  if (from === 4) populateReview();
+  setStep(from + 1);
+}
+
+function prevStep(from) {
+  setStep(from - 1);
+}
+
+function setStep(step) {
+  currentStep = step;
+  document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + step).classList.add('active');
+  document.querySelectorAll('.form-step-tab').forEach((t, i) => {
+    t.classList.remove('active','done');
+    if (i + 1 === step) t.classList.add('active');
+    else if (i + 1 < step) t.classList.add('done');
+  });
+  document.querySelector('.form-hero').scrollIntoView({behavior:'smooth'});
+}
+
+function toggleCond(id, val) {
+  const el = document.getElementById(id);
+  if (val === 'yes') el.classList.add('show');
+  else el.classList.remove('show');
+}
+
+function populateReview() {
+  const fname = document.getElementById('f-fname').value;
+  const mname = document.getElementById('f-mname').value;
+  const lname = document.getElementById('f-lname').value;
+  document.getElementById('rv-name').textContent = [fname, mname, lname].filter(Boolean).join(' ') || '—';
+  document.getElementById('rv-dob').textContent = document.getElementById('f-dob').value || '—';
+  document.getElementById('rv-phone').textContent = document.getElementById('f-phone').value || '—';
+  document.getElementById('rv-email').textContent = document.getElementById('f-email').value || '—';
+  document.getElementById('rv-movein').textContent = document.getElementById('f-movein').value || '—';
+  const occ = document.querySelector('input[name="occupants"]:checked')?.value;
+  document.getElementById('rv-occupants').textContent = occ === 'yes' ? (document.getElementById('f-occupants').value || 'Yes') : 'No';
+  document.getElementById('rv-company').textContent = document.getElementById('f-company').value || '—';
+  document.getElementById('rv-jobtitle').textContent = document.getElementById('f-jobtitle').value || '—';
+  document.getElementById('rv-howlong').textContent = document.getElementById('f-howlong').value || '—';
+  document.getElementById('rv-income').textContent = document.getElementById('f-income').value || '—';
+  document.getElementById('rv-curaddr').textContent = document.getElementById('f-curaddr').value || '—';
+  const city = document.getElementById('f-curcity').value;
+  const state = document.getElementById('f-curstate').value;
+  const zip = document.getElementById('f-curzip').value;
+  document.getElementById('rv-curcitystatezip').textContent = [city, state, zip].filter(Boolean).join(', ') || '—';
+  document.getElementById('rv-current').textContent = document.getElementById('f-current').value || '—';
+  document.getElementById('rv-whymoving').textContent = document.getElementById('f-whymoving').value || '—';
+  const r1n = document.getElementById('f-ref1name').value;
+  const r1r = document.getElementById('f-ref1rel').value;
+  document.getElementById('rv-ref1').textContent = r1n ? `${r1n} (${r1r || 'N/A'})` : '—';
+  const r2n = document.getElementById('f-ref2name').value;
+  const r2r = document.getElementById('f-ref2rel').value;
+  document.getElementById('rv-ref2').textContent = r2n ? `${r2n} (${r2r || 'N/A'})` : '—';
+}
+
+async function submitApplication() {
+  if (!document.getElementById('consent-check').checked) {
+    alert('Please read and accept the Consent and Acknowledgment to submit your application.');
+    return;
+  }
+
+  const btn = document.querySelector('.btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  // Collect all form data
+  const getVal = id => document.getElementById(id)?.value?.trim() || null;
+  const getRadio = name => document.querySelector(`input[name="${name}"]:checked`)?.value;
+
+  const payload = {
+    first_name:     getVal('f-fname'),
+    middle_name:    getVal('f-mname'),
+    last_name:      getVal('f-lname'),
+    dob:            getVal('f-dob'),
+    drivers_license: getVal('f-dl'),
+    phone:          getVal('f-phone'),
+    email:          getVal('f-email'),
+    move_in_date:   getVal('f-movein'),
+    other_occupants: getRadio('occupants') === 'yes' ? getVal('f-occupants') : null,
+    pets:           getRadio('pets') === 'yes' ? getVal('f-pets') : null,
+    vehicles:       getRadio('vehicles') === 'yes' ? getVal('f-vehicles') : null,
+    crime_history:  getRadio('crime') === 'yes' ? getVal('f-crime') : null,
+    bankruptcy_history: getRadio('bankruptcy') === 'yes' ? getVal('f-bankruptcy') : null,
+    eviction_history: getRadio('evicted') === 'yes' ? getVal('f-evicted') : null,
+    company:        getVal('f-company'),
+    job_title:      getVal('f-jobtitle'),
+    employed_duration: getVal('f-howlong'),
+    gross_income:   getVal('f-income'),
+    emp_address:    getVal('f-emp-addr'),
+    emp_city:       getVal('f-emp-city'),
+    emp_state:      getVal('f-emp-state'),
+    supervisor:     getVal('f-supervisor'),
+    res_type:       getVal('f-restype'),
+    res_bedrooms:   getVal('f-bedrooms'),
+    res_rent:       getVal('f-current'),
+    res_address:    getVal('f-curaddr'),
+    res_city:       getVal('f-curcity'),
+    res_state:      getVal('f-curstate'),
+    res_zip:        getVal('f-curzip'),
+    res_duration:   getVal('f-howlongcur'),
+    res_lease_exp:  getVal('f-leaseexp'),
+    res_why_moving: getVal('f-whymoving'),
+    ref1_name:      getVal('f-ref1name'),
+    ref1_rel:       getVal('f-ref1rel'),
+    ref1_phone:     getVal('f-ref1phone'),
+    ref2_name:      getVal('f-ref2name'),
+    ref2_rel:       getVal('f-ref2rel'),
+    ref2_phone:     getVal('f-ref2phone'),
+  };
+
+  try {
+    const res = await fetch('/api/applications', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || 'Submission failed');
+
+    document.getElementById('app-ref-num').textContent = data.ref_number;
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-success').classList.add('active');
+    document.querySelectorAll('.form-step-tab').forEach(t => t.classList.add('done'));
+    window.scrollTo(0, 0);
+
+  } catch (err) {
+    alert('Error: ' + err.message + '\n\nPlease check your details and try again.');
+    btn.disabled = false;
+    btn.textContent = 'Submit Application ✓';
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GreyHaven — Admin Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --navy:#1a2e4a; --navy-dark:#0f1e32; --navy-light:#243d5e;
+  --gold:#c9a84c; --gold-light:#e2c47a;
+  --white:#ffffff; --off-white:#f5f4f0; --gray:#6b7280;
+  --light-gray:#e8e6e1; --success:#065f46; --success-bg:#d1fae5;
+  --error:#7f1d1d; --error-bg:#fee2e2; --warn:#78350f; --warn-bg:#fef3c7;
+  --sidebar:240px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Lato',sans-serif;background:var(--off-white);color:var(--navy-dark);}
+
+/* LOGIN */
+#login-screen {
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--navy-dark),var(--navy));
+}
+.login-card {
+  background:var(--white);border-radius:4px;padding:3rem;
+  width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+.login-logo {
+  text-align:center;margin-bottom:2rem;
+}
+.login-logo-mark {
+  width:52px;height:52px;background:var(--navy);
+  clip-path:polygon(50% 0%,100% 35%,100% 100%,0 100%,0 35%);
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--gold);font-weight:900;font-size:1.1rem;margin-bottom:.6rem;
+}
+.login-logo h1{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--navy-dark);}
+.login-logo p{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+.login-subtitle{text-align:center;font-size:.82rem;color:var(--gray);margin-bottom:1.8rem;}
+.lfield{margin-bottom:1.2rem;}
+.lfield label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.4rem;}
+.lfield input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--light-gray);border-radius:2px;font-family:'Lato',sans-serif;font-size:.9rem;color:var(--navy-dark);outline:none;transition:border-color .2s;}
+.lfield input:focus{border-color:var(--navy);}
+.btn-login{width:100%;background:var(--navy);color:var(--white);padding:.85rem;border:none;border-radius:2px;font-family:'Lato',sans-serif;font-size:.85rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s;margin-top:.5rem;}
+.btn-login:hover{background:var(--navy-dark);}
+.login-error{background:var(--error-bg);color:var(--error);padding:.7rem 1rem;border-radius:2px;font-size:.82rem;margin-bottom:1rem;display:none;}
+
+/* DASHBOARD LAYOUT */
+#dashboard{display:none;min-height:100vh;flex-direction:column;}
+.dash-header{
+  background:var(--navy-dark);border-bottom:3px solid var(--gold);
+  height:64px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.5rem;position:fixed;top:0;left:0;right:0;z-index:100;
+}
+.dash-logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
+.dlogo-mark{width:34px;height:34px;background:var(--gold);clip-path:polygon(50% 0%,100% 35%,100% 100%,0 100%,0 35%);display:flex;align-items:center;justify-content:center;color:var(--navy-dark);font-weight:900;font-size:.8rem;}
+.dlogo-text{font-family:'Playfair Display',serif;color:var(--white);font-size:1.2rem;}
+.dlogo-sub{font-size:.6rem;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;}
+.header-right{display:flex;align-items:center;gap:1rem;}
+.admin-badge{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);padding:.3rem .9rem;border-radius:2px;font-size:.75rem;letter-spacing:.06em;}
+.btn-logout{background:transparent;color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.2);padding:.35rem .9rem;border-radius:2px;font-size:.75rem;cursor:pointer;letter-spacing:.06em;transition:all .2s;}
+.btn-logout:hover{color:var(--white);border-color:rgba(255,255,255,.5);}
+
+.dash-body{display:flex;margin-top:64px;min-height:calc(100vh - 64px);}
+
+/* SIDEBAR */
+.sidebar{
+  width:var(--sidebar);background:var(--navy);
+  padding:1.5rem 0;position:fixed;top:64px;left:0;bottom:0;overflow-y:auto;
+}
+.sidebar-section{padding:.5rem 1rem .2rem;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);font-weight:700;margin-top:.5rem;}
+.sidebar a{
+  display:flex;align-items:center;gap:.7rem;
+  padding:.7rem 1.2rem;color:rgba(255,255,255,.65);
+  text-decoration:none;font-size:.83rem;font-weight:700;
+  transition:all .15s;border-left:3px solid transparent;
+}
+.sidebar a:hover{background:rgba(255,255,255,.06);color:var(--white);}
+.sidebar a.active{background:rgba(201,168,76,.1);color:var(--gold);border-left-color:var(--gold);}
+.sidebar-badge{margin-left:auto;background:var(--gold);color:var(--navy-dark);border-radius:10px;padding:1px 8px;font-size:.68rem;font-weight:900;}
+
+/* MAIN CONTENT */
+.main{margin-left:var(--sidebar);flex:1;padding:2rem;}
+
+/* VIEWS */
+.view{display:none;}
+.view.active{display:block;}
+
+/* PAGE HEADER */
+.page-header{margin-bottom:2rem;}
+.page-header h2{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--navy-dark);}
+.page-header p{color:var(--gray);font-size:.85rem;margin-top:.3rem;font-weight:300;}
+
+/* STATS CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:2rem;}
+.stat-card{background:var(--white);border-radius:4px;padding:1.5rem;border:1px solid var(--light-gray);border-top:3px solid var(--light-gray);transition:box-shadow .2s;}
+.stat-card:hover{box-shadow:0 4px 16px rgba(26,46,74,.08);}
+.stat-card.pending{border-top-color:var(--gold);}
+.stat-card.approved{border-top-color:#10b981;}
+.stat-card.rejected{border-top-color:#ef4444;}
+.stat-card.total{border-top-color:var(--navy);}
+.stat-num{font-size:2.4rem;font-weight:900;color:var(--navy-dark);line-height:1;}
+.stat-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gray);margin-top:.3rem;font-weight:700;}
+
+/* FILTERS */
+.filters{display:flex;gap:.8rem;margin-bottom:1.2rem;align-items:center;flex-wrap:wrap;}
+.filter-btn{background:var(--white);border:1.5px solid var(--light-gray);color:var(--gray);padding:.45rem 1rem;border-radius:2px;font-size:.78rem;font-weight:700;letter-spacing:.06em;cursor:pointer;transition:all .2s;}
+.filter-btn:hover{border-color:var(--navy);color:var(--navy);}
+.filter-btn.active{background:var(--navy);color:var(--white);border-color:var(--navy);}
+.search-box{flex:1;max-width:280px;padding:.45rem 1rem;border:1.5px solid var(--light-gray);border-radius:2px;font-family:'Lato',sans-serif;font-size:.85rem;outline:none;}
+.search-box:focus{border-color:var(--navy);}
+
+/* TABLE */
+.table-wrap{background:var(--white);border-radius:4px;border:1px solid var(--light-gray);overflow:hidden;}
+table{width:100%;border-collapse:collapse;font-size:.83rem;}
+thead th{background:var(--navy);color:var(--white);padding:.75rem 1rem;text-align:left;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;}
+tbody td{padding:.85rem 1rem;border-bottom:1px solid var(--light-gray);color:var(--navy-dark);vertical-align:middle;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:var(--off-white);}
+.app-name{font-weight:700;}
+.app-ref{font-size:.75rem;color:var(--gray);}
+
+/* STATUS BADGES */
+.badge{display:inline-block;padding:3px 10px;border-radius:2px;font-size:.72rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;}
+.badge-pending{background:var(--warn-bg);color:var(--warn);}
+.badge-approved{background:var(--success-bg);color:var(--success);}
+.badge-rejected{background:var(--error-bg);color:var(--error);}
+
+/* ACTION BUTTONS */
+.btn-view{background:var(--navy);color:var(--white);border:none;padding:.35rem .9rem;border-radius:2px;font-size:.75rem;font-weight:700;letter-spacing:.06em;cursor:pointer;transition:background .2s;text-transform:uppercase;}
+.btn-view:hover{background:var(--navy-light);}
+.btn-approve{background:var(--success-bg);color:var(--success);border:1px solid #a7f3d0;padding:.35rem .9rem;border-radius:2px;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s;text-transform:uppercase;}
+.btn-approve:hover{background:#a7f3d0;}
+.btn-reject{background:var(--error-bg);color:var(--error);border:1px solid #fca5a5;padding:.35rem .9rem;border-radius:2px;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s;text-transform:uppercase;}
+.btn-reject:hover{background:#fca5a5;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--white);border-radius:4px;width:100%;max-width:780px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.25);}
+.modal-header{background:var(--navy-dark);padding:1.4rem 1.8rem;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--gold);position:sticky;top:0;}
+.modal-header h3{font-family:'Playfair Display',serif;color:var(--white);font-size:1.3rem;}
+.modal-close{background:none;border:none;color:rgba(255,255,255,.6);font-size:1.4rem;cursor:pointer;line-height:1;padding:.2rem .5rem;}
+.modal-close:hover{color:var(--white);}
+.modal-body{padding:1.8rem;}
+.modal-section{margin-bottom:1.5rem;}
+.modal-section h4{font-size:.72rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:var(--navy);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--light-gray);}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.info-item{font-size:.82rem;}
+.info-item strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray);margin-bottom:.1rem;}
+.info-item span{color:var(--navy-dark);}
+.modal-actions{display:flex;gap:.8rem;margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--light-gray);}
+.notes-field{width:100%;padding:.7rem 1rem;border:1.5px solid var(--light-gray);border-radius:2px;font-family:'Lato',sans-serif;font-size:.85rem;min-height:80px;resize:vertical;margin-bottom:1rem;outline:none;}
+.notes-field:focus{border-color:var(--navy);}
+.notes-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.4rem;display:block;}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy-dark);color:var(--white);padding:.9rem 1.4rem;border-radius:4px;font-size:.85rem;z-index:9999;transform:translateY(100px);opacity:0;transition:all .3s;border-left:4px solid var(--gold);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{border-left-color:#10b981;}
+.toast.error{border-left-color:#ef4444;}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--gray);}
+.empty-state p{font-size:.9rem;margin-top:.5rem;font-weight:300;}
+
+/* Loading */
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:900px){
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .sidebar{display:none;}
+  .main{margin-left:0;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN SCREEN ═══ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-mark">GH</div>
+      <h1>GreyHaven</h1>
+      <p>Admin Portal</p>
+    </div>
+    <p class="login-subtitle">Sign in to manage rental applications</p>
+    <div class="login-error" id="login-error">Invalid email or password.</div>
+    <div class="lfield">
+      <label>Email Address</label>
+      <input type="email" id="login-email" placeholder="admin@greyhaven.com" />
+    </div>
+    <div class="lfield">
+      <label>Password</label>
+      <input type="password" id="login-password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" />
+    </div>
+    <button class="btn-login" onclick="doLogin()" id="login-btn">Sign In</button>
+  </div>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div id="dashboard">
+
+  <!-- Header -->
+  <header class="dash-header">
+    <a class="dash-logo" href="/" target="_blank">
+      <div class="dlogo-mark">GH</div>
+      <div>
+        <div class="dlogo-text">GreyHaven</div>
+        <div class="dlogo-sub">Admin Portal</div>
+      </div>
+    </a>
+    <div class="header-right">
+      <div class="admin-badge" id="admin-name-badge">Admin</div>
+      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="dash-body">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-section">Main</div>
+      <a href="#" class="active" onclick="showView('overview',this)">
+        📊 Overview
+      </a>
+      <a href="#" onclick="showView('applications',this)">
+        📋 Applications
+        <span class="sidebar-badge" id="pending-badge">0</span>
+      </a>
+      <div class="sidebar-section" style="margin-top:1rem;">Links</div>
+      <a href="/" target="_blank">🏠 Public Site</a>
+    </nav>
+
+    <!-- Main -->
+    <main class="main">
+
+      <!-- ── OVERVIEW ── -->
+      <div class="view active" id="view-overview">
+        <div class="page-header">
+          <h2>Dashboard Overview</h2>
+          <p>Summary of all rental applications and activity</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card total">
+            <div class="stat-num" id="stat-total">—</div>
+            <div class="stat-label">Total Applications</div>
+          </div>
+          <div class="stat-card pending">
+            <div class="stat-num" id="stat-pending">—</div>
+            <div class="stat-label">Pending Review</div>
+          </div>
+          <div class="stat-card approved">
+            <div class="stat-num" id="stat-approved">—</div>
+            <div class="stat-label">Approved</div>
+          </div>
+          <div class="stat-card rejected">
+            <div class="stat-num" id="stat-rejected">—</div>
+            <div class="stat-label">Not Approved</div>
+          </div>
+        </div>
+
+        <div class="page-header" style="margin-top:1rem;">
+          <h2 style="font-size:1.3rem;">Recent Applications</h2>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Applicant</th>
+                <th>Reference #</th>
+                <th>Submitted</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="recent-table-body">
+              <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--gray);">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── APPLICATIONS ── -->
+      <div class="view" id="view-applications">
+        <div class="page-header">
+          <h2>All Applications</h2>
+          <p>Review, approve, or reject rental applications</p>
+        </div>
+        <div class="filters">
+          <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+          <button class="filter-btn" onclick="setFilter('pending',this)">⏳ Pending</button>
+          <button class="filter-btn" onclick="setFilter('approved',this)">✅ Approved</button>
+          <button class="filter-btn" onclick="setFilter('rejected',this)">❌ Rejected</button>
+          <input class="search-box" type="text" placeholder="Search name, email, ref#…" oninput="filterApps()" id="app-search"/>
+          <button class="filter-btn" onclick="loadApplications()" style="margin-left:auto;">↻ Refresh</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Applicant</th>
+                <th>Reference #</th>
+                <th>Move-In Date</th>
+                <th>Employer</th>
+                <th>Submitted</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="apps-table-body">
+              <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--gray);">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ═══ APPLICATION DETAIL MODAL ═══ -->
+<div class="modal-overlay" id="app-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Application Detail</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body">Loading…</div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────────
+let TOKEN = localStorage.getItem('gh_admin_token') || null;
+let allApps = [];
+let currentFilter = 'all';
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+(async function init() {
+  if (TOKEN) {
+    const ok = await verifyToken();
+    if (ok) showDashboard();
+  }
+})();
+
+async function verifyToken() {
+  try {
+    const res = await api('GET', '/api/auth/me');
+    document.getElementById('admin-name-badge').textContent = res.admin?.email || 'Admin';
+    return true;
+  } catch {
+    TOKEN = null;
+    localStorage.removeItem('gh_admin_token');
+    return false;
+  }
+}
+
+// ── Auth ──────────────────────────────────────────────────────────────────────
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-password').value;
+  const btn   = document.getElementById('login-btn');
+  const errEl = document.getElementById('login-error');
+
+  errEl.style.display = 'none';
+  btn.innerHTML = '<span class="spinner"></span>Signing in…';
+  btn.disabled = true;
+
+  try {
+    const data = await api('POST', '/api/auth/login', { email, password: pass });
+    TOKEN = data.token;
+    localStorage.setItem('gh_admin_token', TOKEN);
+    document.getElementById('admin-name-badge').textContent = data.admin.email;
+    showDashboard();
+  } catch (err) {
+    errEl.textContent = err.message || 'Invalid credentials';
+    errEl.style.display = 'block';
+  } finally {
+    btn.textContent = 'Sign In';
+    btn.disabled = false;
+  }
+}
+
+function doLogout() {
+  TOKEN = null;
+  localStorage.removeItem('gh_admin_token');
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  allApps = [];
+}
+
+function showDashboard() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'flex';
+  loadStats();
+  loadApplications();
+}
+
+// ── API helper ────────────────────────────────────────────────────────────────
+async function api(method, url, body) {
+  const opts = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}),
+    },
+  };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(url, opts);
+  if (res.status === 401 || res.status === 403) {
+    TOKEN = null;
+    localStorage.removeItem('gh_admin_token');
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('login-error').textContent = 'Your session has expired. Please sign in again.';
+    document.getElementById('login-error').style.display = 'block';
+    throw new Error('Session expired');
+  }
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+  return data;
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+function showView(name, el) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+  document.getElementById(`view-${name}`).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+// ── Stats ─────────────────────────────────────────────────────────────────────
+async function loadStats() {
+  try {
+    const data = await api('GET', '/api/applications/stats');
+    document.getElementById('stat-total').textContent    = data.total    || 0;
+    document.getElementById('stat-pending').textContent  = data.pending  || 0;
+    document.getElementById('stat-approved').textContent = data.approved || 0;
+    document.getElementById('stat-rejected').textContent = data.rejected || 0;
+    document.getElementById('pending-badge').textContent = data.pending  || 0;
+  } catch(e) { console.error('Stats error:', e); }
+}
+
+// ── Applications list ─────────────────────────────────────────────────────────
+async function loadApplications() {
+  try {
+    const data = await api('GET', '/api/applications');
+    allApps = data.applications || [];
+    renderTable();
+    renderRecent();
+    loadStats();
+  } catch(e) {
+    console.error('Load apps error:', e);
+    toast('Failed to load applications', 'error');
+  }
+}
+
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderTable();
+}
+
+function filterApps() { renderTable(); }
+
+function getFilteredApps() {
+  const search = document.getElementById('app-search')?.value?.toLowerCase() || '';
+  return allApps.filter(a => {
+    const matchStatus = currentFilter === 'all' || a.status === currentFilter;
+    const matchSearch = !search ||
+      `${a.first_name} ${a.last_name}`.toLowerCase().includes(search) ||
+      a.email?.toLowerCase().includes(search) ||
+      a.ref_number?.toLowerCase().includes(search);
+    return matchStatus && matchSearch;
+  });
+}
+
+function renderTable() {
+  const apps = getFilteredApps();
+  const tbody = document.getElementById('apps-table-body');
+  if (!apps.length) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state">📭<p>No applications found.</p></div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = apps.map(a => `
+    <tr>
+      <td>
+        <div class="app-name">${a.first_name} ${a.last_name}</div>
+        <div class="app-ref">${a.email}</div>
+      </td>
+      <td><span style="font-family:monospace;font-size:.78rem;">${a.ref_number}</span></td>
+      <td>${a.move_in_date || '—'}</td>
+      <td>${a.company || '—'}</td>
+      <td>${formatDate(a.submitted_at)}</td>
+      <td><span class="badge badge-${a.status}">${a.status}</span></td>
+      <td>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap;">
+          <button class="btn-view" onclick="viewApp(${a.id})">View</button>
+          ${a.status === 'pending' ? `
+            <button class="btn-approve" onclick="quickApprove(${a.id})">✓</button>
+            <button class="btn-reject"  onclick="quickReject(${a.id})">✕</button>
+          ` : ''}
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderRecent() {
+  const recent = allApps.slice(0, 8);
+  const tbody = document.getElementById('recent-table-body');
+  if (!recent.length) {
+    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state">📭<p>No applications yet.</p></div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = recent.map(a => `
+    <tr>
+      <td>
+        <div class="app-name">${a.first_name} ${a.last_name}</div>
+        <div class="app-ref">${a.email}</div>
+      </td>
+      <td><span style="font-family:monospace;font-size:.78rem;">${a.ref_number}</span></td>
+      <td>${formatDate(a.submitted_at)}</td>
+      <td><span class="badge badge-${a.status}">${a.status}</span></td>
+      <td><button class="btn-view" onclick="viewApp(${a.id})">View</button></td>
+    </tr>
+  `).join('');
+}
+
+// ── Application Detail Modal ───────────────────────────────────────────────────
+async function viewApp(id) {
+  document.getElementById('app-modal').classList.add('open');
+  document.getElementById('modal-body').innerHTML = '<div style="text-align:center;padding:3rem;color:var(--gray);">Loading…</div>';
+
+  try {
+    const { application: a, emailLog } = await api('GET', `/api/applications/${id}`);
+    document.getElementById('modal-title').textContent = `${a.first_name} ${a.last_name} — ${a.ref_number}`;
+
+    document.getElementById('modal-body').innerHTML = `
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--light-gray);">
+        <span class="badge badge-${a.status}" style="font-size:.82rem;padding:5px 14px;">${a.status.toUpperCase()}</span>
+        <span style="font-size:.82rem;color:var(--gray);">Submitted: ${formatDate(a.submitted_at)}</span>
+        ${a.reviewed_at ? `<span style="font-size:.82rem;color:var(--gray);">Reviewed: ${formatDate(a.reviewed_at)}</span>` : ''}
+      </div>
+
+      <div class="modal-section">
+        <h4>Personal Information</h4>
+        <div class="info-grid">
+          <div class="info-item"><strong>Full Name</strong><span>${a.first_name} ${a.middle_name||''} ${a.last_name}</span></div>
+          <div class="info-item"><strong>Date of Birth</strong><span>${a.dob||'—'}</span></div>
+          <div class="info-item"><strong>Phone</strong><span>${a.phone}</span></div>
+          <div class="info-item"><strong>Email</strong><span>${a.email}</span></div>
+          <div class="info-item"><strong>Driver's License</strong><span>${a.drivers_license||'—'}</span></div>
+          <div class="info-item"><strong>Desired Move-In</strong><span>${a.move_in_date||'—'}</span></div>
+          <div class="info-item"><strong>Other Occupants</strong><span>${a.other_occupants||'None'}</span></div>
+          <div class="info-item"><strong>Pets</strong><span>${a.pets||'None'}</span></div>
+          <div class="info-item"><strong>Vehicles</strong><span>${a.vehicles||'None'}</span></div>
+          ${a.crime_history ? `<div class="info-item" style="grid-column:1/-1;"><strong>⚠️ Crime History</strong><span>${a.crime_history}</span></div>` : ''}
+          ${a.bankruptcy_history ? `<div class="info-item" style="grid-column:1/-1;"><strong>⚠️ Bankruptcy</strong><span>${a.bankruptcy_history}</span></div>` : ''}
+          ${a.eviction_history ? `<div class="info-item" style="grid-column:1/-1;"><strong>⚠️ Eviction History</strong><span>${a.eviction_history}</span></div>` : ''}
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <h4>Employment</h4>
+        <div class="info-grid">
+          <div class="info-item"><strong>Employer</strong><span>${a.company||'—'}</span></div>
+          <div class="info-item"><strong>Job Title</strong><span>${a.job_title||'—'}</span></div>
+          <div class="info-item"><strong>Duration</strong><span>${a.employed_duration||'—'}</span></div>
+          <div class="info-item"><strong>Gross Income</strong><span>${a.gross_income||'—'}</span></div>
+          <div class="info-item"><strong>Supervisor</strong><span>${a.supervisor||'—'}</span></div>
+          <div class="info-item"><strong>Location</strong><span>${[a.emp_city,a.emp_state].filter(Boolean).join(', ')||'—'}</span></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <h4>Current Residence</h4>
+        <div class="info-grid">
+          <div class="info-item"><strong>Type</strong><span>${a.res_type||'—'}</span></div>
+          <div class="info-item"><strong>Bedrooms</strong><span>${a.res_bedrooms||'—'}</span></div>
+          <div class="info-item"><strong>Monthly Rent</strong><span>${a.res_rent||'—'}</span></div>
+          <div class="info-item"><strong>Duration</strong><span>${a.res_duration||'—'}</span></div>
+          <div class="info-item" style="grid-column:1/-1;"><strong>Address</strong><span>${[a.res_address,a.res_city,a.res_state,a.res_zip].filter(Boolean).join(', ')||'—'}</span></div>
+          <div class="info-item"><strong>Lease Expiration</strong><span>${a.res_lease_exp||'—'}</span></div>
+          <div class="info-item"><strong>Reason for Moving</strong><span>${a.res_why_moving||'—'}</span></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <h4>References</h4>
+        <div class="info-grid">
+          <div class="info-item"><strong>Reference 1</strong><span>${a.ref1_name||'—'} ${a.ref1_rel?`(${a.ref1_rel})`:''}</span></div>
+          <div class="info-item"><strong>Ref 1 Phone</strong><span>${a.ref1_phone||'—'}</span></div>
+          <div class="info-item"><strong>Reference 2</strong><span>${a.ref2_name||'—'} ${a.ref2_rel?`(${a.ref2_rel})`:''}</span></div>
+          <div class="info-item"><strong>Ref 2 Phone</strong><span>${a.ref2_phone||'—'}</span></div>
+        </div>
+      </div>
+
+      ${emailLog?.length ? `
+        <div class="modal-section">
+          <h4>Email History</h4>
+          ${emailLog.map(e => `
+            <div style="font-size:.78rem;padding:.4rem 0;border-bottom:1px solid var(--light-gray);display:flex;justify-content:space-between;">
+              <span>${e.type} → ${e.to_email}</span>
+              <span style="color:${e.success?'var(--success)':'var(--error)'};">${e.success?'✓ Sent':'✗ Failed'} — ${formatDate(e.sent_at)}</span>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+
+      ${a.status === 'pending' ? `
+        <div class="modal-section">
+          <h4>Lease Financial Terms</h4>
+          <div class="info-grid" style="gap:.8rem;margin-bottom:1rem;">
+            <div class="info-item">
+              <strong>Unit / Property Address</strong>
+              <input type="text" id="modal-unit-addr" placeholder="e.g. 5441 N East River Rd, Apt 302" style="width:100%;padding:.5rem .8rem;border:1.5px solid var(--light-gray);border-radius:2px;font-size:.82rem;margin-top:.3rem;"/>
+            </div>
+            <div class="info-item">
+              <strong>Monthly Rent ($)</strong>
+              <input type="text" id="modal-rent" placeholder="e.g. 1650" style="width:100%;padding:.5rem .8rem;border:1.5px solid var(--light-gray);border-radius:2px;font-size:.82rem;margin-top:.3rem;"/>
+            </div>
+            <div class="info-item">
+              <strong>Security Deposit ($)</strong>
+              <input type="text" id="modal-deposit" placeholder="e.g. 1650" style="width:100%;padding:.5rem .8rem;border:1.5px solid var(--light-gray);border-radius:2px;font-size:.82rem;margin-top:.3rem;"/>
+            </div>
+            <div class="info-item">
+              <strong>Cleaning Fee ($)</strong>
+              <input type="text" id="modal-cleaning" placeholder="e.g. 300" style="width:100%;padding:.5rem .8rem;border:1.5px solid var(--light-gray);border-radius:2px;font-size:.82rem;margin-top:.3rem;"/>
+            </div>
+          </div>
+          <label class="notes-label">Notes to Applicant (optional)</label>
+          <textarea class="notes-field" id="modal-notes" placeholder="Any special notes for the applicant…">${a.admin_notes||''}</textarea>
+          <div class="modal-actions">
+            <button class="btn-approve" style="padding:.6rem 1.5rem;font-size:.82rem;" onclick="approveApp(${a.id})">✓ Approve Application</button>
+            <button class="btn-reject"  style="padding:.6rem 1.5rem;font-size:.82rem;" onclick="rejectApp(${a.id})">✕ Reject Application</button>
+          </div>
+        </div>
+      ` : `
+        <div class="modal-section">
+          <h4>Decision Made</h4>
+          <div class="info-grid">
+            <div class="info-item"><strong>Decision</strong><span class="badge badge-${a.status}">${a.status}</span></div>
+            <div class="info-item"><strong>Reviewed By</strong><span>${a.reviewed_by||'—'}</span></div>
+            <div class="info-item" style="grid-column:1/-1;"><strong>Notes</strong><span>${a.admin_notes||'None'}</span></div>
+            ${a.status==='approved'&&a.lease_token ? `<div class="info-item" style="grid-column:1/-1;"><strong>Lease Link</strong><span style="word-break:break-all;font-size:.75rem;">/lease?token=${a.lease_token}</span></div>` : ''}
+          </div>
+        </div>
+      `}
+    `;
+  } catch(e) {
+    document.getElementById('modal-body').innerHTML = `<p style="color:var(--error);padding:2rem;">Error loading application: ${e.message}</p>`;
+  }
+}
+
+function closeModal() {
+  document.getElementById('app-modal').classList.remove('open');
+}
+
+// ── Approve / Reject ──────────────────────────────────────────────────────────
+async function approveApp(id) {
+  const notes        = document.getElementById('modal-notes')?.value || '';
+  const monthly_rent = document.getElementById('modal-rent')?.value?.trim() || '';
+  const security_deposit = document.getElementById('modal-deposit')?.value?.trim() || '';
+  const cleaning_fee = document.getElementById('modal-cleaning')?.value?.trim() || '';
+  const unit_address = document.getElementById('modal-unit-addr')?.value?.trim() || '';
+  if (!monthly_rent) { toast('Please enter the monthly rent amount.', 'error'); return; }
+  if (!confirm('Approve this application and send approval email with lease link?')) return;
+  try {
+    await api('PUT', `/api/applications/${id}/approve`, { notes, monthly_rent, security_deposit, cleaning_fee, unit_address });
+    toast('Application approved! Lease email sent to applicant.', 'success');
+    closeModal();
+    loadApplications();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+async function rejectApp(id) {
+  const notes = document.getElementById('modal-notes')?.value || '';
+  if (!confirm('Reject this application and notify the applicant?')) return;
+  try {
+    await api('PUT', `/api/applications/${id}/reject`, { notes });
+    toast('Application rejected. Notification sent.', 'success');
+    closeModal();
+    loadApplications();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+async function quickApprove(id) {
+  if (!confirm('Approve this application?')) return;
+  try {
+    await api('PUT', `/api/applications/${id}/approve`, {});
+    toast('Approved! Approval email sent.', 'success');
+    loadApplications();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+async function quickReject(id) {
+  if (!confirm('Reject this application?')) return;
+  try {
+    await api('PUT', `/api/applications/${id}/reject`, {});
+    toast('Application rejected.', 'success');
+    loadApplications();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+// ── Utilities ─────────────────────────────────────────────────────────────────
+function formatDate(str) {
+  if (!str) return '—';
+  return new Date(str).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
+
+function toast(msg, type='success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast ${type} show`;
+  setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+// Close modal on overlay click
+document.getElementById('app-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>
