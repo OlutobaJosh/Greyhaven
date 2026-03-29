@@ -3,36 +3,28 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>GreyHaven — Lease Agreement</title>
+<title>GreyHaven — Residential Lease Agreement</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{--navy:#1a2e4a;--navy-dark:#0f1e32;--gold:#c9a84c;--gold-light:#e2c47a;--white:#fff;--off-white:#f5f4f0;--gray:#6b7280;--light-gray:#e8e6e1;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Lato',sans-serif;background:var(--off-white);color:var(--navy-dark);}
-
 header{background:var(--navy-dark);border-bottom:3px solid var(--gold);padding:0 2rem;height:68px;display:flex;align-items:center;justify-content:space-between;}
 .logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;}
 .logo-mark{width:38px;height:38px;background:var(--gold);clip-path:polygon(50% 0%,100% 35%,100% 100%,0 100%,0 35%);display:flex;align-items:center;justify-content:center;color:var(--navy-dark);font-weight:900;font-size:.9rem;}
 .logo-name{font-family:'Playfair Display',serif;color:#fff;font-size:1.3rem;}
 .logo-tag{font-size:.6rem;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;display:block;}
-
-/* Loading / Error states */
 #loading-state,#error-state{min-height:70vh;display:flex;align-items:center;justify-content:center;padding:2rem;}
 .state-card{background:var(--white);border-radius:4px;padding:3rem;max-width:500px;text-align:center;border:1px solid var(--light-gray);box-shadow:0 8px 30px rgba(0,0,0,.07);}
 .spinner{width:48px;height:48px;border:3px solid var(--light-gray);border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1.5rem;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .state-card h2{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--navy-dark);margin-bottom:.8rem;}
 .state-card p{color:var(--gray);font-size:.9rem;line-height:1.8;font-weight:300;}
-
-/* Main lease content */
-#lease-content{display:none;max-width:860px;margin:2.5rem auto;padding:0 1.5rem 4rem;}
-
+#lease-content{display:none;max-width:880px;margin:2.5rem auto;padding:0 1.5rem 5rem;}
 .status-banner{background:linear-gradient(135deg,var(--navy),var(--navy-dark));border-radius:4px;padding:1.8rem 2rem;margin-bottom:2rem;border-bottom:3px solid var(--gold);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
 .status-banner h2{font-family:'Playfair Display',serif;color:#fff;font-size:1.5rem;}
 .status-banner p{color:rgba(255,255,255,.65);font-size:.85rem;margin-top:.3rem;font-weight:300;}
 .approved-badge{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.4);color:#6ee7b7;padding:.4rem 1.2rem;border-radius:2px;font-size:.75rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;}
-
-/* Document */
 .lease-doc{background:var(--white);border-radius:4px;border:1px solid var(--light-gray);box-shadow:0 4px 20px rgba(26,46,74,.06);padding:3.5rem;}
 .doc-header{text-align:center;padding-bottom:2rem;margin-bottom:2rem;border-bottom:2px solid var(--navy);}
 .doc-logo{display:flex;align-items:center;justify-content:center;gap:.8rem;margin-bottom:.4rem;}
@@ -42,51 +34,46 @@ header{background:var(--navy-dark);border-bottom:3px solid var(--gold);padding:0
 .doc-title{margin-top:1.5rem;}
 .doc-title h1{font-size:1.5rem;text-transform:uppercase;letter-spacing:.2em;color:var(--navy-dark);font-weight:900;}
 .doc-title p{font-size:.82rem;color:var(--gray);margin-top:.3rem;}
-
 .lease-sec{margin:1.8rem 0;}
 .lease-sec h3{font-size:.78rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:var(--navy);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--light-gray);}
 .lease-sec p{font-size:.9rem;line-height:1.9;color:#333;}
 .lease-sec p+p{margin-top:.8rem;}
-.lease-field{display:inline-block;border-bottom:1.5px solid var(--navy);min-width:130px;padding:0 .3rem;color:var(--navy-dark);font-weight:700;}
-
+.lease-sec ul{padding-left:1.5rem;margin-top:.5rem;}
+.lease-sec ul li{font-size:.88rem;line-height:1.9;color:#333;}
+.lf{display:inline-block;border-bottom:1.5px solid var(--navy);min-width:100px;padding:0 .4rem;color:var(--navy-dark);font-weight:700;font-style:normal;}
 .lease-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.88rem;}
-.lease-table th{background:var(--navy);color:#fff;padding:.6rem 1rem;text-align:left;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;}
-.lease-table td{padding:.7rem 1rem;border-bottom:1px solid var(--light-gray);color:#333;}
+.lease-table th{background:var(--navy);color:#fff;padding:.7rem 1rem;text-align:left;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;}
+.lease-table td{padding:.75rem 1rem;border-bottom:1px solid var(--light-gray);color:#333;vertical-align:top;}
 .lease-table tr:last-child td{border-bottom:none;}
 .lease-table tr:nth-child(even) td{background:var(--off-white);}
-
-/* Signature section */
+.amount-cell{font-weight:900;color:var(--navy-dark);font-size:.95rem;}
+.highlight-box{background:#f0f7ff;border-left:4px solid var(--navy);padding:1rem 1.2rem;border-radius:0 4px 4px 0;margin:1rem 0;font-size:.88rem;line-height:1.8;color:#374151;}
+.warn-box{background:#fffbeb;border-left:4px solid var(--gold);padding:1rem 1.2rem;border-radius:0 4px 4px 0;margin:1rem 0;font-size:.88rem;line-height:1.8;color:#374151;}
 .sig-section{margin-top:2.5rem;padding:2rem;background:var(--off-white);border-radius:4px;border:1px solid var(--light-gray);}
 .sig-section h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--navy-dark);margin-bottom:.5rem;}
-.sig-section p{font-size:.85rem;color:var(--gray);font-weight:300;margin-bottom:1.5rem;line-height:1.8;}
-
-#ack-form{display:flex;flex-direction:column;gap:1rem;}
+.sig-section>p{font-size:.85rem;color:var(--gray);font-weight:300;margin-bottom:1.5rem;line-height:1.8;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
 .sig-field label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);display:block;margin-bottom:.4rem;}
-.sig-field input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--light-gray);border-radius:2px;font-family:'Lato',sans-serif;font-size:.9rem;color:var(--navy-dark);outline:none;max-width:400px;}
+.sig-field input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--light-gray);border-radius:2px;font-family:'Lato',sans-serif;font-size:.9rem;color:var(--navy-dark);outline:none;transition:border-color .2s;}
 .sig-field input:focus{border-color:var(--navy);}
-
-.consent-row{display:flex;align-items:flex-start;gap:.8rem;padding:1rem;background:#fff;border:1px solid var(--light-gray);border-radius:2px;cursor:pointer;}
-.consent-row input{width:auto;margin-top:3px;flex-shrink:0;}
+.consent-row{display:flex;align-items:flex-start;gap:.8rem;padding:1.2rem;background:#fff;border:1px solid var(--light-gray);border-radius:2px;cursor:pointer;margin-bottom:1rem;}
+.consent-row input{width:auto;margin-top:3px;flex-shrink:0;accent-color:var(--navy);}
 .consent-row span{font-size:.85rem;line-height:1.7;color:var(--navy-dark);}
-
-.btn-acknowledge{background:var(--gold);color:var(--navy-dark);border:none;padding:1rem 3rem;border-radius:2px;font-family:'Lato',sans-serif;font-size:.9rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:.5rem;}
+.btn-acknowledge{background:var(--gold);color:var(--navy-dark);border:none;padding:1rem 3.5rem;border-radius:2px;font-family:'Lato',sans-serif;font-size:.9rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
 .btn-acknowledge:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.3);}
 .btn-acknowledge:disabled{background:var(--light-gray);color:var(--gray);cursor:not-allowed;transform:none;box-shadow:none;}
-
-/* Acknowledged state */
-#ack-success{display:none;text-align:center;padding:2.5rem;}
-.ack-icon{font-size:3rem;margin-bottom:1rem;}
-#ack-success h3{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--navy-dark);margin-bottom:.8rem;}
-#ack-success p{color:var(--gray);font-size:.9rem;line-height:1.8;font-weight:300;}
-
-.next-steps{background:var(--white);border-radius:4px;border:1px solid var(--light-gray);padding:2rem;margin-top:2rem;}
+#ack-success{display:none;text-align:center;padding:2rem;}
+.ack-icon{font-size:3.5rem;margin-bottom:1rem;}
+#ack-success h3{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--navy-dark);margin-bottom:.8rem;}
+#ack-success p{color:var(--gray);font-size:.9rem;line-height:1.8;font-weight:300;max-width:500px;margin:0 auto;}
+.next-steps{background:var(--white);border-radius:4px;border:1px solid var(--light-gray);padding:2rem;margin-top:1.5rem;text-align:left;}
 .next-steps h4{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:1rem;}
 .step-item{display:flex;align-items:flex-start;gap:1rem;padding:.8rem 0;border-bottom:1px solid var(--light-gray);}
 .step-item:last-child{border-bottom:none;}
 .step-num{width:28px;height:28px;background:var(--navy);color:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:.1rem;}
 .step-item p{font-size:.85rem;line-height:1.7;color:#374151;}
-
 footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5rem 2rem;text-align:center;color:rgba(255,255,255,.4);font-size:.75rem;}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr;} .lease-doc{padding:1.5rem;}}
 </style>
 </head>
 <body>
@@ -102,7 +89,6 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
   <span style="color:rgba(255,255,255,.5);font-size:.8rem;letter-spacing:.08em;">LEASE AGREEMENT PORTAL</span>
 </header>
 
-<!-- Loading -->
 <div id="loading-state">
   <div class="state-card">
     <div class="spinner"></div>
@@ -111,30 +97,30 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
   </div>
 </div>
 
-<!-- Error -->
 <div id="error-state" style="display:none;">
   <div class="state-card">
     <div style="font-size:3rem;margin-bottom:1rem;">⚠️</div>
     <h2>Link Invalid or Expired</h2>
-    <p id="error-msg">This lease link is invalid or has already been used. Please contact GreyHaven Residential if you believe this is an error.</p>
+    <p id="error-msg">This lease link is invalid. Please contact GreyHaven Residential.</p>
     <div style="margin-top:1.5rem;">
       <a href="/" style="background:var(--navy);color:#fff;padding:.7rem 1.8rem;border-radius:2px;text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;">Return Home</a>
     </div>
   </div>
 </div>
 
-<!-- Lease Content -->
 <div id="lease-content">
 
   <div class="status-banner">
     <div>
-      <h2>Your Application Has Been Approved</h2>
-      <p>Please review your lease agreement carefully before acknowledging below.</p>
+      <h2>Congratulations — Your Application is Approved!</h2>
+      <p>Please read your lease agreement in full before signing below.</p>
     </div>
     <div class="approved-badge">✓ Approved</div>
   </div>
 
   <div class="lease-doc">
+
+    <!-- Header -->
     <div class="doc-header">
       <div class="doc-logo">
         <div class="doc-logo-mark">GH</div>
@@ -143,193 +129,459 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
       <div class="doc-tagline">Redefining Excellence in Apartment Living</div>
       <div class="doc-title">
         <h1>Residential Lease Agreement</h1>
-        <p>Standard Month-to-Month Tenancy</p>
+        <p>Month-to-Month Tenancy</p>
       </div>
     </div>
 
+    <!-- Parties -->
     <div class="lease-sec">
-      <h3>Parties</h3>
-      <p>This Lease Agreement is made between <strong>GreyHaven Residential LLC</strong> (Landlord) and <strong id="tenant-name">—</strong> (Tenant). Each Tenant is jointly and severally liable to Landlord for payment of rent and performance of all other terms of this Agreement.</p>
+      <h3>1. Parties to This Agreement</h3>
+      <p>This Residential Lease Agreement ("Agreement") is entered into on <i class="lf" id="agreement-date">—</i> by and between:</p>
+      <p><strong>LANDLORD:</strong> GreyHaven Residential LLC, a property management company ("Landlord").</p>
+      <p><strong>TENANT:</strong> <i class="lf" id="tenant-name">—</i>, hereinafter referred to as "Tenant." Each Tenant is jointly and severally liable to Landlord for payment of rent and performance of all obligations under this Agreement.</p>
     </div>
 
+    <!-- Premises -->
     <div class="lease-sec">
-      <h3>Reference</h3>
-      <p>Application Reference Number: <span class="lease-field" id="ref-number">—</span></p>
+      <h3>2. Premises</h3>
+      <p>Landlord hereby leases to Tenant the residential premises located at:</p>
+      <div class="highlight-box">📍 <strong id="unit-address">Address to be confirmed by management</strong></div>
+      <p>The Premises is furnished and includes parking access. The Premises shall be used solely for residential purposes.</p>
     </div>
 
+    <!-- Reference -->
     <div class="lease-sec">
-      <h3>Term</h3>
-      <p>This Agreement will commence on <span class="lease-field" id="move-in-date">—</span> and continue on a <strong>month-to-month</strong> basis until terminated. To terminate, Tenant must provide written notice of at least <strong>30 days</strong> prior to desired move-out date.</p>
+      <h3>3. Application Reference</h3>
+      <p>Application Reference Number: <i class="lf" id="ref-number">—</i></p>
     </div>
 
+    <!-- Term -->
     <div class="lease-sec">
-      <h3>Financial Summary</h3>
+      <h3>4. Lease Term</h3>
+      <p>This Agreement commences on <i class="lf" id="move-in-date">—</i> and shall continue on a <strong>month-to-month</strong> basis thereafter until terminated by either party in accordance with the terms herein.</p>
+      <p>To terminate this lease, Tenant must deliver written notice to Landlord at least <strong>30 days</strong> prior to the desired termination date. Landlord must provide Tenant with at least <strong>30 days</strong> written notice of termination unless otherwise required by applicable law.</p>
+    </div>
+
+    <!-- Rent & Fees -->
+    <div class="lease-sec">
+      <h3>5. Rent & Financial Obligations</h3>
       <table class="lease-table">
-        <thead><tr><th>Item</th><th>Amount</th><th>Notes</th></tr></thead>
+        <thead>
+          <tr><th>Item</th><th>Amount</th><th>Due Date</th><th>Notes</th></tr>
+        </thead>
         <tbody>
-          <tr><td>Monthly Rent</td><td>As agreed</td><td>Due on the 1st of each month</td></tr>
-          <tr><td>Security Deposit</td><td>One month's rent</td><td>Refundable — due at lease signing</td></tr>
-          <tr><td>Non-Refundable Cleaning Fee</td><td>As agreed</td><td>One-time — due at lease signing</td></tr>
-          <tr><td>Late Fee</td><td>10% of balance/day</td><td>Applies after 5-day grace period</td></tr>
+          <tr>
+            <td><strong>Monthly Rent</strong></td>
+            <td class="amount-cell" id="tbl-rent">—</td>
+            <td>1st of each month</td>
+            <td>5-day grace period before late fee applies</td>
+          </tr>
+          <tr>
+            <td><strong>Security Deposit</strong></td>
+            <td class="amount-cell" id="tbl-deposit">—</td>
+            <td>Due at lease signing</td>
+            <td>Refundable — see Section 8</td>
+          </tr>
+          <tr>
+            <td><strong>Non-Refundable Cleaning Fee</strong></td>
+            <td class="amount-cell" id="tbl-cleaning">—</td>
+            <td>Due at lease signing</td>
+            <td>One-time, non-refundable</td>
+          </tr>
+          <tr>
+            <td><strong>Late Fee</strong></td>
+            <td class="amount-cell">10% per day</td>
+            <td>After 5-day grace period</td>
+            <td>Applied to outstanding balance</td>
+          </tr>
         </tbody>
       </table>
-      <p><strong>Payment method:</strong> wire transfer payable to GreyHaven Residential LLC. Our team will provide payment details directly after lease acknowledgment.</p>
+      <p>Rent shall be paid via <strong>ACH bank transfer or check</strong> payable to GreyHaven Residential LLC. Payment details will be provided by your leasing agent. <em>Payments to personal bank accounts are not authorized.</em></p>
+      <div class="warn-box">⚠️ <strong>Important:</strong> Rent is considered late if not received by the 5th day of the month. Persistent late payment may be grounds for lease termination.</div>
     </div>
 
+    <!-- Utilities -->
     <div class="lease-sec">
-      <h3>Utilities & Inclusions</h3>
-      <p>The following are <strong>included in monthly rent:</strong> Water, Gas, Electricity, WiFi/Internet, In-Unit Washer & Dryer, Heating/Cooling, Microwave, and Parking (where applicable).</p>
+      <h3>6. Utilities & Inclusions</h3>
+      <p>The following utilities and amenities are <strong>included in the monthly rent</strong> at no additional charge:</p>
+      <ul>
+        <li>Water & Sewage</li>
+        <li>Gas & Electricity</li>
+        <li>High-Speed WiFi / Internet</li>
+        <li>In-Unit Washer & Dryer</li>
+        <li>Heating & Air Conditioning</li>
+        <li>Microwave Oven</li>
+        <li>Parking (where applicable)</li>
+      </ul>
+      <p style="margin-top:.8rem;">Tenant is responsible for any additional services or subscriptions not listed above.</p>
     </div>
 
+    <!-- Use of Premises -->
     <div class="lease-sec">
-      <h3>Use of Premises</h3>
-      <p>The Premises shall be used for residential purposes only by the named Tenant and immediate family members listed in the application. No commercial activity is permitted. Tenant is liable for any damage beyond normal wear and tear.</p>
+      <h3>7. Use of Premises & Tenant Obligations</h3>
+      <p>The Premises shall be occupied only by the named Tenant and Tenant's immediate family members as listed in the approved rental application. Subletting or assignment of this lease is strictly prohibited without prior written consent from Landlord.</p>
+      <p>Tenant shall not use the Premises or any part thereof for any business, commercial, or professional purposes. The Premises is designated as a private residential dwelling only.</p>
+      <p>Tenant shall:</p>
+      <ul>
+        <li>Keep the Premises clean, sanitary, and free from damage</li>
+        <li>Properly dispose of all waste and garbage</li>
+        <li>Refrain from disturbing neighboring tenants or residents</li>
+        <li>Not make any alterations to the Premises without written consent from Landlord</li>
+        <li>Comply with all applicable local, state, and federal laws</li>
+        <li>Not engage in any illegal activities on the Premises</li>
+      </ul>
+      <p style="margin-top:.8rem;">Tenant shall be liable for any damage to the Premises, fixtures, or contents caused by Tenant, Tenant's guests, or invitees, beyond normal wear and tear.</p>
     </div>
 
+    <!-- Security Deposit -->
     <div class="lease-sec">
-      <h3>Condition of Premises</h3>
-      <p>Tenant has <strong>14 days</strong> from move-in to report any pre-existing defects in writing. Failure to report within this period constitutes acceptance of the Premises in its current condition.</p>
+      <h3>8. Security Deposit</h3>
+      <p>Tenant shall deposit with Landlord a refundable security deposit in the amount of <strong id="inline-deposit">—</strong>. The security deposit shall be held as security for Tenant's full performance of all obligations under this Agreement.</p>
+      <p>The security deposit <strong>shall not</strong> be applied toward any month's rent, including the final month. Landlord shall return the security deposit, less any lawful deductions, within <strong>21 days</strong> of the Tenant vacating the Premises and surrendering the keys, provided that:</p>
+      <ul>
+        <li>The Premises is returned in the same condition as received, subject to normal wear and tear</li>
+        <li>All rent and other charges have been paid in full</li>
+        <li>All keys, fobs, and access devices have been returned</li>
+      </ul>
+      <p style="margin-top:.8rem;">Deductions from the security deposit may be made for unpaid rent, cleaning costs, or repair of damages beyond normal wear and tear. An itemized statement of any deductions will be provided in writing.</p>
     </div>
 
+    <!-- Condition of Premises -->
     <div class="lease-sec">
-      <h3>Security Deposit</h3>
-      <p>The security deposit may not be applied toward any month's rent. Tenant is entitled to a full refund within <strong>21 days</strong> of vacating, provided the Premises is returned in the same condition, accounting for normal wear and tear.</p>
+      <h3>9. Condition of Premises & Move-In Inspection</h3>
+      <p>Tenant acknowledges that a move-in inspection opportunity will be provided on the commencement date. Tenant has <strong>14 calendar days</strong> from the move-in date to inspect the Premises and report any pre-existing defects, damages, or maintenance issues to Landlord in writing.</p>
+      <p>Failure to report within this 14-day period shall constitute Tenant's acceptance of the Premises in its current condition, subject to normal wear and tear. Landlord agrees to address all valid reported issues promptly within reasonable timeframes.</p>
     </div>
 
+    <!-- Maintenance -->
     <div class="lease-sec">
-      <h3>Entry by Landlord</h3>
-      <p>Landlord will provide at least <strong>24 hours' advance notice</strong> before entry, except in emergencies.</p>
+      <h3>10. Maintenance & Repairs</h3>
+      <p>Landlord is responsible for maintaining the Premises in a habitable condition and for repairing structural defects and major system failures (plumbing, electrical, heating). Tenant must promptly notify Landlord of any needed repairs.</p>
+      <p>Tenant is responsible for minor maintenance tasks including replacing light bulbs, maintaining cleanliness, and promptly reporting any damage or malfunction. Tenant shall not perform any repairs or alterations without prior written approval from Landlord.</p>
     </div>
 
+    <!-- Entry -->
     <div class="lease-sec">
-      <h3>Governing Law</h3>
-      <p>This Agreement is governed by the laws of the state in which the Premises is located and constitutes the entire agreement between the Parties.</p>
+      <h3>11. Landlord's Right of Entry</h3>
+      <p>Landlord shall provide Tenant with at least <strong>24 hours' written or electronic advance notice</strong> before entering the Premises for inspections, maintenance, showings, or other lawful purposes. Entry shall be conducted at reasonable hours between 8:00 AM and 6:00 PM unless otherwise agreed.</p>
+      <p>In the case of a genuine emergency (fire, flood, gas leak, or risk to life or property), Landlord may enter the Premises without prior notice.</p>
     </div>
 
-    <!-- Note from management -->
-    <div id="admin-note-box" style="display:none;margin-top:1.5rem;padding:1rem 1.2rem;background:#f0f9f4;border-left:4px solid #10b981;border-radius:0 4px 4px 0;">
-      <div style="font-size:.72rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#065f46;margin-bottom:.4rem;">Note from Our Team</div>
-      <p id="admin-note-text" style="font-size:.88rem;color:#374151;line-height:1.7;"></p>
+    <!-- Pets -->
+    <div class="lease-sec">
+      <h3>12. Pets</h3>
+      <p>Pets are permitted only if explicitly approved in Tenant's application and noted in writing by Landlord. Unauthorized pets are grounds for lease termination. Tenant is responsible for any pet-related damage to the Premises.</p>
     </div>
 
-    <!-- Acknowledgment form -->
+    <!-- Default -->
+    <div class="lease-sec">
+      <h3>13. Default & Remedies</h3>
+      <p>Tenant shall be in default of this Agreement if Tenant: (a) fails to pay rent when due and does not cure within 5 days of written notice; (b) violates any material provision of this Agreement and does not cure within 10 days of written notice; (c) abandons the Premises; or (d) engages in illegal activity on the Premises.</p>
+      <p>In the event of default, Landlord may pursue all remedies available under applicable law, including eviction proceedings. Tenant shall be responsible for all costs associated with enforcing this Agreement, including reasonable attorney's fees.</p>
+    </div>
+
+    <!-- Governing Law -->
+    <div class="lease-sec">
+      <h3>14. Governing Law</h3>
+      <p>This Agreement shall be governed by and construed in accordance with the laws of the State of Illinois. Any disputes arising under this Agreement shall be resolved in the courts of Cook County, Illinois.</p>
+    </div>
+
+    <!-- Entire Agreement -->
+    <div class="lease-sec">
+      <h3>15. Entire Agreement</h3>
+      <p>This Agreement constitutes the entire agreement between the Parties with respect to the Premises and supersedes all prior negotiations, representations, or agreements, whether written or oral. This Agreement may only be modified in writing signed by both Parties.</p>
+      <p>If any provision of this Agreement is found to be unenforceable, the remaining provisions shall continue in full force and effect.</p>
+    </div>
+
+    <!-- Equal Housing -->
+    <div class="lease-sec">
+      <h3>16. Equal Housing</h3>
+      <p>GreyHaven Residential LLC is an Equal Opportunity Housing Provider. All persons are considered regardless of race, color, religion, sex, disability, familial status, national origin, or any other characteristic protected by law.</p>
+    </div>
+
+    <!-- Admin note -->
+    <div id="admin-note-box" style="display:none;margin-top:1.5rem;">
+      <div class="highlight-box"><strong>📝 Note from GreyHaven Team:</strong><br/><span id="admin-note-text"></span></div>
+    </div>
+
+    <!-- SIGNATURE SECTION -->
     <div class="sig-section" id="ack-form-wrap">
-      <h3>Acknowledge & Accept</h3>
-      <p>By completing the fields below and clicking "Acknowledge Lease", you confirm that you have read, understood, and agree to all terms of this Lease Agreement. This serves as your digital acknowledgment.</p>
+      <h3>Digital Acknowledgment & Signature</h3>
+      <p>By completing the fields below and clicking "Sign & Accept Lease", you confirm that you have read, understood, and agree to all terms and conditions of this Residential Lease Agreement. Your digital acknowledgment is legally binding.</p>
 
       <div id="ack-form">
-        <div class="sig-field">
-          <label>Full Name (as it appears on your application) <span style="color:var(--gold)">*</span></label>
-          <input type="text" id="sig-name" placeholder="Your full name" />
+        <div class="form-grid">
+          <div class="sig-field">
+            <label>Full Legal Name <span style="color:var(--gold)">*</span></label>
+            <input type="text" id="sig-name" placeholder="As it appears on your application" oninput="document.getElementById('consent-name-preview').textContent=this.value||'the undersigned'" />
+          </div>
+          <div class="sig-field">
+            <label>Email Address <span style="color:var(--gold)">*</span></label>
+            <input type="email" id="sig-email" placeholder="your@email.com" />
+          </div>
+          <div class="sig-field">
+            <label>Phone Number <span style="color:var(--gold)">*</span></label>
+            <input type="tel" id="sig-phone" placeholder="(000) 000-0000" />
+          </div>
+          <div class="sig-field">
+            <label>Today's Date</label>
+            <input type="text" id="sig-date" readonly />
+          </div>
         </div>
-        <div class="sig-field">
-          <label>Email Address <span style="color:var(--gold)">*</span></label>
-          <input type="email" id="sig-email" placeholder="your@email.com" />
+
+        <!-- Payment Receipt Upload -->
+        <div style="margin:1.5rem 0;padding:1.5rem;background:#fffbeb;border:2px dashed #c9a84c;border-radius:4px;">
+          <div style="font-size:.72rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:#1a2e4a;margin-bottom:.6rem;">
+            💳 Payment Receipt / Screenshot <span style="color:#c9a84c;">* Required</span>
+          </div>
+          <p style="font-size:.85rem;color:#374151;line-height:1.7;margin-bottom:1rem;">
+            You must upload proof of payment (bank transfer receipt, screenshot, or confirmation) before signing the lease. Accepted formats: JPG, PNG, PDF (max 5MB).
+          </p>
+          <div id="upload-area" onclick="document.getElementById('receipt-file').click()"
+            style="border:2px dashed #e8e6e1;border-radius:4px;padding:2rem;text-align:center;cursor:pointer;background:#fff;transition:all .2s;"
+            onmouseover="this.style.borderColor='#1a2e4a'" onmouseout="this.style.borderColor='#e8e6e1'">
+            <div style="font-size:2rem;margin-bottom:.5rem;">📎</div>
+            <div style="font-weight:700;color:#1a2e4a;font-size:.88rem;">Click to upload receipt</div>
+            <div style="font-size:.75rem;color:#6b7280;margin-top:.3rem;">or drag and drop here</div>
+          </div>
+          <input type="file" id="receipt-file" accept="image/*,.pdf" style="display:none;" onchange="handleReceiptUpload(this)" />
+          <div id="receipt-preview" style="display:none;margin-top:1rem;padding:1rem;background:#fff;border-radius:4px;border:1px solid #e8e6e1;">
+            <div style="display:flex;align-items:center;gap:.8rem;">
+              <div style="font-size:1.5rem;" id="receipt-icon">📄</div>
+              <div style="flex:1;">
+                <div style="font-weight:700;font-size:.85rem;color:#1a2e4a;" id="receipt-name"></div>
+                <div style="font-size:.75rem;color:#6b7280;" id="receipt-size"></div>
+              </div>
+              <button onclick="clearReceipt()" style="background:#fee2e2;color:#7f1d1d;border:none;padding:.3rem .7rem;border-radius:2px;font-size:.75rem;cursor:pointer;font-weight:700;">Remove</button>
+            </div>
+            <img id="receipt-img-preview" src="" alt="Receipt preview" style="display:none;max-width:100%;max-height:200px;margin-top:1rem;border-radius:4px;border:1px solid #e8e6e1;object-fit:contain;" />
+          </div>
         </div>
+
         <label class="consent-row">
-          <input type="checkbox" id="ack-consent" />
-          <span>I have read and fully understand the terms of this Lease Agreement. I agree to all conditions set forth herein and acknowledge this as my digital signature.</span>
+          <input type="checkbox" id="ack-consent" onchange="toggleBtn()" />
+          <span>I, <strong id="consent-name-preview">the undersigned</strong>, have carefully read this entire Residential Lease Agreement. I understand and agree to all terms and conditions stated herein. I acknowledge this digital signature carries the same legal weight as a physical signature.</span>
         </label>
-        <div>
-          <button class="btn-acknowledge" id="ack-btn" onclick="submitAck()" disabled>Acknowledge & Accept Lease</button>
-        </div>
+
+        <button class="btn-acknowledge" id="ack-btn" onclick="submitAck()" disabled>
+          ✍️ Sign & Accept Lease Agreement
+        </button>
+        <div id="submit-status" style="display:none;margin-top:1rem;padding:.8rem 1rem;border-radius:4px;font-size:.85rem;text-align:center;"></div>
       </div>
 
       <div id="ack-success">
-        <div class="ack-icon">✅</div>
-        <h3>Lease Acknowledged!</h3>
-        <p>Thank you, <strong id="ack-name-display"></strong>. Your lease acknowledgment has been recorded. Our team will be in touch shortly with move-in details and payment instructions.</p>
-
+        <div class="ack-icon">🎉</div>
+        <h3>Lease Agreement Signed!</h3>
+        <p>Thank you, <strong id="ack-name-display"></strong>. Your lease has been digitally signed and acknowledged. Our leasing team will contact you shortly with move-in instructions and payment details.</p>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:4px;padding:1rem 1.5rem;margin:1.2rem auto;max-width:420px;font-size:.85rem;color:#065f46;">
+          <strong>Signed on:</strong> <span id="ack-date-display"></span><br/>
+          <strong>Reference:</strong> <span id="ack-ref-display"></span>
+        </div>
         <div class="next-steps">
           <h4>What Happens Next</h4>
           <div class="step-item">
             <div class="step-num">1</div>
-            <p>Our leasing team will contact you within <strong>1 business day</strong> to confirm your move-in details.</p>
+            <p>Our leasing team will contact you within <strong>1–2 business days</strong> to confirm your move-in date and arrange key handover.</p>
           </div>
           <div class="step-item">
             <div class="step-num">2</div>
-            <p>You will receive payment instructions for the <strong>security deposit + first month's rent</strong> via wire transfer.</p>
+            <p>You will receive <strong>secure payment instructions</strong> for your security deposit and first month's rent via ACH transfer or check.</p>
           </div>
           <div class="step-item">
             <div class="step-num">3</div>
-            <p>Keys will be handed over on your confirmed move-in date. Welcome to GreyHaven! 🎉</p>
+            <p>On move-in day, complete your <strong>14-day inspection</strong> and report any issues to your property manager in writing.</p>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <p>Welcome home! 🏠 Contact us anytime at <a href="mailto:residents@greyhaven.com" style="color:var(--navy);">residents@greyhaven.com</a></p>
           </div>
         </div>
       </div>
     </div>
 
-  </div><!-- /lease-doc -->
-</div><!-- /lease-content -->
+  </div>
+</div>
 
 <footer>
-  GreyHaven Residential LLC &nbsp;·&nbsp; Equal Opportunity Housing Provider &nbsp;·&nbsp; All Rights Reserved
+  GreyHaven Residential LLC &nbsp;·&nbsp; Equal Opportunity Housing Provider &nbsp;·&nbsp; All Rights Reserved<br/>
+  <span style="font-size:.7rem;">This is a legally binding digital document. Please retain a copy for your records.</span>
 </footer>
 
 <script>
+let leaseData = {};
+
 (async function() {
-  // Get token from URL: /lease?token=xxx  OR  /lease.html?token=xxx
   const params = new URLSearchParams(window.location.search);
   const token  = params.get('token');
-
-  if (!token) {
-    showError('No lease token found in this URL. Please use the link from your approval email.');
-    return;
-  }
+  if (!token) { showError('No lease token in URL. Use the link from your approval email.'); return; }
 
   try {
     const res  = await fetch(`/api/applications/lease/${token}`);
     const data = await res.json();
-
     if (!res.ok) throw new Error(data.error || 'Lease not found');
-
-    // Populate fields
-    document.getElementById('tenant-name').textContent =
-      `${data.first_name} ${data.last_name}`;
-    document.getElementById('ref-number').textContent  = data.ref_number || '—';
-    document.getElementById('move-in-date').textContent =
-      data.move_in_date
-        ? new Date(data.move_in_date + 'T00:00:00').toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})
-        : 'As agreed';
-
-    if (data.admin_notes) {
-      document.getElementById('admin-note-box').style.display = 'block';
-      document.getElementById('admin-note-text').textContent  = data.admin_notes;
-    }
-
-    // Pre-fill email
-    document.getElementById('sig-email').value = data.email || '';
-
-    // Show content
+    leaseData = data;
+    populateLease(data);
     document.getElementById('loading-state').style.display = 'none';
     document.getElementById('lease-content').style.display  = 'block';
-
-    // Enable button when checkbox ticked
-    document.getElementById('ack-consent').addEventListener('change', function() {
-      document.getElementById('ack-btn').disabled = !this.checked;
-    });
-
   } catch (err) {
     showError(err.message);
   }
 })();
 
+function fmt(val, prefix='$') {
+  if (!val) return '—';
+  const n = parseFloat(val.toString().replace(/[^0-9.]/g,''));
+  if (isNaN(n)) return val;
+  return prefix + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function populateLease(d) {
+  const today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const moveIn = d.move_in_date
+    ? new Date(d.move_in_date+'T00:00:00').toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})
+    : '—';
+
+  document.getElementById('tenant-name').textContent   = `${d.first_name} ${d.last_name}`;
+  document.getElementById('agreement-date').textContent = today;
+  document.getElementById('ref-number').textContent    = d.ref_number || '—';
+  document.getElementById('move-in-date').textContent  = moveIn;
+  document.getElementById('unit-address').textContent  = d.unit_address || 'To be confirmed by management';
+
+  // Financial table
+  document.getElementById('tbl-rent').textContent     = fmt(d.monthly_rent);
+  document.getElementById('tbl-deposit').textContent  = fmt(d.security_deposit);
+  document.getElementById('tbl-cleaning').textContent = fmt(d.cleaning_fee);
+  document.getElementById('inline-deposit').textContent = fmt(d.security_deposit);
+
+  if (d.admin_notes) {
+    document.getElementById('admin-note-box').style.display = 'block';
+    document.getElementById('admin-note-text').textContent  = d.admin_notes;
+  }
+
+  // Pre-fill form
+  document.getElementById('sig-email').value = d.email || '';
+  document.getElementById('sig-phone').value = d.phone || '';
+  document.getElementById('sig-date').value  = today;
+
+  // Live name preview
+  document.getElementById('sig-name').addEventListener('input', function() {
+    document.getElementById('consent-name-preview').textContent = this.value || 'the undersigned';
+  });
+}
+
+// ── Receipt upload handlers ──────────────────────────────────────────────────
+let receiptFile = null;
+let receiptBase64 = null;
+
+function handleReceiptUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    alert('File is too large. Maximum size is 5MB.');
+    input.value = '';
+    return;
+  }
+  receiptFile = file;
+  document.getElementById('receipt-name').textContent = file.name;
+  document.getElementById('receipt-size').textContent = (file.size / 1024).toFixed(1) + ' KB';
+  document.getElementById('receipt-icon').textContent = file.type.startsWith('image/') ? '🖼️' : '📄';
+  document.getElementById('receipt-preview').style.display = 'block';
+  document.getElementById('upload-area').style.display = 'none';
+
+  // Show image preview if it's an image
+  if (file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      receiptBase64 = e.target.result;
+      document.getElementById('receipt-img-preview').src = e.target.result;
+      document.getElementById('receipt-img-preview').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  } else {
+    // PDF — just store base64
+    const reader = new FileReader();
+    reader.onload = function(e) { receiptBase64 = e.target.result; };
+    reader.readAsDataURL(file);
+  }
+  toggleBtn();
+}
+
+function clearReceipt() {
+  receiptFile = null;
+  receiptBase64 = null;
+  document.getElementById('receipt-file').value = '';
+  document.getElementById('receipt-preview').style.display = 'none';
+  document.getElementById('receipt-img-preview').style.display = 'none';
+  document.getElementById('upload-area').style.display = 'block';
+  toggleBtn();
+}
+
+function toggleBtn() {
+  const consented = document.getElementById('ack-consent').checked;
+  const hasReceipt = receiptFile !== null;
+  document.getElementById('ack-btn').disabled = !(consented && hasReceipt);
+}
+
+async function submitAck() {
+  const name  = document.getElementById('sig-name').value.trim();
+  const email = document.getElementById('sig-email').value.trim();
+  const phone = document.getElementById('sig-phone').value.trim();
+  if (!name)  { alert('Please enter your full legal name.'); return; }
+  if (!email) { alert('Please enter your email address.'); return; }
+  if (!phone) { alert('Please enter your phone number.'); return; }
+  if (!receiptFile) { alert('Please upload your payment receipt before signing.'); return; }
+
+  const btn = document.getElementById('ack-btn');
+  const statusEl = document.getElementById('submit-status');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+  statusEl.style.display = 'block';
+  statusEl.style.background = '#f0f7ff';
+  statusEl.style.color = '#1a2e4a';
+  statusEl.textContent = 'Uploading receipt and submitting your signature…';
+
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const token  = params.get('token');
+
+    const res = await fetch('/api/applications/lease/' + token + '/confirm', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tenant_name:   name,
+        tenant_email:  email,
+        tenant_phone:  phone,
+        receipt_data:  receiptBase64,
+        receipt_name:  receiptFile.name,
+        receipt_type:  receiptFile.type,
+        signed_at:     new Date().toISOString(),
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Submission failed');
+
+    const today = new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('ack-form').style.display    = 'none';
+    document.getElementById('ack-success').style.display = 'block';
+    document.getElementById('ack-name-display').textContent = name;
+    document.getElementById('ack-date-display').textContent = today;
+    document.getElementById('ack-ref-display').textContent  = leaseData.ref_number || '—';
+    window.scrollTo({ top: document.getElementById('ack-success').offsetTop - 100, behavior:'smooth' });
+
+  } catch (err) {
+    statusEl.style.background = '#fee2e2';
+    statusEl.style.color = '#7f1d1d';
+    statusEl.textContent = 'Error: ' + err.message + '. Please try again.';
+    btn.disabled = false;
+    btn.textContent = '✍️ Sign & Accept Lease Agreement';
+  }
+}
+
 function showError(msg) {
   document.getElementById('loading-state').style.display = 'none';
   document.getElementById('error-state').style.display   = 'flex';
   document.getElementById('error-msg').textContent = msg;
-}
-
-function submitAck() {
-  const name  = document.getElementById('sig-name').value.trim();
-  const email = document.getElementById('sig-email').value.trim();
-  if (!name)  { alert('Please enter your full name.'); return; }
-  if (!email) { alert('Please enter your email address.'); return; }
-
-  // Show success
-  document.getElementById('ack-form').style.display    = 'none';
-  document.getElementById('ack-success').style.display = 'block';
-  document.getElementById('ack-name-display').textContent = name;
-  window.scrollTo({ top: document.getElementById('ack-success').offsetTop - 100, behavior: 'smooth' });
 }
 </script>
 </body>

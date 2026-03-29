@@ -177,4 +177,103 @@ router.get('/lease/:token', (req, res) => {
   } catch (err) { res.status(500).json({ error: 'Failed to retrieve lease' }); }
 });
 
+
+// POST /api/applications/lease/:token/confirm — Tenant signs + uploads receipt
+router.post('/lease/:token/confirm', async (req, res) => {
+  try {
+    const app = q.getApplicationByLeaseToken(req.params.token);
+    if (!app || app.status !== 'approved') {
+      return res.status(404).json({ error: 'Lease not found or not approved' });
+    }
+
+    const { tenant_name, tenant_email, tenant_phone, receipt_data, receipt_name, receipt_type, signed_at } = req.body;
+    if (!tenant_name || !receipt_data) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const adminEmail = process.env.OAUTH_EMAIL || process.env.ADMIN_EMAIL;
+    const signedDate = new Date(signed_at).toLocaleDateString('en-US', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+    // Build confirmation email to admin with receipt attached info
+    const isImage = receipt_type && receipt_type.startsWith('image/');
+    const receiptSection = isImage
+      ? '<p>Receipt preview is embedded below.</p><div style="margin-top:12px;"><img src="' + receipt_data + '" style="max-width:100%;max-height:400px;border-radius:4px;border:1px solid #e8e6e1;" alt="Payment Receipt"/></div>'
+      : '<p>A PDF receipt was uploaded. File name: <strong>' + receipt_name + '</strong></p>';
+
+    const adminHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"/><style>' +
+      'body{margin:0;padding:0;background:#f5f4f0;font-family:Helvetica Neue,Arial,sans-serif;}' +
+      '.wrap{max-width:600px;margin:32px auto;background:#fff;border-radius:4px;overflow:hidden;}' +
+      '.header{background:#0f1e32;padding:24px 32px;border-bottom:3px solid #c9a84c;}' +
+      '.logo{color:#fff;font-size:20px;font-weight:700;}' +
+      '.body{padding:32px;}' +
+      'h2{color:#0f1e32;font-size:20px;margin:0 0 12px;}' +
+      'p{color:#374151;font-size:14px;line-height:1.8;margin:6px 0;}' +
+      'table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}' +
+      'td{padding:8px 10px;border-bottom:1px solid #e8e6e1;color:#374151;}' +
+      'td:first-child{font-weight:700;color:#0f1e32;width:40%;font-size:11px;text-transform:uppercase;letter-spacing:.06em;}' +
+      '.badge{display:inline-block;padding:4px 12px;border-radius:2px;font-size:11px;font-weight:700;background:#d1fae5;color:#065f46;}' +
+      '</style></head><body><div class="wrap">' +
+      '<div class="header"><div class="logo">GreyHaven — Lease Signed Notification</div></div>' +
+      '<div class="body">' +
+      '<h2>Lease Agreement Signed ✅</h2>' +
+      '<p>A tenant has signed their lease agreement and submitted payment proof.</p>' +
+      '<table>' +
+      '<tr><td>Tenant Name</td><td>' + tenant_name + '</td></tr>' +
+      '<tr><td>Tenant Email</td><td>' + tenant_email + '</td></tr>' +
+      '<tr><td>Tenant Phone</td><td>' + (tenant_phone || '—') + '</td></tr>' +
+      '<tr><td>Reference #</td><td>' + app.ref_number + '</td></tr>' +
+      '<tr><td>Signed On</td><td>' + signedDate + '</td></tr>' +
+      '<tr><td>Status</td><td><span class="badge">Lease Signed</span></td></tr>' +
+      '</table>' +
+      '<p><strong>Payment Receipt:</strong></p>' +
+      receiptSection +
+      '</div></div></body></html>';
+
+    // Send to admin
+    await sendEmail(adminEmail, {
+      subject: 'Lease Signed — ' + tenant_name + ' (' + app.ref_number + ')',
+      html: adminHtml
+    });
+
+    // Send confirmation to tenant
+    const tenantHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"/><style>' +
+      'body{margin:0;padding:0;background:#f5f4f0;font-family:Helvetica Neue,Arial,sans-serif;}' +
+      '.wrap{max-width:600px;margin:32px auto;background:#fff;border-radius:4px;overflow:hidden;}' +
+      '.header{background:#0f1e32;padding:24px 32px;border-bottom:3px solid #c9a84c;}' +
+      '.logo{color:#fff;font-size:20px;font-weight:700;}' +
+      '.body{padding:32px;}' +
+      'h2{color:#0f1e32;font-size:20px;margin:0 0 12px;}' +
+      'p{color:#374151;font-size:14px;line-height:1.8;margin:6px 0;}' +
+      '.ref-box{background:#f5f4f0;border-left:4px solid #c9a84c;padding:12px 16px;margin:16px 0;}' +
+      '.ref-label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin-bottom:4px;}' +
+      '.footer{background:#0f1e32;padding:16px 32px;text-align:center;color:rgba(255,255,255,.4);font-size:11px;}' +
+      '</style></head><body><div class="wrap">' +
+      '<div class="header"><div class="logo">GreyHaven Residential</div></div>' +
+      '<div class="body">' +
+      '<h2>Your Lease is Confirmed! 🎉</h2>' +
+      '<p>Hi <strong>' + tenant_name + '</strong>,</p>' +
+      '<p>We have received your signed lease agreement and payment receipt. Our team will review and contact you within <strong>1-2 business days</strong> to confirm your move-in details.</p>' +
+      '<div class="ref-box"><div class="ref-label">Your Reference Number</div><strong>' + app.ref_number + '</strong></div>' +
+      '<p>Signed on: <strong>' + signedDate + '</strong></p>' +
+      '<p style="margin-top:16px;">Questions? Contact us at <a href="mailto:' + adminEmail + '" style="color:#1a2e4a;">' + adminEmail + '</a></p>' +
+      '</div>' +
+      '<div class="footer">GreyHaven Residential LLC · Equal Opportunity Housing Provider</div>' +
+      '</div></body></html>';
+
+    await sendEmail(tenant_email, {
+      subject: 'Lease Confirmed — Welcome to GreyHaven! (' + app.ref_number + ')',
+      html: tenantHtml
+    });
+
+    q.logEmail(app.id, 'lease_signed', tenant_email, 1);
+    res.json({ success: true, message: 'Lease signed and confirmed. Check your email.' });
+
+  } catch (err) {
+    console.error('Lease confirm error:', err);
+    res.status(500).json({ error: 'Failed to process lease confirmation: ' + err.message });
+  }
+});
+
 module.exports = router;

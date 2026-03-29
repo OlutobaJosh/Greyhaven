@@ -22,7 +22,7 @@ const limiter = rateLimit({ windowMs: 15*60*1000, max: 100, message: { error: 'T
 const submitLimiter = rateLimit({ windowMs: 60*60*1000, max: 10, message: { error: 'Too many applications submitted.' } });
 app.use('/api/', limiter);
 
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json({ limit: '10mb' })); // 10mb needed for base64 receipt images
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
