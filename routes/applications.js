@@ -127,7 +127,16 @@ router.put('/:id/approve', requireAuth, async (req, res) => {
       unit_address: req.body.unit_address || null,
     });
 
-    sendEmail(app.email, approvalEmail(app, leaseUrl))
+    const paymentDetails = {
+      bank_name:      req.body.bank_name || null,
+      account_name:   req.body.account_name || null,
+      account_number: req.body.account_number || null,
+      routing_number: req.body.routing_number || null,
+      monthly_rent:   req.body.monthly_rent || null,
+      security_deposit: req.body.security_deposit || null,
+      cleaning_fee:   req.body.cleaning_fee || null,
+    };
+    sendEmail(app.email, approvalEmail(app, leaseUrl, paymentDetails))
       .then(() => q.logEmail(app.id, 'approved', app.email, 1))
       .catch(err => { console.error('Email error:', err.message); q.logEmail(app.id, 'approved', app.email, 0); });
 

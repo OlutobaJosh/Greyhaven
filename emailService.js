@@ -99,26 +99,75 @@ function confirmationEmail(app) {
   };
 }
 
-function approvalEmail(app, leaseUrl) {
+function approvalEmail(app, leaseUrl, payment = {}) {
+  const fmt = (v) => v ? '
+
+function rejectionEmail(app) {
   return {
-    subject: `Congratulations! Your Application is Approved`,
+    subject: `Application Update — Reference #${app.ref_number}`,
+    html: baseTemplate(`
+      <h2>Application Status Update</h2>
+      <p>Hi <strong>${app.first_name}</strong>,</p>
+      <p>After careful review of your application (Ref: <strong>${app.ref_number}</strong>), we are unable to approve it at this time. <span class="badge rejected">Not Approved</span></p>
+      ${app.admin_notes ? `<div class="ref-box"><div class="ref-label">Reason</div>${app.admin_notes}</div>` : ''}
+      <p>We encourage you to reapply in the future.</p>
+      <p style="font-size:12px;color:#6b7280;">Questions? <a href="mailto:${process.env.OAUTH_EMAIL}" style="color:#1a2e4a;">${process.env.OAUTH_EMAIL}</a></p>
+      <p style="font-size:12px;color:#6b7280;">GreyHaven Residential is an Equal Opportunity Housing Provider.</p>
+    `)
+  };
+}
+
+// ── Send wrapper ──────────────────────────────────────────────────────────────
+async function sendEmail(to, { subject, html }) {
+  return emailService.send(to, subject, html);
+}
+
+module.exports = { sendEmail, confirmationEmail, approvalEmail, rejectionEmail };
+ + parseFloat(v.toString().replace(/[^0-9.]/g,'')).toLocaleString('en-US',{minimumFractionDigits:2}) : '—';
+
+  const paymentSection = (payment.bank_name || payment.account_number) ? `
+    <div style="margin:24px 0;padding:20px;background:#f0f7ff;border-radius:4px;border-left:4px solid #1a2e4a;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#1a2e4a;margin-bottom:12px;">💳 Payment Instructions</div>
+      <p style="font-size:13px;color:#374151;margin-bottom:12px;">Please make the following payments to secure your unit. Payments must be received <strong>before your move-in date</strong>.</p>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0;">
+        <tr style="background:#1a2e4a;"><td style="padding:8px 10px;color:#fff;font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;">Payment</td><td style="padding:8px 10px;color:#fff;font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;">Amount</td></tr>
+        <tr><td style="padding:8px 10px;border-bottom:1px solid #e8e6e1;font-weight:700;color:#1a2e4a;">First Month's Rent</td><td style="padding:8px 10px;border-bottom:1px solid #e8e6e1;font-weight:700;color:#1a2e4a;">${fmt(payment.monthly_rent)}</td></tr>
+        <tr><td style="padding:8px 10px;border-bottom:1px solid #e8e6e1;font-weight:700;color:#1a2e4a;">Security Deposit</td><td style="padding:8px 10px;border-bottom:1px solid #e8e6e1;font-weight:700;color:#1a2e4a;">${fmt(payment.security_deposit)}</td></tr>
+        ${payment.cleaning_fee ? `<tr><td style="padding:8px 10px;border-bottom:1px solid #e8e6e1;font-weight:700;color:#1a2e4a;">Cleaning Fee</td><td style="padding:8px 10px;border-bottom:1px solid #e8e6e1;font-weight:700;color:#1a2e4a;">${fmt(payment.cleaning_fee)}</td></tr>` : ''}
+      </table>
+      <div style="margin-top:16px;padding:12px;background:#fff;border-radius:4px;border:1px solid #e8e6e1;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6b7280;margin-bottom:8px;">Bank Transfer Details</div>
+        <table style="width:100%;font-size:13px;">
+          ${payment.bank_name ? `<tr><td style="padding:4px 0;color:#6b7280;width:40%;">Bank Name</td><td style="padding:4px 0;font-weight:700;color:#1a2e4a;">${payment.bank_name}</td></tr>` : ''}
+          ${payment.account_name ? `<tr><td style="padding:4px 0;color:#6b7280;">Account Name</td><td style="padding:4px 0;font-weight:700;color:#1a2e4a;">${payment.account_name}</td></tr>` : ''}
+          ${payment.account_number ? `<tr><td style="padding:4px 0;color:#6b7280;">Account Number</td><td style="padding:4px 0;font-weight:700;color:#1a2e4a;">${payment.account_number}</td></tr>` : ''}
+          ${payment.routing_number ? `<tr><td style="padding:4px 0;color:#6b7280;">Routing Number</td><td style="padding:4px 0;font-weight:700;color:#1a2e4a;">${payment.routing_number}</td></tr>` : ''}
+        </table>
+      </div>
+      <p style="font-size:11px;color:#6b7280;margin-top:8px;">⚠️ Please use your reference number <strong>${app.ref_number}</strong> as the payment memo/description.</p>
+    </div>
+  ` : '';
+
+  return {
+    subject: `Congratulations! Your Application is Approved — Action Required`,
     html: baseTemplate(`
       <h2>Congratulations — You're Approved!</h2>
       <p>Hi <strong>${app.first_name}</strong>,</p>
       <p>Your application (Ref: <strong>${app.ref_number}</strong>) has been <span class="badge approved">Approved</span>.</p>
-      <p>Please review and sign your lease within <strong>12 hours</strong> to secure your unit.</p>
-      <div style="text-align:center;margin:28px 0;">
-        <a href="${leaseUrl}" class="btn">Review & Sign Lease Agreement →</a>
+      <p>Please complete the following steps within <strong>72 hours</strong> to secure your unit.</p>
+      <div style="text-align:center;margin:24px 0;">
+        <a href="${leaseUrl}" class="btn">Step 1: Review & Sign Lease Agreement →</a>
       </div>
+      ${paymentSection}
       <hr class="divider"/>
       <table>
-        <tr><td>Step 1</td><td>Click button above to review your lease</td></tr>
-        <tr><td>Step 2</td><td>Sign the lease digitally</td></tr>
-        <tr><td>Step 3</td><td>Our team contacts you with payment instructions</td></tr>
+        <tr><td>Step 1</td><td>Click button above to review and sign your lease</td></tr>
+        <tr><td>Step 2</td><td>Make payment using the bank details above</td></tr>
+        <tr><td>Step 3</td><td>Send payment confirmation to ${process.env.OAUTH_EMAIL}</td></tr>
         <tr><td>Step 4</td><td>Keys handed over on your move-in date 🎉</td></tr>
       </table>
       ${app.admin_notes ? `<div class="ref-box"><div class="ref-label">Note from Our Team</div>${app.admin_notes}</div>` : ''}
-      <p style="font-size:12px;color:#6b7280;margin-top:20px;">Need help? <a href="mailto:${process.env.OAUTH_EMAIL}" style="color:#1a2e4a;">${process.env.OAUTH_EMAIL}</a></p>
+      <p style="font-size:12px;color:#6b7280;margin-top:20px;">Questions? Contact us at <a href="mailto:${process.env.OAUTH_EMAIL}" style="color:#1a2e4a;">${process.env.OAUTH_EMAIL}</a></p>
     `)
   };
 }
