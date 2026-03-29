@@ -21,6 +21,7 @@ async function initDB() {
     console.log(`🆕 Created new DB at: ${DB_PATH}`);
   }
   createSchema();
+  runMigrations();
   return db;
 }
 

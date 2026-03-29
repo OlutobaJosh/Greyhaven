@@ -106,7 +106,7 @@ function approvalEmail(app, leaseUrl) {
       <h2>Congratulations — You're Approved!</h2>
       <p>Hi <strong>${app.first_name}</strong>,</p>
       <p>Your application (Ref: <strong>${app.ref_number}</strong>) has been <span class="badge approved">Approved</span>.</p>
-      <p>Please review and sign your lease within <strong>72 hours</strong> to secure your unit.</p>
+      <p>Please review and sign your lease within <strong>12 hours</strong> to secure your unit.</p>
       <div style="text-align:center;margin:28px 0;">
         <a href="${leaseUrl}" class="btn">Review & Sign Lease Agreement →</a>
       </div>
