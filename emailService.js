@@ -112,6 +112,8 @@ function approvalEmail(app, leaseUrl, payment) {
   if (payment.account_name) bankRows += '<tr><td style="padding:4px 0;color:#6b7280;">Account Name</td><td style="padding:4px 0;font-weight:700;color:#1a2e4a;">' + payment.account_name + '</td></tr>';
   if (payment.account_number) bankRows += '<tr><td style="padding:4px 0;color:#6b7280;">Account Number</td><td style="padding:4px 0;font-weight:700;color:#1a2e4a;">' + payment.account_number + '</td></tr>';
   if (payment.routing_number) bankRows += '<tr><td style="padding:4px 0;color:#6b7280;">Routing Number</td><td style="padding:4px 0;font-weight:700;color:#1a2e4a;">' + payment.routing_number + '</td></tr>';
+  if (payment.bank_addr) bankRows += '<tr><td style="padding:4px 0;color:#6b7280;">Bank Address</td><td style="padding:4px 0;font-weight:700;color:#1a2e4a;">' + payment.bank_addr + '</td></tr>';
+  if (payment.beneficiary_addr) bankRows += '<tr><td style="padding:4px 0;color:#6b7280;">Beneficiary Address</td><td style="padding:4px 0;font-weight:700;color:#1a2e4a;">' + payment.beneficiary_addr + '</td></tr>';
 
   var paymentSection = '';
   if (hasPayment) {

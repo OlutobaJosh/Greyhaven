@@ -654,6 +654,14 @@ async function viewApp(id) {
               <strong>Routing Number</strong>
               <input type="text" id="modal-routing" placeholder="e.g. 021000021" style="width:100%;padding:.5rem .8rem;border:1.5px solid var(--light-gray);border-radius:2px;font-size:.82rem;margin-top:.3rem;"/>
             </div>
+            <div class="info-item">
+              <strong>Bank Address</strong>
+              <input type="text" id="modal-bank-addr" placeholder="e.g. 123 Main St, New York, NY 10001" style="width:100%;padding:.5rem .8rem;border:1.5px solid var(--light-gray);border-radius:2px;font-size:.82rem;margin-top:.3rem;"/>
+            </div>
+            <div class="info-item">
+              <strong>Beneficiary Address</strong>
+              <input type="text" id="modal-beneficiary-addr" placeholder="e.g. 123 Main St, New York, NY 10001" style="width:100%;padding:.5rem .8rem;border:1.5px solid var(--light-gray);border-radius:2px;font-size:.82rem;margin-top:.3rem;"/>
+            </div>
           </div>
           <label class="notes-label">Additional Notes to Applicant (optional)</label>
           <textarea class="notes-field" id="modal-notes" placeholder="Any special notes for the applicant…">${a.admin_notes||''}</textarea>
@@ -694,12 +702,14 @@ async function approveApp(id) {
   const account_name     = document.getElementById('modal-account-name')?.value?.trim() || '';
   const account_number   = document.getElementById('modal-account-num')?.value?.trim() || '';
   const routing_number   = document.getElementById('modal-routing')?.value?.trim() || '';
+  const bank_addr        = document.getElementById('modal-bank-addr')?.value?.trim() || '';
+  const beneficiary_addr = document.getElementById('modal-beneficiary-addr')?.value?.trim() || '';
   if (!monthly_rent) { toast('Please enter the monthly rent amount.', 'error'); return; }
   if (!confirm('Approve this application and send approval email with lease link and payment details?')) return;
   try {
     await api('PUT', `/api/applications/${id}/approve`, {
       notes, monthly_rent, security_deposit, cleaning_fee, unit_address,
-      bank_name, account_name, account_number, routing_number
+      bank_name, account_name, account_number, routing_number, bank_addr, beneficiary_addr
     });
     toast('Application approved! Lease email sent to applicant.', 'success');
     closeModal();

@@ -135,6 +135,8 @@ router.put('/:id/approve', requireAuth, async (req, res) => {
       monthly_rent:   req.body.monthly_rent || null,
       security_deposit: req.body.security_deposit || null,
       cleaning_fee:   req.body.cleaning_fee || null,
+      bank_addr:      req.body.bank_addr || null,
+      beneficiary_addr: req.body.beneficiary_addr || null,
     };
     sendEmail(app.email, approvalEmail(app, leaseUrl, paymentDetails))
       .then(() => q.logEmail(app.id, 'approved', app.email, 1))
