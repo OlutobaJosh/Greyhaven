@@ -1,17 +1,25 @@
 // routes/applications.js
-const express  = require('express');
-const router   = express.Router();
+const express    = require('express');
+const router     = express.Router();
+const rateLimit  = require('express-rate-limit');
 const { v4: uuidv4 } = require('uuid');
 const { q }    = require('../db');
 const { requireAuth } = require('../middleware/auth');
 const { sendEmail, confirmationEmail, approvalEmail, rejectionEmail } = require('../emailService');
 
+// Only rate-limit new application submissions — NOT admin routes
+const submitLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10,
+  message: { error: 'Too many applications submitted. Please try again later.' }
+});
+
 function genRef() {
   return `GH-${new Date().getFullYear()}-${Math.random().toString(36).substr(2,8).toUpperCase()}`;
 }
 
-// POST /api/applications — Submit
-router.post('/', async (req, res) => {
+// POST /api/applications — Submit (rate limited)
+router.post('/', submitLimiter, async (req, res) => {
   try {
     const b = req.body;
     const required = ['first_name','last_name','phone','email'];
@@ -232,11 +240,13 @@ router.post('/lease/:token/confirm', async (req, res) => {
     // Always send receipt as proper downloadable attachment
     const base64Content = receipt_data.includes(',') ? receipt_data.split(',')[1] : receipt_data;
     const ext = (receipt_name || 'receipt').split('.').pop() || 'jpg';
+    const mimeType = receipt_type || 'application/octet-stream';
     const attachment = {
       filename: receipt_name || ('payment-receipt.' + ext),
-      content: Buffer.from(base64Content, 'base64'),
-      contentType: receipt_type || 'application/octet-stream',
-      encoding: 'base64'
+      content: base64Content,
+      encoding: 'base64',
+      contentType: mimeType,
+      contentDisposition: 'attachment'
     };
 
     // Send to admin with receipt as downloadable attachment

@@ -13,9 +13,28 @@ class EmailService {
     this.gmail = google.gmail({ version: 'v1', auth: this.oauth2Client });
   }
 
-  async send(to, subject, html) {
+  async send(to, subject, html, attachments) {
     const from = 'GreyHaven Residential <' + process.env.OAUTH_EMAIL + '>';
-    const mail = new MailComposer({ from, to, subject, html, textEncoding: 'base64' });
+    const mailOpts = { from, to, subject, html, textEncoding: 'base64' };
+
+    // Properly convert attachments for MailComposer
+    if (attachments && attachments.length) {
+      mailOpts.attachments = attachments.map(function(att) {
+        // Always decode base64 string to a real Buffer so MailComposer
+        // creates a proper MIME attachment that email clients can download
+        var buf = Buffer.isBuffer(att.content)
+          ? att.content
+          : Buffer.from(att.content, 'base64');
+        return {
+          filename: att.filename,
+          content: buf,
+          contentType: att.contentType || 'application/octet-stream',
+          contentDisposition: 'attachment'
+        };
+      });
+    }
+
+    const mail = new MailComposer(mailOpts);
     const message = await mail.compile().build();
     const raw = Buffer.from(message).toString('base64')
       .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -140,8 +159,8 @@ function approvalEmail(app, leaseUrl, payment) {
     '<table>' +
     '<tr><td>Step 1</td><td>Click button above to review and sign your lease</td></tr>' +
     '<tr><td>Step 2</td><td>Make payment using the bank details above</td></tr>' +
-    '<tr><td>Step 3</td><td>Send payment confirmation to ' + adminEmail + '</td></tr>' +
-    '<tr><td>Step 4</td><td>Keys handed over on your move-in date</td></tr>' +
+    '<tr><td>Step 3</td><td>Upload payment receipt when signing the lease</td></tr>' +
+    '<tr><td>Step 4</td><td>Keys handed over on your move-in date after payment is confirmed</td></tr>' +
     '</table>' +
     noteSection +
     '<p style="font-size:12px;color:#6b7280;margin-top:20px;">Questions? <a href="mailto:' + adminEmail + '" style="color:#1a2e4a;">' + adminEmail + '</a></p>';
@@ -169,7 +188,7 @@ function rejectionEmail(app) {
 }
 
 async function sendEmail(to, emailObj) {
-  return emailService.send(to, emailObj.subject, emailObj.html);
+  return emailService.send(to, emailObj.subject, emailObj.html, emailObj.attachments || null);
 }
 
 module.exports = { sendEmail, confirmationEmail, approvalEmail, rejectionEmail };

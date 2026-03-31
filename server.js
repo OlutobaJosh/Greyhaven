@@ -11,33 +11,33 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(helmet({ contentSecurityPolicy: false }));
-app.set('trust proxy', 1); // Required for Render/Railway reverse proxy
+app.set('trust proxy', 1);
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' ? process.env.APP_URL : '*',
   methods: ['GET','POST','PUT','DELETE'],
   allowedHeaders: ['Content-Type','Authorization'],
 }));
 
-const limiter = rateLimit({ windowMs: 15*60*1000, max: 100, message: { error: 'Too many requests.' } });
-const submitLimiter = rateLimit({ windowMs: 60*60*1000, max: 10, message: { error: 'Too many applications submitted.' } });
+// Global rate limit — 100 requests per 15 minutes per IP
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: { error: 'Too many requests.' }
+});
 app.use('/api/', limiter);
 
-app.use(express.json({ limit: '10mb' })); // 10mb needed for base64 receipt images
+app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/auth',                       require('./routes/auth'));
-// Only rate-limit POST to /api/applications (new submissions), not admin GET/PUT routes
-const appRouter = require('./routes/applications');
-app.post('/api/applications', submitLimiter, (req, res, next) => next(), appRouter);
-app.use('/api/applications', appRouter);
+app.use('/api/auth',         require('./routes/auth'));
+// submitLimiter is now applied INSIDE applications.js on the POST route only
+app.use('/api/applications', require('./routes/applications'));
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', app: 'GreyHaven Residential', timestamp: new Date().toISOString() });
 });
 
-
-// Serve lease page at /lease?token=xxx (without .html)
 app.get('/lease', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'lease.html'));
 });
@@ -51,7 +51,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
-// ── Start: init DB first, then listen ────────────────────────────────────────
 initDB().then(() => {
   seedAdmin();
   app.listen(PORT, () => {
