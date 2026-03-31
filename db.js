@@ -110,7 +110,11 @@ function createSchema() {
     unit_address TEXT,
     submitted_at TEXT DEFAULT (datetime('now')),
     reviewed_at TEXT,
-    reviewed_by TEXT
+    reviewed_by TEXT,
+    lease_signed_at TEXT,
+    payment_confirmed INTEGER DEFAULT 0,
+    payment_confirmed_at TEXT,
+    booking_receipt_sent INTEGER DEFAULT 0
   )`);
 
   db.run(`CREATE TABLE IF NOT EXISTS admins (
@@ -135,7 +139,11 @@ function createSchema() {
     'ALTER TABLE applications ADD COLUMN monthly_rent TEXT',
     'ALTER TABLE applications ADD COLUMN security_deposit TEXT',
     'ALTER TABLE applications ADD COLUMN cleaning_fee TEXT',
-    'ALTER TABLE applications ADD COLUMN unit_address TEXT'
+    'ALTER TABLE applications ADD COLUMN unit_address TEXT',
+    'ALTER TABLE applications ADD COLUMN lease_signed_at TEXT',
+    'ALTER TABLE applications ADD COLUMN payment_confirmed INTEGER DEFAULT 0',
+    'ALTER TABLE applications ADD COLUMN payment_confirmed_at TEXT',
+    'ALTER TABLE applications ADD COLUMN booking_receipt_sent INTEGER DEFAULT 0'
   ];
   for (var i = 0; i < migrations.length; i++) {
     try { db.run(migrations[i]); } catch(e) { /* column already exists, skip */ }
@@ -226,6 +234,22 @@ var q = {
 
   getEmailLog: function(app_id) {
     return all('SELECT * FROM email_log WHERE app_id = ? ORDER BY sent_at DESC', [app_id]);
+  },
+
+  markLeaseSigned: function(id, signed_at) {
+    run('UPDATE applications SET lease_signed_at = ? WHERE id = ?', [signed_at, id]);
+  },
+
+  confirmPayment: function(id, confirmed_by) {
+    run(`UPDATE applications SET
+      payment_confirmed = 1,
+      payment_confirmed_at = datetime('now'),
+      reviewed_by = ?
+      WHERE id = ?`, [confirmed_by, id]);
+  },
+
+  markReceiptSent: function(id) {
+    run('UPDATE applications SET booking_receipt_sent = 1 WHERE id = ?', [id]);
   }
 };
 

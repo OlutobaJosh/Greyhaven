@@ -680,6 +680,31 @@ async function viewApp(id) {
             ${a.status==='approved'&&a.lease_token ? `<div class="info-item" style="grid-column:1/-1;"><strong>Lease Link</strong><span style="word-break:break-all;font-size:.75rem;">/lease?token=${a.lease_token}</span></div>` : ''}
           </div>
         </div>
+        ${a.status === 'approved' ? `
+        <div class="modal-section">
+          <h4>Payment & Booking Receipt</h4>
+          ${a.lease_signed_at ? `
+            <p style="font-size:.82rem;color:#374151;margin-bottom:1rem;">
+              <strong>Lease signed on:</strong> ${new Date(a.lease_signed_at).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}
+            </p>
+            ${a.payment_confirmed ? `
+              <div style="background:#d1fae5;border-radius:4px;padding:1rem;margin-bottom:1rem;font-size:.85rem;color:#065f46;font-weight:700;">
+                ✓ Payment confirmed on ${new Date(a.payment_confirmed_at).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}
+                ${a.booking_receipt_sent ? ' &nbsp;·&nbsp; Booking receipt sent ✓' : ''}
+              </div>
+            ` : `
+              <div style="background:#fef3c7;border-radius:4px;padding:1rem;margin-bottom:1rem;font-size:.85rem;color:#78350f;">
+                ⏳ Payment receipt submitted — awaiting your confirmation
+              </div>
+              <button class="btn-approve" style="padding:.6rem 1.8rem;font-size:.82rem;" onclick="confirmPayment(${a.id})">
+                ✓ Confirm Payment & Issue Booking Receipt
+              </button>
+            `}
+          ` : `
+            <p style="font-size:.82rem;color:#6b7280;">Tenant has not yet signed the lease or submitted payment receipt.</p>
+          `}
+        </div>
+        ` : ''}
       `}
     `;
   } catch(e) {
@@ -698,18 +723,19 @@ async function approveApp(id) {
   const security_deposit = document.getElementById('modal-deposit')?.value?.trim() || '';
   const cleaning_fee     = document.getElementById('modal-cleaning')?.value?.trim() || '';
   const unit_address     = document.getElementById('modal-unit-addr')?.value?.trim() || '';
-  const bank_name        = document.getElementById('modal-bank-name')?.value?.trim() || '';
-  const account_name     = document.getElementById('modal-account-name')?.value?.trim() || '';
-  const account_number   = document.getElementById('modal-account-num')?.value?.trim() || '';
-  const routing_number   = document.getElementById('modal-routing')?.value?.trim() || '';
-  const bank_addr        = document.getElementById('modal-bank-addr')?.value?.trim() || '';
-  const beneficiary_addr = document.getElementById('modal-beneficiary-addr')?.value?.trim() || '';
+  const bank_name          = document.getElementById('modal-bank-name')?.value?.trim() || '';
+  const account_name       = document.getElementById('modal-account-name')?.value?.trim() || '';
+  const account_number     = document.getElementById('modal-account-num')?.value?.trim() || '';
+  const routing_number     = document.getElementById('modal-routing')?.value?.trim() || '';
+  const bank_addr          = document.getElementById('modal-bank-addr')?.value?.trim() || '';
+  const beneficiary_addr   = document.getElementById('modal-beneficiary-addr')?.value?.trim() || '';
   if (!monthly_rent) { toast('Please enter the monthly rent amount.', 'error'); return; }
   if (!confirm('Approve this application and send approval email with lease link and payment details?')) return;
   try {
     await api('PUT', `/api/applications/${id}/approve`, {
       notes, monthly_rent, security_deposit, cleaning_fee, unit_address,
-      bank_name, account_name, account_number, routing_number, bank_addr, beneficiary_addr
+      bank_name, account_name, account_number, routing_number,
+      bank_addr, beneficiary_addr
     });
     toast('Application approved! Lease email sent to applicant.', 'success');
     closeModal();
@@ -723,6 +749,16 @@ async function rejectApp(id) {
   try {
     await api('PUT', `/api/applications/${id}/reject`, { notes });
     toast('Application rejected. Notification sent.', 'success');
+    closeModal();
+    loadApplications();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+async function confirmPayment(id) {
+  if (!confirm('Confirm this payment and send official Booking Receipt to the tenant?')) return;
+  try {
+    const data = await api('PUT', `/api/applications/${id}/confirm-payment`, {});
+    toast('Payment confirmed! Booking receipt emailed to tenant. ✓', 'success');
     closeModal();
     loadApplications();
   } catch(e) { toast('Error: ' + e.message, 'error'); }
