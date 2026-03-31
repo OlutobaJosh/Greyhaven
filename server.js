@@ -27,7 +27,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/auth',                       require('./routes/auth'));
-app.use('/api/applications', submitLimiter, require('./routes/applications'));
+// Only rate-limit POST to /api/applications (new submissions), not admin GET/PUT routes
+const appRouter = require('./routes/applications');
+app.post('/api/applications', submitLimiter, (req, res, next) => next(), appRouter);
+app.use('/api/applications', appRouter);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', app: 'GreyHaven Residential', timestamp: new Date().toISOString() });

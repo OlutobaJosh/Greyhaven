@@ -199,12 +199,7 @@ router.post('/lease/:token/confirm', async (req, res) => {
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
 
-    // Build confirmation email to admin with receipt attached info
-    const isImage = receipt_type && receipt_type.startsWith('image/');
-    const receiptSection = isImage
-      ? '<p>Receipt preview is embedded below.</p><div style="margin-top:12px;"><img src="' + receipt_data + '" style="max-width:100%;max-height:400px;border-radius:4px;border:1px solid #e8e6e1;" alt="Payment Receipt"/></div>'
-      : '<p>A PDF receipt was uploaded. File name: <strong>' + receipt_name + '</strong></p>';
-
+    // Build admin notification email — receipt sent as attachment (base64 inline blocked by email clients)
     const adminHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"/><style>' +
       'body{margin:0;padding:0;background:#f5f4f0;font-family:Helvetica Neue,Arial,sans-serif;}' +
       '.wrap{max-width:600px;margin:32px auto;background:#fff;border-radius:4px;overflow:hidden;}' +
@@ -217,11 +212,12 @@ router.post('/lease/:token/confirm', async (req, res) => {
       'td{padding:8px 10px;border-bottom:1px solid #e8e6e1;color:#374151;}' +
       'td:first-child{font-weight:700;color:#0f1e32;width:40%;font-size:11px;text-transform:uppercase;letter-spacing:.06em;}' +
       '.badge{display:inline-block;padding:4px 12px;border-radius:2px;font-size:11px;font-weight:700;background:#d1fae5;color:#065f46;}' +
+      '.att-box{background:#f0f7ff;border-left:4px solid #1a2e4a;padding:12px 16px;margin-top:16px;border-radius:0 4px 4px 0;font-size:13px;}' +
       '</style></head><body><div class="wrap">' +
       '<div class="header"><div class="logo">GreyHaven — Lease Signed Notification</div></div>' +
       '<div class="body">' +
       '<h2>Lease Agreement Signed ✅</h2>' +
-      '<p>A tenant has signed their lease agreement and submitted payment proof.</p>' +
+      '<p>A tenant has signed their lease agreement and submitted payment proof. The receipt is attached to this email.</p>' +
       '<table>' +
       '<tr><td>Tenant Name</td><td>' + tenant_name + '</td></tr>' +
       '<tr><td>Tenant Email</td><td>' + tenant_email + '</td></tr>' +
@@ -230,14 +226,24 @@ router.post('/lease/:token/confirm', async (req, res) => {
       '<tr><td>Signed On</td><td>' + signedDate + '</td></tr>' +
       '<tr><td>Status</td><td><span class="badge">Lease Signed</span></td></tr>' +
       '</table>' +
-      '<p><strong>Payment Receipt:</strong></p>' +
-      receiptSection +
+      '<div class="att-box">📎 Payment receipt attached: <strong>' + (receipt_name || 'receipt') + '</strong></div>' +
       '</div></div></body></html>';
 
-    // Send to admin
+    // Always send receipt as proper downloadable attachment
+    const base64Content = receipt_data.includes(',') ? receipt_data.split(',')[1] : receipt_data;
+    const ext = (receipt_name || 'receipt').split('.').pop() || 'jpg';
+    const attachment = {
+      filename: receipt_name || ('payment-receipt.' + ext),
+      content: Buffer.from(base64Content, 'base64'),
+      contentType: receipt_type || 'application/octet-stream',
+      encoding: 'base64'
+    };
+
+    // Send to admin with receipt as downloadable attachment
     await sendEmail(adminEmail, {
       subject: 'Lease Signed — ' + tenant_name + ' (' + app.ref_number + ')',
-      html: adminHtml
+      html: adminHtml,
+      attachments: [attachment]
     });
 
     // Send confirmation to tenant
