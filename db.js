@@ -19,6 +19,7 @@ async function initDB() {
   console.log('✅ Connected to Turso database');
 
   await createSchema();
+  await seedAdmin();
   return client;
 }
 
