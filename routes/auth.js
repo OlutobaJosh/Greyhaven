@@ -5,11 +5,11 @@ const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
 const { q }   = require('../db');
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => { // added async
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ error: 'Email and password are required' });
 
-  const admin = q.getAdminByEmail(email.toLowerCase());
+  const admin = await q.getAdminByEmail(email.toLowerCase()); // added await
   if (!admin) return res.status(401).json({ error: 'Invalid credentials' });
 
   const valid = bcrypt.compareSync(password, admin.password_hash);
