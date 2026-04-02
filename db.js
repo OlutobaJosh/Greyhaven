@@ -1,66 +1,48 @@
-const path = require('path');
-const fs   = require('fs');
+// db.js — Turso (hosted SQLite) — data persists forever, free tier
 const bcrypt = require('bcryptjs');
+const { createClient } = require('@libsql/client');
 
-const DATA_DIR = process.env.RAILWAY_VOLUME_MOUNT_PATH || __dirname;
-const DB_PATH  = path.join(DATA_DIR, 'greyhaven.db');
-let SQL, db;
+let client;
 
+// ── Initialize connection ─────────────────────────────────────────────────────
 async function initDB() {
-  if (db) return db;
-  const initSqlJs = require('sql.js');
-  SQL = await initSqlJs();
-  if (fs.existsSync(DB_PATH)) {
-    db = new SQL.Database(fs.readFileSync(DB_PATH));
-    console.log('Loaded existing DB from: ' + DB_PATH);
-  } else {
-    db = new SQL.Database();
-    console.log('Created new DB at: ' + DB_PATH);
+  if (client) return client;
+
+  const url   = process.env.TURSO_DATABASE_URL;
+  const token = process.env.TURSO_AUTH_TOKEN;
+
+  if (!url || !token) {
+    throw new Error('TURSO_DATABASE_URL and TURSO_AUTH_TOKEN environment variables are required');
   }
-  createSchema();
-  return db;
+
+  client = createClient({ url, authToken: token });
+  console.log('✅ Connected to Turso database');
+
+  await createSchema();
+  return client;
 }
 
-function save() {
-  if (!db) return;
-  try { fs.writeFileSync(DB_PATH, Buffer.from(db.export())); }
-  catch(e) { console.error('DB save error:', e.message); }
+// ── Helper: run a write statement ─────────────────────────────────────────────
+async function run(sql, params) {
+  const result = await client.execute({ sql, args: params || [] });
+  return result.lastInsertRowid ? Number(result.lastInsertRowid) : null;
 }
 
-function run(sql, params) {
-  params = params || [];
-  db.run(sql, params);
-  save();
-  var stmt = db.prepare('SELECT last_insert_rowid() as id');
-  stmt.step();
-  var row = stmt.getAsObject();
-  stmt.free();
-  return row.id || null;
+// ── Helper: get one row ───────────────────────────────────────────────────────
+async function get(sql, params) {
+  const result = await client.execute({ sql, args: params || [] });
+  return result.rows[0] || null;
 }
 
-function get(sql, params) {
-  params = params || [];
-  var stmt = db.prepare(sql);
-  stmt.bind(params);
-  var row = null;
-  if (stmt.step()) row = stmt.getAsObject();
-  stmt.free();
-  return row;
+// ── Helper: get all rows ──────────────────────────────────────────────────────
+async function all(sql, params) {
+  const result = await client.execute({ sql, args: params || [] });
+  return result.rows;
 }
 
-function all(sql, params) {
-  params = params || [];
-  var stmt = db.prepare(sql);
-  stmt.bind(params);
-  var rows = [];
-  while (stmt.step()) rows.push(stmt.getAsObject());
-  stmt.free();
-  return rows;
-}
-
-function createSchema() {
-  // Use template literals so inner single quotes work correctly in SQL
-  db.run(`CREATE TABLE IF NOT EXISTS applications (
+// ── Schema ────────────────────────────────────────────────────────────────────
+async function createSchema() {
+  await client.execute(`CREATE TABLE IF NOT EXISTS applications (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     ref_number TEXT UNIQUE NOT NULL,
     status TEXT NOT NULL DEFAULT 'pending',
@@ -108,16 +90,16 @@ function createSchema() {
     security_deposit TEXT,
     cleaning_fee TEXT,
     unit_address TEXT,
-    submitted_at TEXT DEFAULT (datetime('now')),
-    reviewed_at TEXT,
-    reviewed_by TEXT,
     lease_signed_at TEXT,
     payment_confirmed INTEGER DEFAULT 0,
     payment_confirmed_at TEXT,
-    booking_receipt_sent INTEGER DEFAULT 0
+    booking_receipt_sent INTEGER DEFAULT 0,
+    submitted_at TEXT DEFAULT (datetime('now')),
+    reviewed_at TEXT,
+    reviewed_by TEXT
   )`);
 
-  db.run(`CREATE TABLE IF NOT EXISTS admins (
+  await client.execute(`CREATE TABLE IF NOT EXISTS admins (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
@@ -125,7 +107,7 @@ function createSchema() {
     created_at TEXT DEFAULT (datetime('now'))
   )`);
 
-  db.run(`CREATE TABLE IF NOT EXISTS email_log (
+  await client.execute(`CREATE TABLE IF NOT EXISTS email_log (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     app_id INTEGER,
     type TEXT NOT NULL,
@@ -134,67 +116,53 @@ function createSchema() {
     success INTEGER DEFAULT 1
   )`);
 
-  // Safe migrations — add new columns to existing databases
-  var migrations = [
-    'ALTER TABLE applications ADD COLUMN monthly_rent TEXT',
-    'ALTER TABLE applications ADD COLUMN security_deposit TEXT',
-    'ALTER TABLE applications ADD COLUMN cleaning_fee TEXT',
-    'ALTER TABLE applications ADD COLUMN unit_address TEXT',
-    'ALTER TABLE applications ADD COLUMN lease_signed_at TEXT',
-    'ALTER TABLE applications ADD COLUMN payment_confirmed INTEGER DEFAULT 0',
-    'ALTER TABLE applications ADD COLUMN payment_confirmed_at TEXT',
-    'ALTER TABLE applications ADD COLUMN booking_receipt_sent INTEGER DEFAULT 0'
-  ];
-  for (var i = 0; i < migrations.length; i++) {
-    try { db.run(migrations[i]); } catch(e) { /* column already exists, skip */ }
-  }
-
-  save();
+  console.log('✅ Schema ready');
 }
 
-function seedAdmin() {
-  var adminEmail = process.env.ADMIN_EMAIL || 'admin@greyhaven.com';
-  var adminPass  = process.env.ADMIN_PASSWORD || 'ChangeMe123!';
-  var existing   = get('SELECT id FROM admins WHERE email = ?', [adminEmail]);
+// ── Seed admin ────────────────────────────────────────────────────────────────
+async function seedAdmin() {
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@greyhaven.com';
+  const adminPass  = process.env.ADMIN_PASSWORD || 'ChangeMe123!';
+  const existing   = await get('SELECT id FROM admins WHERE email = ?', [adminEmail]);
   if (!existing) {
-    var hash = bcrypt.hashSync(adminPass, 12);
-    run('INSERT INTO admins (email, password_hash, name) VALUES (?, ?, ?)',
+    const hash = bcrypt.hashSync(adminPass, 12);
+    await run('INSERT INTO admins (email, password_hash, name) VALUES (?, ?, ?)',
         [adminEmail, hash, 'GreyHaven Admin']);
-    console.log('Admin created: ' + adminEmail);
+    console.log('✅ Admin created: ' + adminEmail);
   }
 }
 
-var q = {
-  insertApplication: function(app) {
-    var cols = Object.keys(app);
-    var vals = Object.values(app);
-    var placeholders = cols.map(function() { return '?'; }).join(', ');
-    var id = run(
-      'INSERT INTO applications (' + cols.join(', ') + ') VALUES (' + placeholders + ')',
+// ── Query helpers ─────────────────────────────────────────────────────────────
+const q = {
+  async insertApplication(app) {
+    const cols = Object.keys(app);
+    const vals = Object.values(app);
+    const id = await run(
+      'INSERT INTO applications (' + cols.join(', ') + ') VALUES (' + cols.map(() => '?').join(', ') + ')',
       vals
     );
     if (id) return this.getApplicationById(id);
     return get('SELECT * FROM applications WHERE ref_number = ?', [app.ref_number]);
   },
 
-  getAllApplications: function() {
+  getAllApplications() {
     return all('SELECT * FROM applications ORDER BY submitted_at DESC');
   },
 
-  getApplicationById: function(id) {
+  getApplicationById(id) {
     return get('SELECT * FROM applications WHERE id = ?', [id]);
   },
 
-  getApplicationByRef: function(ref) {
+  getApplicationByRef(ref) {
     return get('SELECT * FROM applications WHERE ref_number = ?', [ref]);
   },
 
-  getApplicationByLeaseToken: function(token) {
+  getApplicationByLeaseToken(token) {
     return get('SELECT * FROM applications WHERE lease_token = ?', [token]);
   },
 
-  updateStatus: function(p) {
-    run(
+  async updateStatus(p) {
+    await run(
       `UPDATE applications SET
         status = ?,
         admin_notes = ?,
@@ -212,45 +180,46 @@ var q = {
     );
   },
 
-  getStats: function() {
-    return get(`
-      SELECT
-        COUNT(*) as total,
-        SUM(CASE WHEN status = 'pending'  THEN 1 ELSE 0 END) as pending,
-        SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) as approved,
-        SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected
-      FROM applications
-    `);
+  getStats() {
+    return get(`SELECT
+      COUNT(*) as total,
+      SUM(CASE WHEN status = 'pending'  THEN 1 ELSE 0 END) as pending,
+      SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) as approved,
+      SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected
+      FROM applications`);
   },
 
-  getAdminByEmail: function(email) {
+  getAdminByEmail(email) {
     return get('SELECT * FROM admins WHERE email = ?', [email]);
   },
 
-  logEmail: function(app_id, type, to_email, success) {
-    run('INSERT INTO email_log (app_id, type, to_email, success) VALUES (?, ?, ?, ?)',
+  logEmail(app_id, type, to_email, success) {
+    return run('INSERT INTO email_log (app_id, type, to_email, success) VALUES (?, ?, ?, ?)',
         [app_id, type, to_email, success]);
   },
 
-  getEmailLog: function(app_id) {
+  getEmailLog(app_id) {
     return all('SELECT * FROM email_log WHERE app_id = ? ORDER BY sent_at DESC', [app_id]);
   },
 
-  markLeaseSigned: function(id, signed_at) {
-    run('UPDATE applications SET lease_signed_at = ? WHERE id = ?', [signed_at, id]);
+  markLeaseSigned(id, signed_at) {
+    return run('UPDATE applications SET lease_signed_at = ? WHERE id = ?', [signed_at, id]);
   },
 
-  confirmPayment: function(id, confirmed_by) {
-    run(`UPDATE applications SET
-      payment_confirmed = 1,
-      payment_confirmed_at = datetime('now'),
-      reviewed_by = ?
-      WHERE id = ?`, [confirmed_by, id]);
+  confirmPayment(id, confirmed_by) {
+    return run(
+      `UPDATE applications SET
+        payment_confirmed = 1,
+        payment_confirmed_at = datetime('now'),
+        reviewed_by = ?
+      WHERE id = ?`,
+      [confirmed_by, id]
+    );
   },
 
-  markReceiptSent: function(id) {
-    run('UPDATE applications SET booking_receipt_sent = 1 WHERE id = ?', [id]);
+  markReceiptSent(id) {
+    return run('UPDATE applications SET booking_receipt_sent = 1 WHERE id = ?', [id]);
   }
 };
 
-module.exports = { initDB: initDB, q: q, seedAdmin: seedAdmin };
+module.exports = { initDB, q, seedAdmin };
