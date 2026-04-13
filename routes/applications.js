@@ -36,6 +36,8 @@ router.post('/', submitLimiter, async (req, res) => {
       phone:              b.phone?.trim(),
       email:              b.email?.trim().toLowerCase(),
       move_in_date:       b.move_in_date || null,
+      lease_term:         b.lease_term || null,
+      lease_end_date:     b.lease_end_date || null,
       other_occupants:    b.other_occupants || null,
       pets:               b.pets || null,
       vehicles:           b.vehicles || null,
@@ -182,6 +184,8 @@ router.get('/lease/:token', async (req, res) => {
       email: app.email, move_in_date: app.move_in_date, admin_notes: app.admin_notes,
       monthly_rent: app.monthly_rent, security_deposit: app.security_deposit,
       cleaning_fee: app.cleaning_fee, unit_address: app.unit_address, phone: app.phone,
+      lease_term: app.lease_term,
+      lease_end_date: app.lease_end_date,
     });
   } catch (err) { res.status(500).json({ error: 'Failed to retrieve lease' }); }
 });

@@ -118,6 +118,15 @@ async function createSchema() {
   )`);
 
   console.log('✅ Schema ready');
+
+  // Migrations - safety add new columns to existing databases
+  const migrations = [
+    'ALTER TABLE applications ADD COLUMN lease_term TEXT',
+    'ALTER TABLE applications ADD COLUMN lease_end_date TEXT',
+  ];
+  for (const sql of migrations) {
+    try { await client.execute(sql); } catch(e) { /* column already exists, skip */ }
+  }
 }
 
 // ── Seed admin ────────────────────────────────────────────────────────────────

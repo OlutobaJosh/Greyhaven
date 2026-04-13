@@ -180,7 +180,7 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
     <!-- Term -->
     <div class="lease-sec">
       <h3>4. Lease Term</h3>
-      <p>This Agreement commences on <i class="lf" id="move-in-date">—</i> and shall continue on a <strong>month-to-month</strong> basis thereafter until terminated by either party in accordance with the terms herein.</p>
+      <p>This Agreement commences on <i class="lf" id="move-in-date">—</i> and shall continue on a <strong id="lease-term-display">month-to-month</strong> basis<span id="lease-end-display"></span>.</p>
       <p>To terminate this lease, Tenant must deliver written notice to Landlord at least <strong>30 days</strong> prior to the desired termination date. Landlord must provide Tenant with at least <strong>30 days</strong> written notice of termination unless otherwise required by applicable law.</p>
     </div>
 
@@ -467,6 +467,12 @@ function populateLease(d) {
   document.getElementById('agreement-date').textContent = today;
   document.getElementById('ref-number').textContent    = d.ref_number || '—';
   document.getElementById('move-in-date').textContent  = moveIn;
+  document.getElementById('lease-term-display').textContent = d.lease_term || 'month-to-month';
+  if (d.lease_end_date) {
+    const endDate = new Date(d.lease_end_date + 'T00:00:00')
+      .toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('lease-end-display').textContent = ', ending on ' + endDate;   
+  }
   document.getElementById('unit-address').textContent  = d.unit_address || 'To be confirmed by management';
 
   // Financial table

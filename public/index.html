@@ -813,11 +813,28 @@
           </div>
         </div>
       </div>
-      <div class="field-grid" style="margin-bottom:1rem;">
+      <div class="field-grid field-grid-2" style="margin-bottom:1rem;">
         <div class="field">
           <label>Desired Move-In Date <span class="req">*</span></label>
-          <input type="date" id="f-movein" />
+          <input type="date" id="f-movein" onchange="calcLeaseEnd()" />
         </div>
+        <div class="field">
+          <label>Preferred Lease Term <span class="req">*</span></label>
+          <select id="f-leaseterm" onchange="calcLeaseEnd()">
+            <option value="">Select or pick custom end date...</option>
+            <option value="Month-to-Month">Month-to-Month</option>
+            <option value="1 Month">1 Month</option>
+            <option value="3 Months">3 Months</option>
+            <option value="6 Months">6 Months</option>
+            <option value="12 Months">12 Months</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-grid" style="margin-bottom:1rem;">
+       <div class="field">
+        <label>Lease End Date <span style="color:var(--gray);font-weight:300;">(auto-filled or pick custom)</span></label>
+        <input type="date" id="f-leaseend" />  
+       </div>
       </div>
 
       <div class="form-nav">
@@ -1022,7 +1039,9 @@
           <div class="review-item"><strong>Phone</strong><span id="rv-phone">—</span></div>
           <div class="review-item"><strong>Email</strong><span id="rv-email">—</span></div>
           <div class="review-item"><strong>Desired Move-In</strong><span id="rv-movein">—</span></div>
+          <div class="review-item"><strong>Lease Term</strong><span id="rv-leaseterm">-</span></div>
           <div class="review-item"><strong>Other Occupants</strong><span id="rv-occupants">No</span></div>
+          <div class="review-item"><strong>Lease End Date</strong><span id="rv-leaseend"></span></div>
         </div>
       </div>
 
@@ -1296,6 +1315,8 @@ function populateReview() {
   document.getElementById('rv-phone').textContent = document.getElementById('f-phone').value || '—';
   document.getElementById('rv-email').textContent = document.getElementById('f-email').value || '—';
   document.getElementById('rv-movein').textContent = document.getElementById('f-movein').value || '—';
+  document.getElementById('rv-leaseterm').textContent = getVal('f-leaseterm') || '—';
+  document.getElementById('rv-leaseend').textContent = getVal('f-leaseend') || '—';
   const occ = document.querySelector('input[name="occupants"]:checked')?.value;
   document.getElementById('rv-occupants').textContent = occ === 'yes' ? (document.getElementById('f-occupants').value || 'Yes') : 'No';
   document.getElementById('rv-company').textContent = document.getElementById('f-company').value || '—';
@@ -1316,6 +1337,18 @@ function populateReview() {
   const r2r = document.getElementById('f-ref2rel').value;
   document.getElementById('rv-ref2').textContent = r2n ? `${r2n} (${r2r || 'N/A'})` : '—';
 }
+
+function calcLeaseEnd() {
+  const moveIn = document.getElementById('f-movein').value;
+  const term   = document.getElementById('f-leaseterm').value;
+  if (!moveIn || !term || term === 'Month-to-Month') return;
+  const months = { '1 Month':1, '3 Months':3, '6 Months':6, '12 Months':12 };
+  if (months[term]) {
+    const d = new Date(moveIn + 'T00:00:00')
+    d.setMonth(d.getMonth() + months[term]);
+    document.getElementById('f-leaseend').value = d.toISOString().split('T')[0];
+  }
+  }
 
 async function submitApplication() {
   if (!document.getElementById('consent-check').checked) {
@@ -1340,6 +1373,8 @@ async function submitApplication() {
     phone:          getVal('f-phone'),
     email:          getVal('f-email'),
     move_in_date:   getVal('f-movein'),
+    lease_term:     getVal('f-leaseterm'),
+    lease_end_date: getVal('f-leaseend'),
     other_occupants: getRadio('occupants') === 'yes' ? getVal('f-occupants') : null,
     pets:           getRadio('pets') === 'yes' ? getVal('f-pets') : null,
     vehicles:       getRadio('vehicles') === 'yes' ? getVal('f-vehicles') : null,
