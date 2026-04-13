@@ -152,7 +152,7 @@ function approvalEmail(app, leaseUrl, payment) {
   var content = '<h2>Congratulations - You\'re Approved!</h2>' +
     '<p>Hi <strong>' + app.first_name + '</strong>,</p>' +
     '<p>Your application (Ref: <strong>' + app.ref_number + '</strong>) has been <span class="badge approved">Approved</span>.</p>' +
-    '<p>Please complete the steps below within <strong>72 hours</strong> to secure your unit.</p>' +
+    '<p>Please complete the steps below within <strong>12 hours</strong> to secure your unit.</p>' +
     '<div style="text-align:center;margin:24px 0;"><a href="' + leaseUrl + '" class="btn">Step 1: Review and Sign Lease Agreement</a></div>' +
     paymentSection +
     '<hr class="divider"/>' +
