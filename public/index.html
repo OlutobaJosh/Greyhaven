@@ -1315,8 +1315,8 @@ function populateReview() {
   document.getElementById('rv-phone').textContent = document.getElementById('f-phone').value || '—';
   document.getElementById('rv-email').textContent = document.getElementById('f-email').value || '—';
   document.getElementById('rv-movein').textContent = document.getElementById('f-movein').value || '—';
-  document.getElementById('rv-leaseterm').textContent = getVal('f-leaseterm')?.value || '—';
-  document.getElementById('rv-leaseend').textContent = getVal('f-leaseend')?.value || '—';
+  document.getElementById('rv-leaseterm').textContent = document.getElementById('f-leaseterm')?.value || '—';
+  document.getElementById('rv-leaseend').textContent = document.getElementById('f-leaseend')?.value || '—';
   const occ = document.querySelector('input[name="occupants"]:checked')?.value;
   document.getElementById('rv-occupants').textContent = occ === 'yes' ? (document.getElementById('f-occupants').value || 'Yes') : 'No';
   document.getElementById('rv-company').textContent = document.getElementById('f-company').value || '—';
