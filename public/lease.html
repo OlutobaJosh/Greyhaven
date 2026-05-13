@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>GreyHaven — Residential Lease Agreement</title>
+<title>Greystar — Residential Lease Agreement</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
 <style>
 :root{--navy:#1a2e4a;--navy-dark:#0f1e32;--gold:#c9a84c;--gold-light:#e2c47a;--white:#fff;--off-white:#f5f4f0;--gray:#6b7280;--light-gray:#e8e6e1;}
@@ -11,7 +11,8 @@
 body{font-family:'Lato',sans-serif;background:var(--off-white);color:var(--navy-dark);}
 header{background:var(--navy-dark);border-bottom:3px solid var(--gold);padding:0 2rem;height:68px;display:flex;align-items:center;justify-content:space-between;}
 .logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;}
-.logo-mark{width:38px;height:38px;background:var(--gold);clip-path:polygon(50% 0%,100% 35%,100% 100%,0 100%,0 35%);display:flex;align-items:center;justify-content:center;color:var(--navy-dark);font-weight:900;font-size:.9rem;}
+.logo-mark{width:38px;height:38px;background:none;clip-path:none;display:flex;align-items:center;justify-content:center;color:transparent;font-weight:900;font-size:0;box-shadow: 0 2px 8px rgba(26,46,74,.15);}
+.logo-img { width:100%; height:100%; object-fit:contain; }
 .logo-name{font-family:'Playfair Display',serif;color:#fff;font-size:1.3rem;}
 .logo-tag{font-size:.6rem;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;display:block;}
 #loading-state,#error-state{min-height:70vh;display:flex;align-items:center;justify-content:center;padding:2rem;}
@@ -28,7 +29,8 @@ header{background:var(--navy-dark);border-bottom:3px solid var(--gold);padding:0
 .lease-doc{background:var(--white);border-radius:4px;border:1px solid var(--light-gray);box-shadow:0 4px 20px rgba(26,46,74,.06);padding:3.5rem;}
 .doc-header{text-align:center;padding-bottom:2rem;margin-bottom:2rem;border-bottom:2px solid var(--navy);}
 .doc-logo{display:flex;align-items:center;justify-content:center;gap:.8rem;margin-bottom:.4rem;}
-.doc-logo-mark{width:48px;height:48px;background:var(--navy);clip-path:polygon(50% 0%,100% 35%,100% 100%,0 100%,0 35%);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:900;font-size:1.1rem;}
+.doc-logo-mark{width:48px;height:48px;background:none;clip-path:none;display:flex;align-items:center;justify-content:center;color:transparent;font-weight:900;font-size:0;box-shadow: 0 3px 10px rgba(26,46,74,.2);}
+.logo-img { width:100%; height:100%; object-fit:contain; }
 .doc-logo-name{font-family:'Playfair Display',serif;font-size:1.9rem;color:var(--navy-dark);}
 .doc-tagline{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;}
 .doc-title{margin-top:1.5rem;}
@@ -65,8 +67,34 @@ header{background:var(--navy-dark);border-bottom:3px solid var(--gold);padding:0
 #ack-success{display:none;text-align:center;padding:2rem;}
 .ack-icon{font-size:3.5rem;margin-bottom:1rem;}
 #ack-success h3{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--navy-dark);margin-bottom:.8rem;}
-#ack-success p{color:var(--gray);font-size:.9rem;line-height:1.8;font-weight:300;max-width:500px;margin:0 auto;}
-.next-steps{background:var(--white);border-radius:4px;border:1px solid var(--light-gray);padding:2rem;margin-top:1.5rem;text-align:left;}
+#ack-success p{color:var(--gray);font-size:.9rem;line-height:1.8;font-weight:300;max-width:500px;margin:0 auto;}  /* Additional utility classes for inline styles */
+  .color-rgba-white-5 { color:rgba(255,255,255,.5); font-size:.8rem; letter-spacing:.08em; }
+  .display-none { display:none; }
+  .font-size-3rem { font-size:3rem; margin-bottom:1rem; }
+  .margin-top-1-5 { margin-top:1.5rem; }
+  .bg-navy-button { background:var(--navy); color:#fff; padding:.7rem 1.8rem; border-radius:2px; text-decoration:none; font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+  .margin-top-0-8 { margin-top:.8rem; }
+  .margin-1-5-0 { margin:1.5rem 0; }
+  .padding-1-5 { padding:1.5rem; }
+  .bg-warning-dashed { background:#fffbeb; border:2px dashed #c9a84c; border-radius:4px; }
+  .font-size-0-72-weight-900 { font-size:.72rem; font-weight:900; letter-spacing:.15em; text-transform:uppercase; color:#1a2e4a; margin-bottom:.6rem; }
+  .color-gold { color:#c9a84c; }
+  .font-size-0-85 { font-size:.85rem; }
+  .color-gray-374 { color:#374151; line-height:1.7; margin-bottom:1rem; }
+  .font-size-2rem { font-size:2rem; margin-bottom:.5rem; }
+  .font-weight-700 { font-weight:700; }
+  .color-navy { color:#1a2e4a; }
+  .font-size-0-88 { font-size:.88rem; }
+  .font-size-0-75-color-gray { font-size:.75rem; color:#6b7280; margin-top:.3rem; }
+  .display-flex-gap { display:flex; align-items:center; gap:.8rem; }
+  .flex-1 { flex:1; }
+  .bg-error { background:#fee2e2; color:#7f1d1d; border:none; padding:.3rem .7rem; border-radius:2px; font-size:.75rem; cursor:pointer; font-weight:700; }
+  .max-height-200 { display:none; max-width:100%; max-height:200px; margin-top:1rem; border-radius:4px; border:1px solid #e8e6e1; object-fit:contain; }
+  .bg-success { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:4px; padding:1rem 1.5rem; margin:1.2rem auto; max-width:420px; font-size:.85rem; color:#065f46; }
+  .text-center { text-align:center; }
+  .font-size-0-7 { font-size:.7rem; }
+  .color-navy-inline { color:var(--navy); }
+  .upload-area { border:2px dashed #e8e6e1; border-radius:4px; padding:2rem; text-align:center; cursor:pointer; background:#fff; transition:all .2s; }.next-steps{background:var(--white);border-radius:4px;border:1px solid var(--light-gray);padding:2rem;margin-top:1.5rem;text-align:left;}
 .next-steps h4{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:1rem;}
 .step-item{display:flex;align-items:flex-start;gap:1rem;padding:.8rem 0;border-bottom:1px solid var(--light-gray);}
 .step-item:last-child{border-bottom:none;}
@@ -102,13 +130,18 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
 
 <header>
   <a class="logo" href="/">
-    <div class="logo-mark">GH</div>
+    <div class="logo-mark">
+      <picture>
+        <source srcset="/greystar-logo.webp" type="image/webp" />
+        <img class="logo-img" src="/greystar-logo.webp" alt="Greystar logo" />
+      </picture>
+    </div>
     <div>
-      <div class="logo-name">GreyHaven</div>
+      <div class="logo-name">Greystar</div>
       <span class="logo-tag">Redefining Excellence in Apartment Living</span>
     </div>
   </a>
-  <span style="color:rgba(255,255,255,.5);font-size:.8rem;letter-spacing:.08em;">LEASE AGREEMENT PORTAL</span>
+  <span class="color-rgba-white-5">LEASE AGREEMENT PORTAL</span>
 </header>
 
 <div id="loading-state">
@@ -119,13 +152,13 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
   </div>
 </div>
 
-<div id="error-state" style="display:none;">
+<div id="error-state" class="display-none">
   <div class="state-card">
-    <div style="font-size:3rem;margin-bottom:1rem;">⚠️</div>
+    <div class="font-size-3rem">⚠️</div>
     <h2>Link Invalid or Expired</h2>
-    <p id="error-msg">This lease link is invalid. Please contact GreyHaven Residential.</p>
-    <div style="margin-top:1.5rem;">
-      <a href="/" style="background:var(--navy);color:#fff;padding:.7rem 1.8rem;border-radius:2px;text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;">Return Home</a>
+    <p id="error-msg">This lease link is invalid. Please contact Greystar Residential.</p>
+    <div class="margin-top-1-5">
+      <a href="/" class="bg-navy-button">Return Home</a>
     </div>
   </div>
 </div>
@@ -145,8 +178,13 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
     <!-- Header -->
     <div class="doc-header">
       <div class="doc-logo">
-        <div class="doc-logo-mark">GH</div>
-        <div class="doc-logo-name">GreyHaven</div>
+        <div class="doc-logo-mark">
+          <picture>
+            <source srcset="/greystar-logo.webp" type="image/webp" />
+            <img class="logo-img" src="/greystar-logo.webp" alt="Greystar logo" />
+          </picture>
+        </div>
+        <div class="doc-logo-name">Greystar</div>
       </div>
       <div class="doc-tagline">Redefining Excellence in Apartment Living</div>
       <div class="doc-title">
@@ -159,7 +197,7 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
     <div class="lease-sec">
       <h3>1. Parties to This Agreement</h3>
       <p>This Residential Lease Agreement ("Agreement") is entered into on <i class="lf" id="agreement-date">—</i> by and between:</p>
-      <p><strong>LANDLORD:</strong> GreyHaven Residential LLC, a property management company ("Landlord").</p>
+      <p><strong>LANDLORD:</strong> Greystar Residential LLC, a property management company ("Landlord").</p>
       <p><strong>TENANT:</strong> <i class="lf" id="tenant-name">—</i>, hereinafter referred to as "Tenant." Each Tenant is jointly and severally liable to Landlord for payment of rent and performance of all obligations under this Agreement.</p>
     </div>
 
@@ -218,7 +256,7 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
           </tr>
         </tbody>
       </table>
-      <p>Rent shall be paid via <strong>Wire transfer</strong> payable to GreyHaven Residential LLC. Payment details will be provided by your leasing agent.</p>
+      <p>Rent shall be paid via <strong>Wire transfer</strong> payable to Greystar Residential LLC. Payment details will be provided by your leasing agent.</p>
       <div class="warn-box">⚠️ <strong>Important:</strong> Rent is considered late if not received by the 5th day of the month. Persistent late payment may be grounds for lease termination.</div>
     </div>
 
@@ -235,7 +273,7 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
         <li>Microwave Oven</li>
         <li>Parking (where applicable)</li>
       </ul>
-      <p style="margin-top:.8rem;">Tenant is responsible for any additional services or subscriptions not listed above.</p>
+      <p class="margin-top-0-8">Tenant is responsible for any additional services or subscriptions not listed above.</p>
     </div>
 
     <!-- Use of Premises -->
@@ -252,7 +290,7 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
         <li>Comply with all applicable local, state, and federal laws</li>
         <li>Not engage in any illegal activities on the Premises</li>
       </ul>
-      <p style="margin-top:.8rem;">Tenant shall be liable for any damage to the Premises, fixtures, or contents caused by Tenant, Tenant's guests, or invitees, beyond normal wear and tear.</p>
+      <p class="margin-top-0-8">Tenant shall be liable for any damage to the Premises, fixtures, or contents caused by Tenant, Tenant's guests, or invitees, beyond normal wear and tear.</p>
     </div>
 
     <!-- Security Deposit -->
@@ -265,7 +303,7 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
         <li>All rent and other charges have been paid in full</li>
         <li>All keys, fobs, and access devices have been returned</li>
       </ul>
-      <p style="margin-top:.8rem;">Deductions from the security deposit may be made for unpaid rent, cleaning costs, or repair of damages beyond normal wear and tear. An itemized statement of any deductions will be provided in writing.</p>
+      <p class="margin-top-0-8">Deductions from the security deposit may be made for unpaid rent, cleaning costs, or repair of damages beyond normal wear and tear. An itemized statement of any deductions will be provided in writing.</p>
     </div>
 
     <!-- Condition of Premises -->
@@ -318,12 +356,12 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
     <!-- Equal Housing -->
     <div class="lease-sec">
       <h3>16. Equal Housing</h3>
-      <p>GreyHaven Residential LLC is an Equal Opportunity Housing Provider. All persons are considered regardless of race, color, religion, sex, disability, familial status, national origin, or any other characteristic protected by law.</p>
+      <p>Greystar Residential LLC is an Equal Opportunity Housing Provider. All persons are considered regardless of race, color, religion, sex, disability, familial status, national origin, or any other characteristic protected by law.</p>
     </div>
 
     <!-- Admin note -->
-    <div id="admin-note-box" style="display:none;margin-top:1.5rem;">
-      <div class="highlight-box"><strong>📝 Note from GreyHaven Team:</strong><br/><span id="admin-note-text"></span></div>
+    <div id="admin-note-box" class="display-none margin-top-1-5">
+      <div class="highlight-box"><strong>📝 Note from Greystar Team:</strong><br/><span id="admin-note-text"></span></div>
     </div>
 
     <!-- SIGNATURE SECTION -->
@@ -334,15 +372,15 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
       <div id="ack-form">
         <div class="form-grid">
           <div class="sig-field">
-            <label>Full Legal Name <span style="color:var(--gold)">*</span></label>
+            <label>Full Legal Name <span class="color-gold">*</span></label>
             <input type="text" id="sig-name" placeholder="As it appears on your application" oninput="document.getElementById('consent-name-preview').textContent=this.value||'the undersigned'" />
           </div>
           <div class="sig-field">
-            <label>Email Address <span style="color:var(--gold)">*</span></label>
+            <label>Email Address <span class="color-gold">*</span></label>
             <input type="email" id="sig-email" placeholder="your@email.com" />
           </div>
           <div class="sig-field">
-            <label>Phone Number <span style="color:var(--gold)">*</span></label>
+            <label>Phone Number <span class="color-gold">*</span></label>
             <input type="tel" id="sig-phone" placeholder="(000) 000-0000" />
           </div>
           <div class="sig-field">
@@ -352,31 +390,29 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
         </div>
 
         <!-- Payment Receipt Upload -->
-        <div style="margin:1.5rem 0;padding:1.5rem;background:#fffbeb;border:2px dashed #c9a84c;border-radius:4px;">
-          <div style="font-size:.72rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:#1a2e4a;margin-bottom:.6rem;">
-            💳 Payment Receipt / Screenshot <span style="color:#c9a84c;">* Required</span>
+        <div class="margin-1-5-0 padding-1-5 bg-warning-dashed">
+          <div class="font-size-0-72-weight-900 color-gold">
+            💳 Payment Receipt / Screenshot <span class="color-gold">* Required</span>
           </div>
-          <p style="font-size:.85rem;color:#374151;line-height:1.7;margin-bottom:1rem;">
+          <p class="font-size-0-85 color-gray-374">
             You must upload proof of payment (bank transfer receipt, screenshot, or confirmation) before signing the lease. Accepted formats: JPG, PNG, PDF (max 5MB).
           </p>
-          <div id="upload-area" onclick="document.getElementById('receipt-file').click()"
-            style="border:2px dashed #e8e6e1;border-radius:4px;padding:2rem;text-align:center;cursor:pointer;background:#fff;transition:all .2s;"
-            onmouseover="this.style.borderColor='#1a2e4a'" onmouseout="this.style.borderColor='#e8e6e1'">
-            <div style="font-size:2rem;margin-bottom:.5rem;">📎</div>
-            <div style="font-weight:700;color:#1a2e4a;font-size:.88rem;">Click to upload receipt</div>
-            <div style="font-size:.75rem;color:#6b7280;margin-top:.3rem;">or drag and drop here</div>
+          <div id="upload-area" class="upload-area" onclick="document.getElementById('receipt-file').click()" onmouseover="this.style.borderColor='#1a2e4a'" onmouseout="this.style.borderColor='#e8e6e1'">
+            <div class="font-size-2rem">📎</div>
+            <div class="font-weight-700 color-navy font-size-0-88">Click to upload receipt</div>
+            <div class="font-size-0-75-color-gray">or drag and drop here</div>
           </div>
-          <input type="file" id="receipt-file" accept="image/*,.pdf" style="display:none;" onchange="handleReceiptUpload(this)" />
-          <div id="receipt-preview" style="display:none;margin-top:1rem;padding:1rem;background:#fff;border-radius:4px;border:1px solid #e8e6e1;">
-            <div style="display:flex;align-items:center;gap:.8rem;">
-              <div style="font-size:1.5rem;" id="receipt-icon">📄</div>
-              <div style="flex:1;">
-                <div style="font-weight:700;font-size:.85rem;color:#1a2e4a;" id="receipt-name"></div>
-                <div style="font-size:.75rem;color:#6b7280;" id="receipt-size"></div>
+          <input type="file" id="receipt-file" accept="image/*,.pdf" class="display-none" onchange="handleReceiptUpload(this)" />
+          <div id="receipt-preview" class="display-none margin-top-1-5 padding-1-5 bg-success">
+            <div class="display-flex-gap">
+              <div class="font-size-2rem" id="receipt-icon">📄</div>
+              <div class="flex-1">
+                <div class="font-weight-700 font-size-0-85 color-navy" id="receipt-name"></div>
+                <div class="font-size-0-75-color-gray" id="receipt-size"></div>
               </div>
-              <button onclick="clearReceipt()" style="background:#fee2e2;color:#7f1d1d;border:none;padding:.3rem .7rem;border-radius:2px;font-size:.75rem;cursor:pointer;font-weight:700;">Remove</button>
+              <button onclick="clearReceipt()" class="bg-error">Remove</button>
             </div>
-            <img id="receipt-img-preview" src="" alt="Receipt preview" style="display:none;max-width:100%;max-height:200px;margin-top:1rem;border-radius:4px;border:1px solid #e8e6e1;object-fit:contain;" />
+            <img id="receipt-img-preview" src="" alt="Receipt preview" class="max-height-200" />
           </div>
         </div>
 
@@ -388,14 +424,14 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
         <button class="btn-acknowledge" id="ack-btn" onclick="submitAck()" disabled>
           ✍️ Sign & Accept Lease Agreement
         </button>
-        <div id="submit-status" style="display:none;margin-top:1rem;padding:.8rem 1rem;border-radius:4px;font-size:.85rem;text-align:center;"></div>
+        <div id="submit-status" class="display-none margin-top-1-5 padding-1-5 border-radius text-center font-size-0-85"></div>
       </div>
 
       <div id="ack-success">
         <div class="ack-icon">🎉</div>
         <h3>Lease Agreement Signed!</h3>
         <p>Thank you, <strong id="ack-name-display"></strong>. Your lease has been digitally signed and acknowledged. Our leasing team will contact you shortly with move-in instructions and payment details.</p>
-        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:4px;padding:1rem 1.5rem;margin:1.2rem auto;max-width:420px;font-size:.85rem;color:#065f46;">
+        <div class="bg-success text-center">
           <strong>Signed on:</strong> <span id="ack-date-display"></span><br/>
           <strong>Reference:</strong> <span id="ack-ref-display"></span>
         </div>
@@ -415,7 +451,7 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
           </div>
           <div class="step-item">
             <div class="step-num">4</div>
-            <p>Welcome home! 🏠 Contact us anytime at <a href="mailto:greyhaven.residential@gmail.com" style="color:var(--navy);">greyhaven.residential@gmail.com</a></p>
+            <p>Welcome home! 🏠 Contact us anytime at <a href="mailto:Greystar.residential@gmail.com" class="color-navy-inline">Greystar.residential@gmail.com</a></p>
           </div>
         </div>
       </div>
@@ -425,8 +461,8 @@ footer{background:var(--navy-dark);border-top:3px solid var(--gold);padding:1.5r
 </div>
 
 <footer>
-  GreyHaven Residential LLC &nbsp;·&nbsp; Equal Opportunity Housing Provider &nbsp;·&nbsp; All Rights Reserved<br/>
-  <span style="font-size:.7rem;">This is a legally binding digital document. Please retain a copy for your records.</span>
+  Greystar Residential LLC &nbsp;·&nbsp; Equal Opportunity Housing Provider &nbsp;·&nbsp; All Rights Reserved<br/>
+  <span class="font-size-0-7">This is a legally binding digital document. Please retain a copy for your records.</span>
 </footer>
 
 <script>
@@ -614,3 +650,4 @@ function showError(msg) {
 </script>
 </body>
 </html>
+

@@ -1,4 +1,4 @@
-# GreyHaven Residential — Full Stack Application
+# Greystar Residential — Full Stack Application
 
 A complete property management web platform with:
 - **Public site** — multi-step rental application form + sample lease viewer
@@ -11,7 +11,7 @@ A complete property management web platform with:
 ## 🗂 Project Structure
 
 ```
-greyhaven/
+Greystar/
 ├── server.js              ← Express app entry point
 ├── db.js                  ← SQLite database + queries
 ├── emailService.js        ← Nodemailer + HTML email templates
@@ -25,7 +25,7 @@ greyhaven/
 │   └── admin.html         ← Admin portal
 ├── .env.example           ← Environment variable template
 ├── package.json
-└── greyhaven.db           ← Auto-created SQLite database (on first run)
+└── Greystar.db           ← Auto-created SQLite database (on first run)
 ```
 
 ---
@@ -35,7 +35,7 @@ greyhaven/
 ### 1. Install dependencies
 
 ```bash
-cd greyhaven
+cd Greystar
 npm install
 ```
 
@@ -50,7 +50,7 @@ Edit `.env` with your values:
 ```env
 PORT=3000
 JWT_SECRET=a_very_long_random_secret_here
-ADMIN_EMAIL=admin@greyhaven.com
+ADMIN_EMAIL=admin@Greystar.com
 ADMIN_PASSWORD=YourSecurePassword123!
 
 # Gmail SMTP (recommended)
@@ -59,7 +59,7 @@ SMTP_PORT=587
 SMTP_SECURE=false
 SMTP_USER=your_gmail@gmail.com
 SMTP_PASS=your_app_password   # See note below
-EMAIL_FROM=GreyHaven Residential <no-reply@greyhaven.com>
+EMAIL_FROM=Greystar Residential <no-reply@Greystar.com>
 APP_URL=http://localhost:3000
 ```
 
@@ -155,7 +155,7 @@ Applicant fills form → POST /api/applications
 ```bash
 # Install PM2 for process management
 npm install -g pm2
-pm2 start server.js --name greyhaven
+pm2 start server.js --name Greystar
 pm2 save
 pm2 startup
 
@@ -187,3 +187,4 @@ SMTP_PASS=your_mailtrap_pass
 ```
 
 Sign up free at mailtrap.io, create an inbox, and copy the SMTP credentials.
+

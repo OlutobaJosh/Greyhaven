@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>GreyHaven Residential – Redefining Excellence in Apartment Living</title>
+<title>Greystar Residential – Redefining Excellence in Apartment Living</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -45,11 +45,11 @@
   }
   .logo-icon {
     width:42px; height:42px;
-    background: var(--gold);
-    clip-path: polygon(50% 0%, 100% 35%, 100% 100%, 0% 100%, 0% 35%);
+    background:none;
     display:flex; align-items:center; justify-content:center;
-    font-size:1.1rem; color:var(--navy-dark); font-weight:900;
+    box-shadow: 0 2px 8px rgba(26,46,74,.2);
   }
+  .logo-img { width:100%; height:100%; object-fit:contain; }
   .logo-text { display:flex; flex-direction:column; line-height:1.1; }
   .logo-text span:first-child {
     font-family:'Playfair Display', serif;
@@ -136,7 +136,7 @@
   /* Hero card */
   .hero-card {
     background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
-    backdrop-filter:blur(12px); border-radius:4px; padding:2.5rem;
+    -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); border-radius:4px; padding:2.5rem;
   }
   .hero-card h3 {
     font-family:'Playfair Display',serif; color:var(--white);
@@ -346,10 +346,60 @@
     border-radius:4px; padding:1.5rem; font-size:.85rem; line-height:1.8;
     color:var(--gray); margin-bottom:1.5rem;
   }
-  .consent-check {
-    display:flex; align-items:flex-start; gap:.8rem; margin-top:1rem;
-    cursor:pointer; font-size:.88rem; color:var(--navy-dark); font-weight:700;
-  }
+  /* UTILITY CLASSES FOR INLINE STYLES */
+  .margin-top-1-8 { margin-top:1.8rem; }
+  .padding-top-1-5 { padding-top:1.5rem; }
+  .border-top-subtle { border-top:1px solid rgba(255,255,255,.1); }
+  .bg-white { background:var(--white); }
+  .bg-navy { background:var(--navy); }
+  .padding-4-2 { padding:4rem 2rem; }
+  .text-center { text-align:center; }
+  .max-width-600 { max-width:600px; }
+  .margin-auto { margin:0 auto; }
+  .color-gold-light { color:var(--gold-light); }
+  .font-family-serif { font-family:'Playfair Display',serif; }
+  .font-size-2-2 { font-size:2.2rem; }
+  .color-white { color:var(--white); }
+  .margin-bottom-1 { margin-bottom:1rem; }
+  .color-rgba-white-6 { color:rgba(255,255,255,.6); }
+  .font-size-0-95 { font-size:.95rem; }
+  .font-weight-300 { font-weight:300; }
+  .margin-bottom-2 { margin-bottom:2rem; }
+  .line-height-1-8 { line-height:1.8; }
+  .margin-bottom-1-2 { margin-bottom:1.2rem; }
+  .width-20 { width:20%; }
+  .width-40 { width:40%; }
+  .width-60 { width:60%; }
+  .width-80 { width:80%; }
+  .width-100 { width:100%; }
+  .margin-bottom-1-5 { margin-bottom:1.5rem; }
+  .max-width-300 { max-width:300px; }
+  .font-size-0-85 { font-size:.85rem; }
+  .color-gray { color:var(--gray); }
+  .background-off-white { background:var(--off-white); }
+  .border-radius-4 { border-radius:4px; }
+  .padding-1-5 { padding:1.5rem; }
+  .border-light-gray { border:1px solid var(--light-gray); }
+  .font-size-0-72 { font-size:.72rem; }
+  .font-weight-900 { font-weight:900; }
+  .letter-spacing-012 { letter-spacing:.12em; }
+  .text-transform-uppercase { text-transform:uppercase; }
+  .color-navy { color:var(--navy); }
+
+  /* Additional utility classes */
+  .margin-top-1-8-padding-top-1-5-border-bottom { margin-top:1.8rem; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,.1); }
+  .margin-bottom-0 { margin-bottom:0; }
+  .margin-bottom-0-8 { margin-bottom:.8rem; }
+  .margin-top-2 { margin-top:2rem; }
+  .margin-top-0-8 { margin-top:.8rem; }
+  .max-width-200 { max-width:200px; }
+  .text-align-center-margin-top-padding-top { text-align:center; margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--light-gray); font-size:.75rem; color:var(--gray); letter-spacing:.06em; }
+  .font-size-0-82 { font-size:.82rem; }
+  .font-size-0-9 { font-size:.9rem; }
+  .color-navy-font-size { color:var(--navy); font-size:.9rem; }
+  .border-color-navy-color-navy { border-color:var(--navy); color:var(--navy); }
+  .margin-bottom-0-8-display-inline-flex { margin-bottom:.8rem; display:inline-flex; }
+  .margin-top-2-padding-top-1-5 { margin-top:2rem; }
   .consent-check input { width:auto; margin-top:2px; }
 
   /* ── SUCCESS ── */
@@ -401,11 +451,12 @@
   .lease-header { text-align:center; border-bottom:2px solid var(--navy); padding-bottom:2rem; margin-bottom:2rem; }
   .lease-logo { display:flex; align-items:center; justify-content:center; gap:.8rem; margin-bottom:.5rem; }
   .lease-logo-mark {
-    width:50px; height:50px; background:var(--navy);
-    clip-path: polygon(50% 0%, 100% 35%, 100% 100%, 0% 100%, 0% 35%);
+    width:50px; height:50px;
+    background:none;
     display:flex; align-items:center; justify-content:center;
-    color:var(--gold); font-weight:900; font-size:1.2rem;
+    box-shadow: 0 2px 8px rgba(26,46,74,.2);
   }
+  .logo-img { width:100%; height:100%; object-fit:contain; }
   .lease-logo-text { font-family:'Playfair Display',serif; font-size:2rem; color:var(--navy-dark); font-weight:700; }
   .lease-tagline { font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); font-weight:700; }
   .lease-title-block { margin-top:1.5rem; }
@@ -460,7 +511,8 @@
     max-width:1200px; margin:0 auto;
     display:grid; grid-template-columns:2fr 1fr 1fr; gap:3rem;
   }
-  .footer-brand { }
+  /* footer-brand style */
+  .footer-brand-style { display:block; }
   .footer-brand .logo-text span:first-child { font-size:1.3rem; }
   .footer-brand p { font-size:.82rem; line-height:1.8; margin-top:1rem; font-weight:300; }
   .footer-col h5 {
@@ -489,7 +541,7 @@
     .review-grid { grid-template-columns:1fr; }
     nav { display:none; }
     .hero h1 { font-size:1.9rem; }
-    .hero { min-height:auto; }
+    .hero { width:100%; }
     .hero-inner { padding:2rem 1.2rem; gap:2rem; }
     .header-inner { padding:0 1rem; }
     .logo-text span:first-child { font-size:1.1rem; }
@@ -544,9 +596,14 @@
 <header>
   <div class="header-inner">
     <a href="#" class="logo" onclick="showPage('home')">
-      <div class="logo-icon">GH</div>
+      <div class="logo-icon">
+        <picture>
+          <source srcset="/greystar-logo.webp" type="image/webp" />
+          <img class="logo-img" src="/greystar-logo.webp" alt="Greystar logo" />
+        </picture>
+      </div>
       <div class="logo-text">
-        <span>GreyHaven</span>
+        <span>Greystar</span>
         <span>Redefining Excellence in Apartment Living</span>
       </div>
     </a>
@@ -572,7 +629,7 @@
           Premium Residential Management
         </div>
         <h1>Your Next <em>Home</em> Awaits You</h1>
-        <p>GreyHaven Residential delivers unmatched apartment living experiences across premier locations. Apply online, review your lease digitally, and move in with confidence.</p>
+        <p>Greystar Residential delivers unmatched apartment living experiences across premier locations. Apply online, review your lease digitally, and move in with confidence.</p>
         <div class="hero-actions">
           <button class="btn-primary" onclick="showPage('apply')">Start Application</button>
           <button class="btn-outline" onclick="showPage('lease')">View Sample Lease</button>
@@ -594,7 +651,7 @@
             <span>Upon approval, receive and sign your digital lease agreement to secure your unit</span>
           </div>
         </div>
-        <div style="margin-top:1.8rem; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,.1);">
+    <div class="margin-top-1-8-padding-top-1-5-border-bottom">
           <div class="stat-grid">
             <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Satisfaction Rate</div></div>
             <div class="stat"><div class="stat-num">24h</div><div class="stat-label">Avg. Review Time</div></div>
@@ -633,9 +690,9 @@
   </div>
 
   <!-- FEATURES -->
-  <section class="section" id="features" style="background:var(--white);">
+  <section class="section bg-white">
     <div class="section-inner">
-      <div class="section-label">Why GreyHaven</div>
+      <div class="section-label">Why Greystar</div>
       <h2 class="section-title">Everything You Need,<br>All in One Place</h2>
       <p class="section-sub">From application to move-in, our fully digital platform makes finding and securing your new home effortless.</p>
       <div class="features-grid">
@@ -669,11 +726,11 @@
   </section>
 
   <!-- CTA BAND -->
-  <section style="background:var(--navy); padding:4rem 2rem; text-align:center;">
-    <div style="max-width:600px; margin:0 auto;">
-      <div class="section-label" style="color:var(--gold-light);">Ready to Get Started?</div>
-      <h2 style="font-family:'Playfair Display',serif; font-size:2.2rem; color:var(--white); margin-bottom:1rem;">Apply for Your New Home Today</h2>
-      <p style="color:rgba(255,255,255,.6); font-size:.95rem; font-weight:300; margin-bottom:2rem; line-height:1.8;">Join hundreds of satisfied residents in GreyHaven communities. The process takes less than 10 minutes.</p>
+  <section class="bg-navy padding-4-2 text-center">
+    <div class="max-width-600 margin-auto">
+      <div class="section-label color-gold-light">Ready to Get Started?</div>
+      <h2 class="font-family-serif font-size-2-2 color-white margin-bottom-1">Apply for Your New Home Today</h2>
+      <p class="color-rgba-white-6 font-size-0-95 font-weight-300 margin-bottom-2 line-height-1-8">Join hundreds of satisfied residents in Greystar communities. The process takes less than 10 minutes.</p>
       <button class="btn-primary" onclick="showPage('apply')">Start Your Application</button>
     </div>
   </section>
@@ -702,10 +759,10 @@
     <!-- STEP 1: Personal Info -->
     <div class="form-panel active" id="panel-1">
       <div class="progress-label">Step 1 of 5</div>
-      <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
+      <div class="progress-bar"><div class="progress-fill width-20"></div></div>
 
       <div class="form-section-title"><span>1</span> Applicant Details</div>
-      <div class="field-grid field-grid-3" style="margin-bottom:1.2rem">
+      <div class="field-grid field-grid-3 margin-bottom-1-2">
         <div class="field">
           <label>First Name <span class="req">*</span></label>
           <input type="text" id="f-fname" placeholder="First name" />
@@ -719,7 +776,7 @@
           <input type="text" id="f-lname" placeholder="Last name" />
         </div>
       </div>
-      <div class="field-grid field-grid-3" style="margin-bottom:1.2rem">
+      <div class="field-grid field-grid-3 margin-bottom-1-2">
         <div class="field">
           <label>Date of Birth <span class="req">*</span></label>
           <input type="date" id="f-dob" />
@@ -733,15 +790,15 @@
           <input type="tel" id="f-phone" placeholder="(000) 000-0000" />
         </div>
       </div>
-      <div class="field-grid" style="margin-bottom:1.5rem;">
+      <div class="field-grid margin-bottom-1-5">
         <div class="field">
           <label>Email Address <span class="req">*</span></label>
           <input type="email" id="f-email" placeholder="your@email.com" />
         </div>
       </div>
 
-      <div class="form-section-title" style="margin-top:2rem"><span>→</span> Additional Information</div>
-      <div class="field-grid" style="margin-bottom:1rem;">
+      <div class="form-section-title margin-top-2"><span>→</span> Additional Information</div>
+      <div class="field-grid margin-bottom-1">
         <div class="field">
           <label>Other Occupants?</label>
           <div class="radio-group">
@@ -753,7 +810,7 @@
           </div>
         </div>
       </div>
-      <div class="field-grid" style="margin-bottom:1rem;">
+      <div class="field-grid margin-bottom-1">
         <div class="field">
           <label>Pets?</label>
           <div class="radio-group">
@@ -765,7 +822,7 @@
           </div>
         </div>
       </div>
-      <div class="field-grid" style="margin-bottom:1rem;">
+      <div class="field-grid margin-bottom-1">
         <div class="field">
           <label>Vehicles?</label>
           <div class="radio-group">
@@ -777,7 +834,7 @@
           </div>
         </div>
       </div>
-      <div class="field-grid" style="margin-bottom:1rem;">
+      <div class="field-grid margin-bottom-1">
         <div class="field">
           <label>Ever Been Convicted of a Crime?</label>
           <div class="radio-group">
@@ -789,7 +846,7 @@
           </div>
         </div>
       </div>
-      <div class="field-grid" style="margin-bottom:1rem;">
+      <div class="field-grid margin-bottom-1">
         <div class="field">
           <label>Ever Filed for Bankruptcy?</label>
           <div class="radio-group">
@@ -801,7 +858,7 @@
           </div>
         </div>
       </div>
-      <div class="field-grid" style="margin-bottom:1rem;">
+      <div class="field-grid margin-bottom-1">
         <div class="field">
           <label>Ever Been Evicted?</label>
           <div class="radio-group">
@@ -813,7 +870,7 @@
           </div>
         </div>
       </div>
-      <div class="field-grid field-grid-2" style="margin-bottom:1rem;">
+      <div class="field-grid field-grid-2 margin-bottom-1">
         <div class="field">
           <label>Desired Move-In Date <span class="req">*</span></label>
           <input type="date" id="f-movein" onchange="calcLeaseEnd()" />
@@ -830,9 +887,9 @@
           </select>
         </div>
       </div>
-      <div class="field-grid" style="margin-bottom:1rem;">
+      <div class="field-grid margin-bottom-1">
        <div class="field">
-        <label>Lease End Date <span style="color:var(--gray);font-weight:300;">(auto-filled or pick custom)</span></label>
+        <label>Lease End Date <span class="color-gray font-weight-300">(auto-filled or pick custom)</span></label>
         <input type="date" id="f-leaseend" />  
        </div>
       </div>
@@ -846,10 +903,10 @@
     <!-- STEP 2: Employment -->
     <div class="form-panel" id="panel-2">
       <div class="progress-label">Step 2 of 5</div>
-      <div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div>
+      <div class="progress-bar"><div class="progress-fill width-40"></div></div>
 
       <div class="form-section-title"><span>2</span> Current Employment</div>
-      <div class="field-grid field-grid-2" style="margin-bottom:1.2rem">
+      <div class="field-grid field-grid-2 margin-bottom-1-2">
         <div class="field">
           <label>Employer / Company <span class="req">*</span></label>
           <input type="text" id="f-company" placeholder="Company name" />
@@ -859,7 +916,7 @@
           <input type="text" id="f-jobtitle" placeholder="Your role" />
         </div>
       </div>
-      <div class="field-grid field-grid-2" style="margin-bottom:1.2rem">
+      <div class="field-grid field-grid-2 margin-bottom-1-2">
         <div class="field">
           <label>How Long Employed?</label>
           <input type="text" id="f-howlong" placeholder="e.g. 2 years 3 months" />
@@ -869,13 +926,13 @@
           <input type="text" id="f-income" placeholder="$ From prior year tax filing" />
         </div>
       </div>
-      <div class="field-grid" style="margin-bottom:1.2rem">
+      <div class="field-grid margin-bottom-1-2">
         <div class="field">
           <label>Employer Street Address</label>
           <input type="text" id="f-emp-addr" placeholder="Street address" />
         </div>
       </div>
-      <div class="field-grid field-grid-3" style="margin-bottom:1.2rem">
+      <div class="field-grid field-grid-3 margin-bottom-1-2">
         <div class="field">
           <label>City</label>
           <input type="text" id="f-emp-city" placeholder="City" />
@@ -899,10 +956,10 @@
     <!-- STEP 3: Current Residence -->
     <div class="form-panel" id="panel-3">
       <div class="progress-label">Step 3 of 5</div>
-      <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+      <div class="progress-bar"><div class="progress-fill width-60"></div></div>
 
       <div class="form-section-title"><span>3</span> Current Residence</div>
-      <div class="field-grid field-grid-2" style="margin-bottom:1.2rem">
+      <div class="field-grid field-grid-2 margin-bottom-1-2">
         <div class="field">
           <label>Residence Type</label>
           <select id="f-restype">
@@ -926,7 +983,7 @@
           </select>
         </div>
       </div>
-      <div class="field-grid field-grid-2" style="margin-bottom:1.2rem">
+      <div class="field-grid field-grid-2 margin-bottom-1-2">
         <div class="field">
           <label>Current Monthly Rent</label>
           <input type="text" id="f-current" placeholder="$ per month" />
@@ -936,13 +993,13 @@
           <input type="text" id="f-howlongcur" placeholder="e.g. 1 year 6 months" />
         </div>
       </div>
-      <div class="field-grid" style="margin-bottom:1.2rem">
+      <div class="field-grid margin-bottom-1-2">
         <div class="field">
           <label>Current Street Address <span class="req">*</span></label>
           <input type="text" id="f-curaddr" placeholder="Street address" />
         </div>
       </div>
-      <div class="field-grid field-grid-3" style="margin-bottom:1.2rem">
+      <div class="field-grid field-grid-3 margin-bottom-1-2">
         <div class="field">
           <label>City <span class="req">*</span></label>
           <input type="text" id="f-curcity" placeholder="City" />
@@ -956,7 +1013,7 @@
           <input type="text" id="f-curzip" placeholder="ZIP" />
         </div>
       </div>
-      <div class="field-grid field-grid-2" style="margin-bottom:1.2rem">
+      <div class="field-grid field-grid-2 margin-bottom-1-2">
         <div class="field">
           <label>Current Lease Expiration Date</label>
           <input type="date" id="f-leaseexp" />
@@ -976,14 +1033,14 @@
     <!-- STEP 4: References -->
     <div class="form-panel" id="panel-4">
       <div class="progress-label">Step 4 of 5</div>
-      <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+      <div class="progress-bar"><div class="progress-fill width-80"></div></div>
 
       <div class="form-section-title"><span>4</span> Personal References</div>
-      <p style="font-size:.85rem; color:var(--gray); margin-bottom:1.5rem; font-weight:300;">Please provide two personal references (not family members) who can speak to your character and reliability.</p>
+      <p class="font-size-0-85 color-gray margin-bottom-1-5 font-weight-300">Please provide two personal references (not family members) who can speak to your character and reliability.</p>
 
-      <div style="background:var(--off-white); border-radius:4px; padding:1.5rem; margin-bottom:1.5rem; border:1px solid var(--light-gray);">
-        <div style="font-size:.72rem; font-weight:900; letter-spacing:.12em; text-transform:uppercase; color:var(--navy); margin-bottom:1rem;">Reference #1</div>
-        <div class="field-grid field-grid-2" style="margin-bottom:1rem">
+      <div class="background-off-white border-radius-4 padding-1-5 margin-bottom-1-5 border-light-gray">
+        <div class="font-size-0-72 font-weight-900 letter-spacing-012 text-transform-uppercase color-navy margin-bottom-1">Reference #1</div>
+        <div class="field-grid field-grid-2 margin-bottom-1">
           <div class="field">
             <label>Full Name <span class="req">*</span></label>
             <input type="text" id="f-ref1name" placeholder="Reference's full name" />
@@ -995,13 +1052,13 @@
         </div>
         <div class="field">
           <label>Phone Number <span class="req">*</span></label>
-          <input type="tel" id="f-ref1phone" placeholder="(000) 000-0000" style="max-width:300px;" />
+          <input type="tel" id="f-ref1phone" placeholder="(000) 000-0000" class="max-width-300" />
         </div>
       </div>
 
-      <div style="background:var(--off-white); border-radius:4px; padding:1.5rem; border:1px solid var(--light-gray);">
-        <div style="font-size:.72rem; font-weight:900; letter-spacing:.12em; text-transform:uppercase; color:var(--navy); margin-bottom:1rem;">Reference #2</div>
-        <div class="field-grid field-grid-2" style="margin-bottom:1rem">
+      <div class="background-off-white border-radius-4 padding-1-5 border-light-gray">
+        <div class="font-size-0-72 font-weight-900 letter-spacing-012 text-transform-uppercase color-navy margin-bottom-1">Reference #2</div>
+        <div class="field-grid field-grid-2 margin-bottom-1">
           <div class="field">
             <label>Full Name</label>
             <input type="text" id="f-ref2name" placeholder="Reference's full name" />
@@ -1013,7 +1070,7 @@
         </div>
         <div class="field">
           <label>Phone Number</label>
-          <input type="tel" id="f-ref2phone" placeholder="(000) 000-0000" style="max-width:300px;" />
+          <input type="tel" id="f-ref2phone" placeholder="(000) 000-0000" class="max-width-300" />
         </div>
       </div>
 
@@ -1026,10 +1083,10 @@
     <!-- STEP 5: Review -->
     <div class="form-panel" id="panel-5">
       <div class="progress-label">Step 5 of 5 — Final Review</div>
-      <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      <div class="progress-bar"><div class="progress-fill width-100"></div></div>
 
       <div class="form-section-title"><span>✓</span> Review Your Application</div>
-      <p style="font-size:.85rem; color:var(--gray); margin-bottom:1.5rem; font-weight:300;">Please review the information below before submitting. You may go back to edit any section.</p>
+      <p class="font-size-0-85 color-gray margin-bottom-1-5 font-weight-300">Please review the information below before submitting. You may go back to edit any section.</p>
 
       <div class="review-box">
         <h4>Personal Information</h4>
@@ -1074,7 +1131,7 @@
       </div>
 
       <div class="consent-box">
-        <strong style="color:var(--navy); font-size:.9rem;">Consent and Acknowledgment</strong><br/><br/>
+        <strong class="color-navy-font-size">Consent and Acknowledgment</strong><br/><br/>
         I have completed this form and the information provided is both true and correct. I authorize the property owner or manager to run a credit check and/or background check. I authorize the property owner or manager to reach out to any and all references listed on this rental application. I understand that any false statements made on this rental application could result in rejection. I understand that this rental application is solely an application and is not a lease or commitment to rent in any way.
         <label class="consent-check">
           <input type="checkbox" id="consent-check" />
@@ -1094,13 +1151,13 @@
         <div class="success-card">
           <div class="success-icon">✉️</div>
           <h2>Application Submitted!</h2>
-          <p>Thank you for applying with GreyHaven Residential. Your application has been received and is under review. You'll receive a confirmation email shortly.</p>
+          <p>Thank you for applying with Greystar Residential. Your application has been received and is under review. You'll receive a confirmation email shortly.</p>
           <div class="success-ref">
             Application Reference Number<br/>
             <strong id="app-ref-num">—</strong>
           </div>
-          <p style="font-size:.82rem;">Our team reviews applications within <strong>24–48 business hours</strong>. If approved, you'll receive a separate email with instructions to access and sign your digital lease agreement.</p>
-          <div style="margin-top:2rem;">
+          <p class="font-size-0-82">Our team reviews applications within <strong>24–48 business hours</strong>. If approved, you'll receive a separate email with instructions to access and sign your digital lease agreement.</p>
+          <div class="margin-top-2">
             <button class="btn-primary" onclick="showPage('home')">Return to Home</button>
           </div>
         </div>
@@ -1124,8 +1181,13 @@
 
       <div class="lease-header">
         <div class="lease-logo">
-          <div class="lease-logo-mark">GH</div>
-          <div class="lease-logo-text">GreyHaven</div>
+          <div class="lease-logo-mark">
+            <picture>
+              <source srcset="/greystar-logo.webp" type="image/webp" />
+              <img class="logo-img" src="/greystar-logo.webp" alt="Greystar logo" />
+            </picture>
+          </div>
+          <div class="lease-logo-text">Greystar</div>
         </div>
         <div class="lease-tagline">Redefining Excellence in Apartment Living</div>
         <div class="lease-title-block">
@@ -1136,7 +1198,7 @@
 
       <div class="lease-section">
         <h3>Parties</h3>
-        <p>This Lease Agreement is made and entered into between <span class="lease-field">GreyHaven Residential LLC</span> (hereinafter "Landlord") and <span class="lease-field">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> (hereinafter "Tenant"). Each Tenant is jointly and severally liable to Landlord for payment of rent and performance in accordance with all other terms of this Agreement.</p>
+        <p>This Lease Agreement is made and entered into between <span class="lease-field">Greystar Residential LLC</span> (hereinafter "Landlord") and <span class="lease-field">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> (hereinafter "Tenant"). Each Tenant is jointly and severally liable to Landlord for payment of rent and performance in accordance with all other terms of this Agreement.</p>
       </div>
 
       <div class="lease-section">
@@ -1197,25 +1259,25 @@
         <div>
           <div class="sig-line"></div>
           <div class="sig-label">Landlord Signature</div>
-          <div style="margin-top:.8rem;"><div class="sig-line" style="max-width:200px;"></div></div>
+          <div class="margin-top-0-8"><div class="sig-line max-width-200"></div></div>
           <div class="sig-label">Landlord Full Name &amp; Date</div>
         </div>
         <div>
           <div class="sig-line"></div>
           <div class="sig-label">Tenant Signature</div>
-          <div style="margin-top:.8rem;"><div class="sig-line" style="max-width:200px;"></div></div>
+          <div class="margin-top-0-8"><div class="sig-line max-width-200"></div></div>
           <div class="sig-label">Tenant Full Name &amp; Date</div>
         </div>
       </div>
 
-      <div style="text-align:center; margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--light-gray); font-size:.75rem; color:var(--gray); letter-spacing:.06em;">
-        GreyHaven Residential LLC &nbsp;·&nbsp; Equal Opportunity Housing Provider &nbsp;·&nbsp; All Rights Reserved
+      <div class="text-align-center-margin-top-padding-top">
+        Greystar Residential LLC &nbsp;·&nbsp; Equal Opportunity Housing Provider &nbsp;·&nbsp; All Rights Reserved
       </div>
 
     </div><!-- /lease-doc -->
 
     <div class="lease-actions">
-      <button class="btn-outline" onclick="window.print()" style="border-color:var(--navy); color:var(--navy);">🖨 Print / Save PDF</button>
+      <button class="btn-outline border-color-navy-color-navy" onclick="window.print()">🖨 Print / Save PDF</button>
       <button class="btn-primary" onclick="showPage('apply')">Apply Now →</button>
     </div>
   </div>
@@ -1225,14 +1287,19 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <a href="#" class="logo" onclick="showPage('home')" style="margin-bottom:.8rem; display:inline-flex;">
-        <div class="logo-icon">GH</div>
+      <a href="#" class="logo margin-bottom-0-8-display-inline-flex" onclick="showPage('home')">
+        <div class="logo-icon">
+          <picture>
+            <source srcset="/greystar-logo.webp" type="image/webp" />
+            <img class="logo-img" src="/greystar-logo.webp" alt="Greystar logo" />
+          </picture>
+        </div>
         <div class="logo-text">
-          <span>GreyHaven</span>
+          <span>Greystar</span>
           <span>Redefining Excellence in Apartment Living</span>
         </div>
       </a>
-      <p>GreyHaven Residential is a professional property management company committed to providing exceptional apartment living experiences across premier locations. Equal Opportunity Housing Provider.</p>
+      <p>Greystar Residential is a professional property management company committed to providing exceptional apartment living experiences across premier locations. Equal Opportunity Housing Provider.</p>
     </div>
     <div class="footer-col">
       <h5>Quick Links</h5>
@@ -1243,13 +1310,12 @@
     </div>
     <div class="footer-col">
       <h5>Contact</h5>
-      <a href="#">residential.greyhaven@gmail.com</a>
-      <a href="#">coming soon...</a>
+      <a href="#">815-237-9278</a>
       <a href="#">Sun–Sat 9AM–9PM CST</a>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 GreyHaven Residential LLC. All rights reserved.</span>
+    <span>© 2026 Greystar Residential LLC. All rights reserved.</span>
     <span>Equal Housing Opportunity ⊕</span>
   </div>
 </footer>

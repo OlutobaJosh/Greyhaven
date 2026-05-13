@@ -131,13 +131,13 @@ async function createSchema() {
 
 // ── Seed admin ────────────────────────────────────────────────────────────────
 async function seedAdmin() {
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@greyhaven.com';
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@Greystar.com';
   const adminPass  = process.env.ADMIN_PASSWORD || 'ChangeMe123!';
   const existing   = await get('SELECT id FROM admins WHERE email = ?', [adminEmail]);
   if (!existing) {
     const hash = bcrypt.hashSync(adminPass, 12);
     await run('INSERT INTO admins (email, password_hash, name) VALUES (?, ?, ?)',
-        [adminEmail, hash, 'GreyHaven Admin']);
+        [adminEmail, hash, 'Greystar Admin']);
     console.log('✅ Admin created: ' + adminEmail);
   }
 }
@@ -233,3 +233,4 @@ const q = {
 };
 
 module.exports = { initDB, q, seedAdmin };
+
