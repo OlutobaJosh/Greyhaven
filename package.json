@@ -1,7 +1,7 @@
 {
-  "name": "Greystar-residential",
+  "name": "GreyHaven-residential",
   "version": "1.0.0",
-  "description": "Greystar Residential - Property Management Platform",
+  "description": "GreyHaven Residential - Property Management Platform",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

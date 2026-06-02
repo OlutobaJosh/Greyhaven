@@ -222,7 +222,7 @@ router.post('/lease/:token/confirm', async (req, res) => {
       '.badge{display:inline-block;padding:4px 12px;border-radius:2px;font-size:11px;font-weight:700;background:#d1fae5;color:#065f46;}' +
       '.att-box{background:#f0f7ff;border-left:4px solid #1a2e4a;padding:12px 16px;margin-top:16px;border-radius:0 4px 4px 0;font-size:13px;}' +
       '</style></head><body><div class="wrap">' +
-      '<div class="header"><div class="logo">Greystar — Lease Signed Notification</div></div>' +
+      '<div class="header"><div class="logo">GreyHaven — Lease Signed Notification</div></div>' +
       '<div class="body">' +
       '<h2>Lease Agreement Signed ✅</h2>' +
       '<p>A tenant has signed their lease agreement and submitted payment proof. The receipt is attached to this email.</p>' +
@@ -263,7 +263,7 @@ router.post('/lease/:token/confirm', async (req, res) => {
       '.ref-label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin-bottom:4px;}' +
       '.footer{background:#0f1e32;padding:16px 32px;text-align:center;color:rgba(255,255,255,.4);font-size:11px;}' +
       '</style></head><body><div class="wrap">' +
-      '<div class="header"><div class="logo">Greystar Residential</div></div>' +
+      '<div class="header"><div class="logo">GreyHaven Residential</div></div>' +
       '<div class="body">' +
       '<h2>Your Lease is Confirmed! 🎉</h2>' +
       '<p>Hi <strong>' + tenant_name + '</strong>,</p>' +
@@ -272,11 +272,11 @@ router.post('/lease/:token/confirm', async (req, res) => {
       '<p>Signed on: <strong>' + signedDate + '</strong></p>' +
       '<p style="margin-top:16px;">Questions? Contact us at <a href="mailto:' + adminEmail + '" style="color:#1a2e4a;">' + adminEmail + '</a></p>' +
       '</div>' +
-      '<div class="footer">Greystar Residential LLC · Equal Opportunity Housing Provider</div>' +
+      '<div class="footer">GreyHaven Residential LLC · Equal Opportunity Housing Provider</div>' +
       '</div></body></html>';
 
     await sendEmail(tenant_email, {
-      subject: 'Lease Confirmed — Welcome to Greystar! (' + app.ref_number + ')',
+      subject: 'Lease Confirmed — Welcome to GreyHaven! (' + app.ref_number + ')',
       html: tenantHtml
     });
 
@@ -327,7 +327,7 @@ router.put('/:id/confirm-payment', requireAuth, async (req, res) => {
       '.footer-bar{background:#0f1e32;padding:18px 36px;text-align:center;color:rgba(255,255,255,.4);font-size:11px;line-height:1.8;}' +
       '</style></head><body><div class="wrap">' +
       '<div class="header">' +
-      '<div class="logo">Greystar</div>' +
+      '<div class="logo">GreyHaven</div>' +
       '<span class="tagline">Redefining Excellence in Apartment Living</span>' +
       '<div class="receipt-title">✓ Official Booking Receipt</div>' +
       '</div>' +
@@ -352,7 +352,7 @@ router.put('/:id/confirm-payment', requireAuth, async (req, res) => {
       '<p style="font-size:13px;color:#374151;background:#f0fdf4;padding:12px 16px;border-radius:4px;border-left:4px solid #10b981;">Our team will be in touch within <strong>24 hours</strong> to arrange your key handover and complete the move-in process.</p>' +
       '<p style="margin-top:16px;font-size:13px;color:#6b7280;">Questions? Contact us at <a href="mailto:' + (process.env.OAUTH_EMAIL || '') + '" style="color:#1a2e4a;">' + (process.env.OAUTH_EMAIL || '') + '</a></p>' +
       '</div>' +
-      '<div class="footer-bar">Greystar Residential LLC &nbsp;·&nbsp; Equal Opportunity Housing Provider<br/>' +
+      '<div class="footer-bar">GreyHaven Residential LLC &nbsp;·&nbsp; Equal Opportunity Housing Provider<br/>' +
       'Receipt No: ' + receiptNumber + ' &nbsp;·&nbsp; Issued: ' + receiptDate + '</div>' +
       '</div></body></html>';
 

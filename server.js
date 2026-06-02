@@ -1,4 +1,4 @@
-// server.js — Greystar Residential API Server
+// server.js — GreyHaven Residential API Server
 require('dotenv').config();
 const express    = require('express');
 const cors       = require('cors');
@@ -48,7 +48,7 @@ app.use('/api/auth',         require('./routes/auth'));
 app.use('/api/applications', require('./routes/applications'));
 
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', app: 'Greystar Residential', timestamp: new Date().toISOString() });
+  res.json({ status: 'ok', app: 'GreyHaven Residential', timestamp: new Date().toISOString() });
 });
 
 app.get('/lease', (req, res) => {
@@ -69,7 +69,7 @@ initDB().then(() => {
   app.listen(PORT, () => {
     console.log(`
 ╔═══════════════════════════════════════════════╗
-║       Greystar Residential — Server          ║
+║       GreyHaven Residential — Server          ║
 ╠═══════════════════════════════════════════════╣
 ║  Running on   : http://localhost:${PORT}         ║
 ║  Admin Portal : http://localhost:${PORT}/admin.html ║

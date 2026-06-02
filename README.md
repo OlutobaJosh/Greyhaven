@@ -1,4 +1,4 @@
-# Greystar Residential — Full Stack Application
+# GreyHaven Residential — Full Stack Application
 
 A complete property management web platform with:
 - **Public site** — multi-step rental application form + sample lease viewer
@@ -11,7 +11,7 @@ A complete property management web platform with:
 ## 🗂 Project Structure
 
 ```
-Greystar/
+GreyHaven/
 ├── server.js              ← Express app entry point
 ├── db.js                  ← SQLite database + queries
 ├── emailService.js        ← Nodemailer + HTML email templates
@@ -25,7 +25,7 @@ Greystar/
 │   └── admin.html         ← Admin portal
 ├── .env.example           ← Environment variable template
 ├── package.json
-└── Greystar.db           ← Auto-created SQLite database (on first run)
+└── GreyHaven.db           ← Auto-created SQLite database (on first run)
 ```
 
 ---
@@ -35,7 +35,7 @@ Greystar/
 ### 1. Install dependencies
 
 ```bash
-cd Greystar
+cd GreyHaven
 npm install
 ```
 
@@ -50,7 +50,7 @@ Edit `.env` with your values:
 ```env
 PORT=3000
 JWT_SECRET=a_very_long_random_secret_here
-ADMIN_EMAIL=admin@Greystar.com
+ADMIN_EMAIL=admin@GreyHaven.com
 ADMIN_PASSWORD=YourSecurePassword123!
 
 # Gmail SMTP (recommended)
@@ -59,7 +59,7 @@ SMTP_PORT=587
 SMTP_SECURE=false
 SMTP_USER=your_gmail@gmail.com
 SMTP_PASS=your_app_password   # See note below
-EMAIL_FROM=Greystar Residential <no-reply@Greystar.com>
+EMAIL_FROM=GreyHaven Residential <no-reply@GreyHaven.com>
 APP_URL=http://localhost:3000
 ```
 
@@ -155,7 +155,7 @@ Applicant fills form → POST /api/applications
 ```bash
 # Install PM2 for process management
 npm install -g pm2
-pm2 start server.js --name Greystar
+pm2 start server.js --name GreyHaven
 pm2 save
 pm2 startup
 

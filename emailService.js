@@ -14,7 +14,7 @@ class EmailService {
   }
 
   async send(to, subject, html, attachments) {
-    const from = 'Greystar Residential <' + process.env.OAUTH_EMAIL + '>';
+    const from = 'GreyHaven Residential <' + process.env.OAUTH_EMAIL + '>';
     const mailOpts = { from, to, subject, html, textEncoding: 'base64' };
 
     // Properly convert attachments for MailComposer
@@ -83,10 +83,10 @@ function baseTemplate(content) {
     '.bank-box{margin-top:16px;padding:12px;background:#fff;border-radius:4px;border:1px solid #e8e6e1;}' +
     '.bank-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6b7280;margin-bottom:8px;}' +
     '</style></head><body><div class="wrap">' +
-    '<div class="header"><div class="logo-name">Greystar</div>' +
+    '<div class="header"><div class="logo-name">GreyHaven</div>' +
     '<span class="logo-tag">Redefining Excellence in Apartment Living</span></div>' +
     '<div class="body">' + content + '</div>' +
-    '<div class="footer-bar">Greystar Residential LLC &nbsp;·&nbsp; Equal Opportunity Housing Provider<br/>' +
+    '<div class="footer-bar">GreyHaven Residential LLC &nbsp;·&nbsp; Equal Opportunity Housing Provider<br/>' +
     'This is an automated message. Please do not reply to this email.</div>' +
     '</div></body></html>';
 }
@@ -96,7 +96,7 @@ function confirmationEmail(app) {
   var submitted = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   var content = '<h2>We\'ve Received Your Application</h2>' +
     '<p>Hi <strong>' + app.first_name + '</strong>,</p>' +
-    '<p>Thank you for applying with Greystar Residential. Your application has been submitted and is currently under review.</p>' +
+    '<p>Thank you for applying with GreyHaven Residential. Your application has been submitted and is currently under review.</p>' +
     '<div class="ref-box"><div class="ref-label">Your Application Reference Number</div><strong>' + app.ref_number + '</strong></div>' +
     '<p>Our team reviews applications within <strong>24-48 business hours</strong>.</p>' +
     '<hr class="divider"/>' +
@@ -180,7 +180,7 @@ function rejectionEmail(app) {
     noteSection +
     '<p>We encourage you to reapply in the future.</p>' +
     '<p style="font-size:12px;color:#6b7280;">Questions? <a href="mailto:' + adminEmail + '" style="color:#1a2e4a;">' + adminEmail + '</a></p>' +
-    '<p style="font-size:12px;color:#6b7280;">Greystar Residential is an Equal Opportunity Housing Provider.</p>';
+    '<p style="font-size:12px;color:#6b7280;">GreyHaven Residential is an Equal Opportunity Housing Provider.</p>';
   return {
     subject: 'Application Update - Reference #' + app.ref_number,
     html: baseTemplate(content)
