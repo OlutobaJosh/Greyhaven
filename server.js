@@ -66,6 +66,83 @@ app.use((err, req, res, next) => {
 
 initDB().then(() => {
   seedAdmin();
+  // ── AI CHAT ROUTE ──────────────────────────────────────────────
+// Add this to server.js after your existing routes
+
+app.post('/api/chat', async (req, res) => {
+  const { message, history } = req.body;
+
+  if (!message) {
+    return res.status(400).json({ error: 'Message is required.' });
+  }
+
+  const systemPrompt = `You are the GreyHaven Residential virtual assistant — a helpful, professional, and friendly AI for GreyHaven Residential property management.
+
+You help with:
+- Rental application process and requirements
+- Required documents (ID, paystubs, references, credit check)
+- Lease signing and lease terms
+- Rent payment methods and due dates
+- Maintenance request submission
+- Move-in and move-out procedures
+- Pet policies
+- Parking and amenities
+- Contact information and office hours
+- General property questions
+
+GreyHaven Residential key info:
+- Applications submitted online via the website
+- Required documents: government-issued ID, 2 recent paystubs or proof of income, 2 references
+- Lease is signed digitally on the platform
+- Maintenance requests submitted through the resident portal
+- Office hours: Monday to Friday, 9 AM to 5 PM
+- Response time for maintenance: 24-48 hours for non-emergency, same day for emergency
+
+Keep answers concise, helpful, and professional. If you don't know something specific, direct the user to contact GreyHaven directly.
+Do not make up specific prices, addresses, or unit details you don't know.`;
+
+  const messages = [
+    ...(history || []),
+    { role: 'user', content: message }
+  ];
+
+  try {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          ...messages,
+        ],
+        temperature: 0.5,
+        max_tokens: 600,
+      }),
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      console.error('Groq error:', err);
+      return res.status(500).json({ error: 'AI service unavailable.' });
+    }
+
+    const data = await response.json();
+    const reply = data.choices?.[0]?.message?.content;
+
+    if (!reply) {
+      return res.status(500).json({ error: 'No response from AI.' });
+    }
+
+    res.json({ reply });
+  } catch (err) {
+    console.error('Chat error:', err);
+    res.status(500).json({ error: 'Something went wrong.' });
+  }
+});
   app.listen(PORT, () => {
     console.log(`
 ╔═══════════════════════════════════════════════╗

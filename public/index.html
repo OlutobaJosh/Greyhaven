@@ -1494,5 +1494,407 @@ async function submitApplication() {
   }
 }
 </script>
+<!-- ── GREYHAVEN AI CHAT WIDGET ──────────────────────────────── -->
+<!-- Paste this code just before the closing </body> tag         -->
+<!-- in index.html, admin.html, and lease.html                   -->
+
+<style>
+  /* Chat bubble button */
+  #gh-chat-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--navy, #1a2b4a);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    z-index: 9999;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  #gh-chat-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 28px rgba(0,0,0,0.35);
+  }
+  #gh-chat-btn svg { width: 24px; height: 24px; }
+
+  /* Notification dot */
+  #gh-chat-dot {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #e74c3c;
+    border: 2px solid white;
+    display: block;
+  }
+
+  /* Chat window */
+  #gh-chat-window {
+    position: fixed;
+    bottom: 96px;
+    right: 28px;
+    width: min(380px, calc(100vw - 32px));
+    height: min(520px, calc(100vh - 120px));
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9998;
+    border: 1px solid rgba(0,0,0,0.08);
+    animation: ghSlideUp 0.25s cubic-bezier(0.32,0.72,0,1) both;
+  }
+  #gh-chat-window.open { display: flex; }
+
+  @keyframes ghSlideUp {
+    from { opacity: 0; transform: translateY(16px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Header */
+  #gh-chat-header {
+    background: var(--navy, #1a2b4a);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  #gh-chat-header-left { display: flex; align-items: center; gap: 10px; }
+  #gh-chat-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+  #gh-chat-title { color: white; font-weight: 600; font-size: 0.875rem; font-family: inherit; }
+  #gh-chat-subtitle { color: rgba(255,255,255,0.6); font-size: 0.7rem; font-family: inherit; }
+  #gh-chat-close {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background 0.15s;
+  }
+  #gh-chat-close:hover { background: rgba(255,255,255,0.2); }
+
+  /* Messages */
+  #gh-chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #f8f9fb;
+  }
+  #gh-chat-messages::-webkit-scrollbar { width: 4px; }
+  #gh-chat-messages::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
+
+  /* Message bubbles */
+  .gh-msg {
+    display: flex;
+    flex-direction: column;
+    max-width: 85%;
+    animation: ghFadeIn 0.2s ease both;
+  }
+  @keyframes ghFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .gh-msg.user { align-self: flex-end; align-items: flex-end; }
+  .gh-msg.bot  { align-self: flex-start; align-items: flex-start; }
+  .gh-bubble {
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 0.825rem;
+    line-height: 1.55;
+    font-family: inherit;
+  }
+  .gh-msg.user .gh-bubble {
+    background: var(--navy, #1a2b4a);
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+  .gh-msg.bot .gh-bubble {
+    background: white;
+    color: #1a1a2e;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+
+  /* Typing indicator */
+  .gh-typing { display: flex; gap: 4px; padding: 12px 14px; }
+  .gh-typing span {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #bbb;
+    animation: ghBounce 1.2s infinite;
+  }
+  .gh-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .gh-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes ghBounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+  }
+
+  /* Quick questions */
+  #gh-quick-wrap {
+    padding: 8px 16px 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    background: #f8f9fb;
+    flex-shrink: 0;
+  }
+  .gh-quick-btn {
+    background: white;
+    border: 1px solid #e0e4ea;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 0.72rem;
+    color: var(--navy, #1a2b4a);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .gh-quick-btn:hover {
+    background: var(--navy, #1a2b4a);
+    color: white;
+    border-color: var(--navy, #1a2b4a);
+  }
+
+  /* Input area */
+  #gh-chat-input-wrap {
+    padding: 12px 14px;
+    background: white;
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    border-top: 1px solid #eee;
+    flex-shrink: 0;
+  }
+  #gh-chat-input {
+    flex: 1;
+    padding: 9px 13px;
+    border: 1px solid #e0e4ea;
+    border-radius: 22px;
+    font-size: 0.825rem;
+    font-family: inherit;
+    outline: none;
+    resize: none;
+    max-height: 90px;
+    line-height: 1.4;
+    transition: border-color 0.15s;
+    background: #f8f9fb;
+  }
+  #gh-chat-input:focus { border-color: var(--navy, #1a2b4a); background: white; }
+  #gh-chat-input::placeholder { color: #aaa; }
+  #gh-chat-send {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--navy, #1a2b4a);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s, transform 0.1s;
+  }
+  #gh-chat-send:hover { background: #243d6b; }
+  #gh-chat-send:active { transform: scale(0.92); }
+  #gh-chat-send:disabled { background: #ccc; cursor: not-allowed; }
+  #gh-chat-send svg { width: 16px; height: 16px; }
+
+  /* Powered by */
+  #gh-chat-footer {
+    text-align: center;
+    padding: 5px;
+    font-size: 0.62rem;
+    color: #bbb;
+    background: white;
+    font-family: inherit;
+  }
+</style>
+
+<!-- Chat bubble button -->
+<button id="gh-chat-btn" aria-label="Open chat assistant" onclick="ghToggleChat()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  <span id="gh-chat-dot"></span>
+</button>
+
+<!-- Chat window -->
+<div id="gh-chat-window">
+  <!-- Header -->
+  <div id="gh-chat-header">
+    <div id="gh-chat-header-left">
+      <div id="gh-chat-avatar">🏠</div>
+      <div>
+        <div id="gh-chat-title">GreyHaven Assistant</div>
+        <div id="gh-chat-subtitle">● Online · Replies instantly</div>
+      </div>
+    </div>
+    <button id="gh-chat-close" onclick="ghToggleChat()" aria-label="Close chat">✕</button>
+  </div>
+
+  <!-- Messages -->
+  <div id="gh-chat-messages">
+    <div class="gh-msg bot">
+      <div class="gh-bubble">
+        👋 Hi there! I'm the GreyHaven virtual assistant. I can help with applications, leases, maintenance, and more.<br><br>What can I help you with today?
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick questions -->
+  <div id="gh-quick-wrap">
+    <button class="gh-quick-btn" onclick="ghQuickAsk('How do I apply for a unit?')">How to apply?</button>
+    <button class="gh-quick-btn" onclick="ghQuickAsk('What documents do I need?')">Documents needed</button>
+    <button class="gh-quick-btn" onclick="ghQuickAsk('How do I submit a maintenance request?')">Maintenance</button>
+    <button class="gh-quick-btn" onclick="ghQuickAsk('How long does approval take?')">Approval time</button>
+  </div>
+
+  <!-- Input -->
+  <div id="gh-chat-input-wrap">
+    <textarea
+      id="gh-chat-input"
+      placeholder="Ask me anything about GreyHaven…"
+      rows="1"
+      onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();ghSendMessage();}"
+      oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"
+    ></textarea>
+    <button id="gh-chat-send" onclick="ghSendMessage()" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+
+  <div id="gh-chat-footer">Powered by GreyHaven AI · Groq LLaMA 3.1</div>
+</div>
+
+<script>
+  let ghChatOpen = false;
+  let ghHistory = [];
+  let ghLoading = false;
+
+  function ghToggleChat() {
+    ghChatOpen = !ghChatOpen;
+    const win = document.getElementById('gh-chat-window');
+    const dot = document.getElementById('gh-chat-dot');
+    if (ghChatOpen) {
+      win.classList.add('open');
+      dot.style.display = 'none';
+      setTimeout(() => document.getElementById('gh-chat-input').focus(), 100);
+    } else {
+      win.classList.remove('open');
+    }
+  }
+
+  function ghQuickAsk(question) {
+    document.getElementById('gh-chat-input').value = question;
+    // Hide quick questions after first use
+    document.getElementById('gh-quick-wrap').style.display = 'none';
+    ghSendMessage();
+  }
+
+  function ghAddMessage(text, role) {
+    const container = document.getElementById('gh-chat-messages');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `gh-msg ${role}`;
+    const bubble = document.createElement('div');
+    bubble.className = 'gh-bubble';
+    bubble.innerHTML = text.replace(/\n/g, '<br>');
+    msgDiv.appendChild(bubble);
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function ghShowTyping() {
+    const container = document.getElementById('gh-chat-messages');
+    const typing = document.createElement('div');
+    typing.className = 'gh-msg bot';
+    typing.id = 'gh-typing-indicator';
+    typing.innerHTML = '<div class="gh-bubble gh-typing"><span></span><span></span><span></span></div>';
+    container.appendChild(typing);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function ghHideTyping() {
+    const el = document.getElementById('gh-typing-indicator');
+    if (el) el.remove();
+  }
+
+  async function ghSendMessage() {
+    if (ghLoading) return;
+    const input = document.getElementById('gh-chat-input');
+    const message = input.value.trim();
+    if (!message) return;
+
+    // Clear input
+    input.value = '';
+    input.style.height = 'auto';
+    document.getElementById('gh-chat-send').disabled = true;
+    document.getElementById('gh-quick-wrap').style.display = 'none';
+
+    // Show user message
+    ghAddMessage(message, 'user');
+    ghHistory.push({ role: 'user', content: message });
+
+    // Show typing
+    ghLoading = true;
+    ghShowTyping();
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, history: ghHistory.slice(-6) }),
+      });
+
+      const data = await res.json();
+      ghHideTyping();
+
+      if (data.error) {
+        ghAddMessage('Sorry, I\'m having trouble connecting. Please try again or contact us directly.', 'bot');
+      } else {
+        ghAddMessage(data.reply, 'bot');
+        ghHistory.push({ role: 'assistant', content: data.reply });
+      }
+    } catch (err) {
+      ghHideTyping();
+      ghAddMessage('Connection error. Please check your internet and try again.', 'bot');
+    }
+
+    ghLoading = false;
+    document.getElementById('gh-chat-send').disabled = false;
+    input.focus();
+  }
+</script>
 </body>
 </html>
